@@ -7,14 +7,14 @@ import { EKSChart } from '../../interfaces/lib/eks/interfaces';
 export class HelmChartStack extends cdk.Stack {
   chart: EKSChart;
 
-  constructor(scope: Construct, id: string, chart: EKSChart, cluster: eks.Cluster, props?: cdk.StackProps) {
+  constructor(scope: Construct, id: string, chart: EKSChart, cluster: eks.ICluster, props?: cdk.StackProps) {
     super(scope, id, props);
 
     this.chart = chart;
     this.installHelmChart(cluster);
   }
 
-  installHelmChart(cluster: eks.Cluster) {
+  installHelmChart(cluster: eks.ICluster) {
     const helmChart = new HelmChart(this, this.chart.name, {
       chart: this.chart.chart,
       cluster: cluster,

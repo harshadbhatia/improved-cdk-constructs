@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.9 (2022-03-22)
+
+
+### Features
+
+* **eks:** move cluster inside helm stack ([#8](https://github.com/harshadbhatia/improved-cdk-constructs/issues/8)) ([ee70fee](https://github.com/harshadbhatia/improved-cdk-constructs/commit/ee70fee4b41bfe1d32aae3a4a61745f033952f95))
+
 ### 0.1.8 (2022-03-22)
 
 

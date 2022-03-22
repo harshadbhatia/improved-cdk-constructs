@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.6 (2022-03-22)
+
+
+### Features
+
+* publish to npm public ([#5](https://github.com/harshadbhatia/improved-cdk-constructs/issues/5)) ([d6f65e0](https://github.com/harshadbhatia/improved-cdk-constructs/commit/d6f65e0b66142fc25f5e648d7e81cce4d63a4719))
+
 ### [0.1.5](https://github.com/harshadbhatia/improved-cdk-constructs/compare/v0.1.4...v0.1.5) (2022-03-22)
 
 ### 0.1.4 (2022-03-22)

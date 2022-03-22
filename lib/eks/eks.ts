@@ -22,7 +22,7 @@ import { AwsEFSCSIDriverNested } from './controllers/efs-csi-driver';
 import { AwsLoadBalancerControllerNested } from './controllers/load-balancer-controller';
 import { CloudwatchLoggingNested } from './cw-logging-monitoring';
 import { ExternalDNSNested } from './external-dns';
-import { HelmChartStack } from './helm-chart';
+import { HelmChartNestedStack } from './helm-chart-nested';
 import { ServiceAccountStack } from './serviceaccount';
 import { Selector } from 'aws-cdk-lib/aws-eks';
 import { BlockPublicAccess, Bucket, BucketEncryption } from 'aws-cdk-lib/aws-s3';
@@ -120,7 +120,7 @@ export class EKSCluster extends cdk.Stack {
         return a.enabled;
       })
       .forEach((chart) => {
-        const c = new HelmChartStack(this, `${chart.name}Chart`, chart, this.eksCluster);
+        const c = new HelmChartNestedStack(this, `${chart.name}Chart`, chart, this.eksCluster);
         // Add dependencies to naespace is always created beforehand
         ns.map((n) => {
           c.node.addDependency(n);

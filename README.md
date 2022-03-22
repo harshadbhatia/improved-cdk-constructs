@@ -9,7 +9,11 @@ These are synonymous to L3 cdk constructs.
 
 # Versioning / etc
 
-It is done using conventialcommit and husky for git hooks to validate messages
+It is done using conventialcommit and husky for git hooks to validate messages.
+
+# Github Actions
+
+- New release is made PR is merged to master. This will push a commit.
 
 ## Useful commands
 

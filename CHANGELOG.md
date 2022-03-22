@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.8 (2022-03-22)
+
+
+### Bug Fixes
+
+* **eks:** fix type for helm chart ([#7](https://github.com/harshadbhatia/improved-cdk-constructs/issues/7)) ([7cd2f9f](https://github.com/harshadbhatia/improved-cdk-constructs/commit/7cd2f9f8d29217f926e9e50c112ed40029112ab6))
+
 ### 0.1.7 (2022-03-22)
 
 

@@ -7,16 +7,18 @@ import { EKSChart } from '../../interfaces/lib/eks/interfaces';
 export class HelmChartStack extends cdk.Stack {
   chart: EKSChart;
 
-  constructor(scope: Construct, id: string, chart: EKSChart, clusterName: string, props?: cdk.StackProps) {
+  constructor(scope: Construct, id: string, chart: EKSChart, clusterName: string, kubectlRoleArn: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
     this.chart = chart;
-    this.installHelmChart(clusterName);
+    this.installHelmChart(clusterName, kubectlRoleArn);
   }
 
-  installHelmChart(clusterName: string) {
+  installHelmChart(clusterName: string, kubectlRoleArn: string) {
+
     const cluster = eks.Cluster.fromClusterAttributes(this, `${clusterName}Ref`, {
-      clusterName: clusterName
+      clusterName: clusterName,
+      kubectlRoleArn: kubectlRoleArn
     })
 
     const helmChart = new HelmChart(this, this.chart.name, {

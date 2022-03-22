@@ -35,7 +35,7 @@ set-git-config:
 
 release: set-git-config
 	npm run clean && npm run build && npm run release && \
-	git push --follow-tags origin master && npm publish
+	git push --follow-tags origin master && npm publish --access public
 
 install-husky:
 	npx husky install

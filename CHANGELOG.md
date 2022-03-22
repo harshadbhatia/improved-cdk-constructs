@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.11 (2022-03-22)
+
+
+### Bug Fixes
+
+* **core:** fix main ([#10](https://github.com/harshadbhatia/improved-cdk-constructs/issues/10)) ([a37c97b](https://github.com/harshadbhatia/improved-cdk-constructs/commit/a37c97b99d9badf78519f99d24724692a501dea6))
+
 ### 0.1.10 (2022-03-22)
 
 ### 0.1.9 (2022-03-22)

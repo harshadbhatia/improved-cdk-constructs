@@ -18,8 +18,7 @@
     "cdk": "cdk",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "tslint -p tsconfig.json",
-    "release": "standard-version",
-    "postinstall": "husky install"
+    "release": "standard-version"
   },
   "devDependencies": {
     "@commitlint/cli": "^16.2.3",

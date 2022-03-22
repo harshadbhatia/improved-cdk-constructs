@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.7 (2022-03-22)
+
+
+### Features
+
+* **eks:** upgrade helm chart ([#6](https://github.com/harshadbhatia/improved-cdk-constructs/issues/6)) ([5372753](https://github.com/harshadbhatia/improved-cdk-constructs/commit/5372753634a12ea9d35bca46bc0c10242d59b818))
+
 ### 0.1.6 (2022-03-22)
 
 

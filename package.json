@@ -1,14 +1,12 @@
 {
   "name": "@harshadbhatia/improved-cdk-constructs",
-  "version": "0.1.4",
+  "version": "0.1.5",
+  "description": "Improved aws cdk constructs",
   "main": "tsc && npm ./lib/index.js",
   "types": "lib/index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/harshadbhatia/improved-cdk-constructs"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
   },
   "scripts": {
     "build": "tsc",

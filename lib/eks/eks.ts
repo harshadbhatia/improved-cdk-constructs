@@ -32,7 +32,7 @@ export class EKSCluster extends cdk.Stack {
   config: EKSStackConfig;
   eksCluster: Cluster;
 
-  constructor(scope: Construct, id: string, config: EKSStackConfig, updateSSMValuesInChart: () => void, props?: cdk.StackProps, ) {
+  constructor(scope: Construct, id: string, config: EKSStackConfig, props?: cdk.StackProps) {
     super(scope, id, props);
     this.config = config;
 
@@ -111,9 +111,6 @@ export class EKSCluster extends cdk.Stack {
 
     // Install other bits like S3 , postgres etc which needs to be before the charts are installed
     this.createS3Buckets();
-
-    // Install all charts as nested stacks - This is callback if we have numerous charts 
-    updateSSMValuesInChart();
 
     this.config.charts
       ?.filter(function (a) {

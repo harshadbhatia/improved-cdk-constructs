@@ -1,24 +1,20 @@
 import eks = require('aws-cdk-lib/aws-eks');
 import cdk = require('aws-cdk-lib');
-import { NestedStack } from 'aws-cdk-lib';
 import { HelmChart } from 'aws-cdk-lib/aws-eks';
 import { Construct } from 'constructs';
 import { EKSChart } from '../../interfaces/lib/eks/interfaces';
 
-export class HelmChartStack extends NestedStack {
-
+export class HelmChartStack extends cdk.Stack {
   chart: EKSChart;
 
   constructor(scope: Construct, id: string, chart: EKSChart, cluster: eks.Cluster, props?: cdk.StackProps) {
-    super(scope, id);
+    super(scope, id, props);
 
     this.chart = chart;
-    this.installHelmChart(cluster)
-
+    this.installHelmChart(cluster);
   }
 
   installHelmChart(cluster: eks.Cluster) {
-
     const helmChart = new HelmChart(this, this.chart.name, {
       chart: this.chart.chart,
       cluster: cluster,
@@ -29,10 +25,5 @@ export class HelmChartStack extends NestedStack {
       version: this.chart.version,
       createNamespace: this.chart.createNamespace,
     });
-
   }
-
-
-
 }
-

@@ -21,7 +21,6 @@ export class ServiceAccountStack extends cdk.Stack {
 
   createServiceAccount() {
 
-
     const cluster = eks.Cluster.fromClusterAttributes(this, `${this.config.clusterName}Ref`, {
         clusterName: this.config.clusterName,
         kubectlRoleArn: this.config.kubectlRoleArn

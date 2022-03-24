@@ -5,10 +5,10 @@ on:
   pull_request:
     types:
       - closed
-  # push:
+  # push:  
   #   branches: [ master]
   # release:
-  #   types: [created] 
+  #   types: [created]
 
 jobs:
   if_merged:

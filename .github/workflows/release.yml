@@ -10,8 +10,7 @@ on:
     branches: [ master]
 
 jobs:
-  if_merged:
-    if: github.event.pull_request.merged == true
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

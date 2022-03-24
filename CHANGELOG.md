@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.19 (2022-03-24)
+
+
+### Features
+
+* **eks:** removed SA outside eks ([#18](https://github.com/harshadbhatia/improved-cdk-constructs/issues/18)) ([9330e81](https://github.com/harshadbhatia/improved-cdk-constructs/commit/9330e814620bdcc3c34a51113321e15aee62bed5))
+
 ### 0.1.18 (2022-03-24)
 
 ### 0.1.17 (2022-03-24)

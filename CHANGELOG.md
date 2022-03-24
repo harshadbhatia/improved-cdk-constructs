@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.15 (2022-03-24)
+
+
+### Features
+
+* **eks:** fix namespace ([#14](https://github.com/harshadbhatia/improved-cdk-constructs/issues/14)) ([c7ce803](https://github.com/harshadbhatia/improved-cdk-constructs/commit/c7ce80327c42477938aa973aa8c8bd93c9759d51))
+
 ### 0.1.14 (2022-03-24)
 
 ### 0.1.13 (2022-03-24)

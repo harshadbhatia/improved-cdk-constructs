@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.12 (2022-03-24)
+
+
+### Features
+
+* **route53:** add alternative domains ([#11](https://github.com/harshadbhatia/improved-cdk-constructs/issues/11)) ([5572821](https://github.com/harshadbhatia/improved-cdk-constructs/commit/55728211e9844283a514fe24f69df509ed6302e6))
+
 ### 0.1.11 (2022-03-22)
 
 

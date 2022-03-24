@@ -233,7 +233,9 @@ export class EKSCluster extends cdk.Stack {
   createFargateProfiles(cluster: eks.Cluster, vpc: IVpc): eks.FargateProfile[] {
     var profiles: eks.FargateProfile[] = [];
     this.config.fargateProfiles?.forEach((profile) => {
-      this.createNamespaces(profile.selectors, cluster);
+
+      if (profile.createNamespace) { this.createNamespaces(profile.selectors, cluster); }
+
       profiles.push(
         new eks.FargateProfile(this, profile.name, {
           cluster,

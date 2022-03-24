@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.21 (2022-03-24)
+
+
+### Bug Fixes
+
+* **eks:** service account props fix and cleanup ([#21](https://github.com/harshadbhatia/improved-cdk-constructs/issues/21)) ([e48464f](https://github.com/harshadbhatia/improved-cdk-constructs/commit/e48464f9581554cce8ae91ce7bcbb2866ad9b114))
+
 ### 0.1.20 (2022-03-24)
 
 ### 0.1.19 (2022-03-24)

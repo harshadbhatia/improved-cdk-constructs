@@ -105,18 +105,6 @@ export class EKSCluster extends cdk.Stack {
     // Install other bits like S3 , postgres etc which needs to be before the charts are installed
     this.createS3Buckets();
 
-    this.config.charts
-      ?.filter(function (a) {
-        return a.enabled;
-      })
-      .forEach((chart) => {
-        const c = new HelmChartNestedStack(this, `${chart.name}Chart`, chart, this.eksCluster);
-        // Add dependencies to naespace is always created beforehand
-        ns.map((n) => {
-          c.node.addDependency(n);
-        });
-      });
-
   }
 
   createStorageClass(fsID: string): KubernetesManifest {

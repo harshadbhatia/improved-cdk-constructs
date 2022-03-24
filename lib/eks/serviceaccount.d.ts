@@ -1,11 +1,9 @@
-import { NestedStack, StackProps } from 'aws-cdk-lib';
-import { Cluster } from 'aws-cdk-lib/aws-eks';
+import cdk = require('aws-cdk-lib');
+import { StackProps } from 'aws-cdk-lib';
 import { Construct } from "constructs";
-import { ServiceAccountCfg } from '../../interfaces/lib/eks/interfaces';
-export declare class ServiceAccountStack extends NestedStack {
-    body: Construct;
-    bodies: Construct[];
-    config: ServiceAccountCfg;
-    constructor(scope: Construct, id: string, eksCluster: Cluster, svcAccountsCfg: ServiceAccountCfg, props?: StackProps);
-    createServiceAccount(cluster: Cluster): void;
+import { EKSSAStackConfig } from '../../interfaces/lib/eks/interfaces';
+export declare class ServiceAccountStack extends cdk.Stack {
+    config: EKSSAStackConfig;
+    constructor(scope: Construct, id: string, config: EKSSAStackConfig, props?: StackProps);
+    createServiceAccount(): void;
 }

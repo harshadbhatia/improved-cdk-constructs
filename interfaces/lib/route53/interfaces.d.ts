@@ -4,7 +4,7 @@ export interface Route53ParentConfig {
     domainNames: string[];
     crossAccountDelagationIds: number[];
     acms?: string[];
-    cdnAcms?: string[];
+    cdnAcms?: cdnACM[];
     domainRecords?: DomainRecords[];
 }
 export interface DomainRecords {
@@ -26,7 +26,13 @@ export interface Route53SubZoneConfig {
     stackDescription: string;
     subZone: SubZoneConfig[];
     acms?: string[];
-    cdnAcms?: string[];
+    cdnAcms?: cdnACM[];
+}
+export interface cdnACM {
+    domain: string;
+    parentHostedZoneName?: string;
+    parentHostedZoneId?: string;
+    alternativeDomains: string[];
 }
 export interface SubZoneConfig {
     name: string;

@@ -125,6 +125,7 @@ export class EKSCluster extends cdk.Stack {
       // Add dependencies to naespace is always created beforehand
       ns.map((n) => {
         saStack.node.addDependency(n);
+        if (profiles) saStack.node.addDependency(...profiles)
       });
     });
   }

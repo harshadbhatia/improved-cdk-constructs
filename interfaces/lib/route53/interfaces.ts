@@ -38,8 +38,13 @@ export interface Route53SubZoneConfig {
     subZone: SubZoneConfig[]
     acms?: string[];
 
-    cdnAcms?: string[];
+    cdnAcms?: cdnACM[]
 
+}
+
+export interface cdnACM {
+    domain: string
+    alternativeDomains: string[]
 }
 
 export interface SubZoneConfig {

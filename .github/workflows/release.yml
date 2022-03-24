@@ -2,9 +2,6 @@
 name: Publish Package to Github Packages
 
 on:
-  pull_request:
-    types:
-      - closed
   # push:  
   #   branches: [ master]
   release:

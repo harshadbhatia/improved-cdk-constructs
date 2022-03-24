@@ -61,12 +61,13 @@ export class WebsiteStack extends cdk.Stack {
 
         var d: string
 
-        if (this.config.website.domain.startsWith("dev")) {
+        if (this.config.website.ignorePrefix && this.config.website.domain.startsWith(this.config.website.ignorePrefix)) {
             d = this.config.website.domain.split(".").slice(1).join(".");
 
         } else {
             d = this.config.website.domain
         }
+        
 
         const zoneId = ssm.StringParameter.valueForStringParameter(this, `/route53/${d}/zone`)
         const zone = route53.HostedZone.fromHostedZoneAttributes(this, "DomainHostedZone",

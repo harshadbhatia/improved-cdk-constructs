@@ -1,31 +1,26 @@
-import cdk = require('aws-cdk-lib');
 import eks = require('aws-cdk-lib/aws-eks');
 
-import { StackProps } from 'aws-cdk-lib';
+import { NestedStack, StackProps } from 'aws-cdk-lib';
+import { Cluster } from 'aws-cdk-lib/aws-eks';
 import { Policy, PolicyDocument } from 'aws-cdk-lib/aws-iam';
 import { Construct } from "constructs";
 import { ServiceAccountCfg } from '../../interfaces/lib/eks/interfaces';
 
 
-export class ServiceAccountStack extends cdk.Stack {
+export class ServiceAccountNestedStack extends NestedStack {
   body: Construct;
   bodies: Construct[];
   config: ServiceAccountCfg;
 
-  constructor(scope: Construct, id: string, svcAccountsCfg: ServiceAccountCfg, clusterName: string, kubectlRoleArn: string, props?: StackProps) {
+  constructor(scope: Construct, id: string, eksCluster: Cluster, svcAccountsCfg: ServiceAccountCfg, props?: StackProps) {
     super(scope, id);
 
     this.config = svcAccountsCfg;
-    this.createServiceAccount(clusterName, kubectlRoleArn)
+    this.createServiceAccount(eksCluster)
 
   }
 
-  createServiceAccount(clusterName: string, kubectlRoleArn: string) {
-
-    const cluster = eks.Cluster.fromClusterAttributes(this, `${clusterName}Ref`, {
-        clusterName: clusterName,
-        kubectlRoleArn: kubectlRoleArn
-      })
+  createServiceAccount(cluster: Cluster) {
 
     // Create Kubernetes ServiceAccount
     let svcAccount = cluster.addServiceAccount(this.config.name.replace('-', ''), {

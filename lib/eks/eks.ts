@@ -23,7 +23,6 @@ import { AwsLoadBalancerControllerNested } from './controllers/load-balancer-con
 import { CloudwatchLoggingNested } from './cw-logging-monitoring';
 import { ExternalDNSNested } from './external-dns';
 import { HelmChartNestedStack } from './helm-chart-nested';
-import { ServiceAccountStack } from './serviceaccount';
 import { Selector } from 'aws-cdk-lib/aws-eks';
 import { BlockPublicAccess, Bucket, BucketEncryption } from 'aws-cdk-lib/aws-s3';
 import { AwsSecretsCSIDriverNested } from './controllers/secrets-csi-driver';
@@ -118,16 +117,6 @@ export class EKSCluster extends cdk.Stack {
         });
       });
 
-    // Add service account for spcified namespaces
-    // // Install all charts as nested stacks
-    this.config.serviceAccounts?.forEach((sa) => {
-      const saStack = new ServiceAccountStack(this, `${sa.name}-SA`, this.eksCluster, sa);
-      // Add dependencies to naespace is always created beforehand
-      ns.map((n) => {
-        saStack.node.addDependency(n);
-        profiles.map(p => saStack.node.addDependency(p))
-      });
-    });
   }
 
   createStorageClass(fsID: string): KubernetesManifest {
@@ -236,8 +225,7 @@ export class EKSCluster extends cdk.Stack {
       });
       
       profiles.push(p);
-      // Add dependecy for all namespaces to be created before any profile
-      ns.map(n => p.node.addDependency(n))
+
     });
 
     return profiles;

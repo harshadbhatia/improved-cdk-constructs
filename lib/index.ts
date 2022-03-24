@@ -2,6 +2,7 @@ export * from './ecr/ecr';
 export * from './efs/efs';
 export * from './eks/eks';
 export * from './eks/helm-chart';
+export * from './eks/serviceaccount';
 export * from './prometheus/prometheus';
 export * from './rds/serverless-rds';
 export * from './route53/parentHostedZone';

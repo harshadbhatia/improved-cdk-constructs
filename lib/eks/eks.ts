@@ -66,24 +66,18 @@ export class EKSCluster extends cdk.Stack {
       });
     }
 
-    var profiles: eks.FargateProfile[] = [];
-
-    profiles = this.createFargateProfiles(this.eksCluster, vpc);
-    this.createWorkerNodeGroup(this.eksCluster, workerRole, vpc);
-
     // We want to create namespaces first, so the dependencies are resolved between SA and chart installation.
     // Do it sooner as there is a small delay between creation of namespace and creation of service account
-    var ns: eks.KubernetesManifest[];
+    var ns: eks.KubernetesManifest[] = [];
     if (this.config.namespaces) {
       ns = this.createNamespaces(this.config.namespaces, this.eksCluster);
-
-      // Namespaces have depedency on existing fargate profiles as it creates namespaces as well
-      profiles.forEach((p) => {
-        ns.forEach((n) => {
-          n.node.addDependency(p);
-        });
-      });
     }
+    // We create profiles once all namespaces are created.
+    var profiles: eks.FargateProfile[] = [];
+
+    profiles = this.createFargateProfiles(this.eksCluster, vpc, ns);
+    this.createWorkerNodeGroup(this.eksCluster, workerRole, vpc);
+
 
     // Enable cluster logging and Monitoring
     new CloudwatchLoggingNested(this, 'CloudWatchLoggingNested', this.eksCluster);
@@ -131,7 +125,8 @@ export class EKSCluster extends cdk.Stack {
       // Add dependencies to naespace is always created beforehand
       ns.map((n) => {
         saStack.node.addDependency(n);
-        if (profiles) saStack.node.addDependency(...profiles)
+        profiles.map(p => saStack.node.addDependency(p))
+        
       });
     });
   }
@@ -230,20 +225,20 @@ export class EKSCluster extends cdk.Stack {
   // --aws-service-name eks-fargate.amazonaws.com \
   // --description "Service-linked role to support fargate"
 
-  createFargateProfiles(cluster: eks.Cluster, vpc: IVpc): eks.FargateProfile[] {
+  createFargateProfiles(cluster: eks.Cluster, vpc: IVpc, ns: eks.KubernetesManifest[]): eks.FargateProfile[] {
     var profiles: eks.FargateProfile[] = [];
     this.config.fargateProfiles?.forEach((profile) => {
 
-      if (profile.createNamespace) { this.createNamespaces(profile.selectors, cluster); }
-
-      profiles.push(
-        new eks.FargateProfile(this, profile.name, {
-          cluster,
-          selectors: profile.selectors,
-          vpc: vpc,
-          subnetSelection: vpc.selectSubnets({ subnetType: ec2.SubnetType.PRIVATE_WITH_NAT }),
-        }),
-      );
+      const  p = new eks.FargateProfile(this, profile.name, {
+        cluster,
+        selectors: profile.selectors,
+        vpc: vpc,
+        subnetSelection: vpc.selectSubnets({ subnetType: ec2.SubnetType.PRIVATE_WITH_NAT }),
+      });
+      
+      profiles.push(p);
+      // Add dependecy for all namespaces to be created before any profile
+      ns.map(n => p.node.addDependency(n))
     });
 
     return profiles;

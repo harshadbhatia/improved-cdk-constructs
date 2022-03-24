@@ -94,24 +94,25 @@ export class Route53SubZoneStack extends cdk.Stack {
 
 
     // For cloudfront distribution we need to create a certificate
-    this.config.cdnAcms?.forEach(domain => {
-      const hostedZone = this.parentZoneMap.get(domain);
+    this.config.cdnAcms?.forEach(c => {
+      const hostedZone = this.parentZoneMap.get(c.domain);
       if (hostedZone) {
         const cert = new acm.DnsValidatedCertificate(this, 'CrossRegionCertificate', {
-          domainName: domain,
+          domainName: c.domain,
+          subjectAlternativeNames: c.alternativeDomains,
           hostedZone: hostedZone,
           region: 'us-east-1',
         });
 
-        const param = new ssm.StringParameter(this, `${domain}Param`, {
+        const param = new ssm.StringParameter(this, `${c.domain}Param`, {
           stringValue: cert.certificateArn,
-          parameterName: `/acm/${domain}`,
-          description: `${domain} ACM (Cert in US-East-1)`,
+          parameterName: `/acm/${c.domain}`,
+          description: `${c.domain} ACM (Cert in US-East-1)`,
           tier: ssm.ParameterTier.STANDARD,
           type: ssm.ParameterType.STRING,
         });
       } else {
-        console.error(`[Route53][subZone] ${domain} not found in parent zone map`)
+        console.error(`[Route53][subZone] ${c.domain} not found in parent zone map`)
         exit(1)
       }
 

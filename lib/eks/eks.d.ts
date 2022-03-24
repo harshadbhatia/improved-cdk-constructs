@@ -11,13 +11,13 @@ import { Selector } from 'aws-cdk-lib/aws-eks';
 export declare class EKSCluster extends cdk.Stack {
     config: EKSStackConfig;
     eksCluster: Cluster;
-    constructor(scope: Construct, id: string, config: EKSStackConfig, updateSSMValuesInChart: () => void, props?: cdk.StackProps);
+    constructor(scope: Construct, id: string, config: EKSStackConfig, props?: cdk.StackProps);
     createStorageClass(fsID: string): KubernetesManifest;
     getVPC(): ec2.IVpc;
     createClusterHandlerRole(): Role;
     createEKSCluster(vpc: ec2.IVpc, config: EKSStackConfig, clusterHandlerRole: iam.Role): eks.Cluster;
     createWorkerNodeGroup(eksCluster: eks.Cluster, workerNodeRole: Role, vpc: IVpc): void;
-    createFargateProfiles(cluster: eks.Cluster, vpc: IVpc): eks.FargateProfile[];
+    createFargateProfiles(cluster: eks.Cluster, vpc: IVpc, ns: eks.KubernetesManifest[]): eks.FargateProfile[];
     createNamespaces(selectors: Selector[], cluster: eks.Cluster): eks.KubernetesManifest[];
     createS3Buckets(): void;
 }

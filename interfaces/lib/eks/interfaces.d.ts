@@ -18,6 +18,14 @@ export interface EKSStackConfig {
     fargateProfiles?: FargateProfileConfig[];
     s3Buckets?: S3BucketCfg[];
 }
+export interface EKSSAStackConfig {
+    stackName: string;
+    stackDescription: string;
+    clusterName: string;
+    kubectlRoleArn: string;
+    namespaces?: Selector[];
+    serviceAccounts?: ServiceAccountCfg[];
+}
 export interface EKSChart {
     name: string;
     chart: string;

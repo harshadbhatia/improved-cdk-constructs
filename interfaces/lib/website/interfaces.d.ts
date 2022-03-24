@@ -8,4 +8,5 @@ export interface WebsiteStackProps {
     bucket: {
         bucketName: string;
     };
+    ignorePrefix?: string;
 }

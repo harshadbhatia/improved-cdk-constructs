@@ -1,5 +1,4 @@
 import { Selector } from "aws-cdk-lib/aws-eks";
-import { ServerlessRDSConfig } from "../rds/interfaces";
 
 export interface EKSStackConfig {
   stackName: string;
@@ -19,10 +18,6 @@ export interface EKSStackConfig {
   efs: EKSEFSConfig
   // To break dependency on between SA and charts
   namespaces?: Selector[];
-
-  charts?: EKSChart[];
-
-  serviceAccounts?: ServiceAccountCfg[];
 
   externalDNS: ExternalDNSConfig;
   //  Used to create fargate profiles on the cluster

@@ -5,26 +5,22 @@ import { StackProps } from 'aws-cdk-lib';
 import { Policy, PolicyDocument } from 'aws-cdk-lib/aws-iam';
 import { Construct } from "constructs";
 import { EKSSAStackConfig } from '../../interfaces/lib/eks/interfaces';
+import { Cluster } from 'aws-cdk-lib/aws-eks';
 
 
 export class ServiceAccountStack extends cdk.Stack {
   
   config: EKSSAStackConfig;
 
-  constructor(scope: Construct, id: string, config: EKSSAStackConfig, props?: StackProps) {
+  constructor(scope: Construct, id: string, config: EKSSAStackConfig, eksCluster: Cluster, props?: StackProps) {
     super(scope, id, props);
 
     this.config = config;
-    this.createServiceAccount()
+    this.createServiceAccount(eksCluster)
 
   }
 
-  createServiceAccount() {
-
-    const cluster = eks.Cluster.fromClusterAttributes(this, `${this.config.clusterName}Ref`, {
-        clusterName: this.config.clusterName,
-        kubectlRoleArn: this.config.kubectlRoleArn
-      })
+  createServiceAccount(cluster: Cluster) {
     
     this.config.serviceAccounts?.map(sa => {
        // Create Kubernetes ServiceAccount

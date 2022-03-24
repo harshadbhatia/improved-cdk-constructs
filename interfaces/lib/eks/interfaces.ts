@@ -28,6 +28,15 @@ export interface EKSStackConfig {
 
 }
 
+export interface HelmChartStackConfig {
+  stackName: string;
+  stackDescription: string;
+  clusterName: string;
+  kubectlRoleArn: string;
+
+  charts?: EKSChart[]
+}
+
 export interface EKSSAStackConfig {
   stackName: string;
   stackDescription: string;

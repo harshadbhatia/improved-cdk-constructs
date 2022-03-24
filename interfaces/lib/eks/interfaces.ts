@@ -33,6 +33,16 @@ export interface EKSStackConfig {
 
 }
 
+export interface EKSSAStackConfig {
+  stackName: string;
+  stackDescription: string;
+  clusterName: string;
+  kubectlRoleArn: string;
+  namespaces?: Selector[]; // Future
+  serviceAccounts?: ServiceAccountCfg[];
+ 
+}
+
 export interface EKSChart {
   name: string;
   chart: string;

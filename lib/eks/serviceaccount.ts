@@ -4,41 +4,43 @@ import eks = require('aws-cdk-lib/aws-eks');
 import { StackProps } from 'aws-cdk-lib';
 import { Policy, PolicyDocument } from 'aws-cdk-lib/aws-iam';
 import { Construct } from "constructs";
-import { ServiceAccountCfg } from '../../interfaces/lib/eks/interfaces';
+import { EKSSAStackConfig } from '../../interfaces/lib/eks/interfaces';
 
 
 export class ServiceAccountStack extends cdk.Stack {
   body: Construct;
   bodies: Construct[];
-  config: ServiceAccountCfg;
+  config: EKSSAStackConfig;
 
-  constructor(scope: Construct, id: string, svcAccountsCfg: ServiceAccountCfg, clusterName: string, kubectlRoleArn: string, props?: StackProps) {
+  constructor(scope: Construct, id: string, config: EKSSAStackConfig, props?: StackProps) {
     super(scope, id);
 
-    this.config = svcAccountsCfg;
-    this.createServiceAccount(clusterName, kubectlRoleArn)
+    this.config = config;
+    this.createServiceAccount()
 
   }
 
-  createServiceAccount(clusterName: string, kubectlRoleArn: string) {
+  createServiceAccount() {
 
-    const cluster = eks.Cluster.fromClusterAttributes(this, `${clusterName}Ref`, {
-        clusterName: clusterName,
-        kubectlRoleArn: kubectlRoleArn
+
+    const cluster = eks.Cluster.fromClusterAttributes(this, `${this.config.clusterName}Ref`, {
+        clusterName: this.config.clusterName,
+        kubectlRoleArn: this.config.kubectlRoleArn
       })
-
-    // Create Kubernetes ServiceAccount
-    let svcAccount = cluster.addServiceAccount(this.config.name.replace('-', ''), {
-      name: this.config.name,
-      namespace: this.config.namespace,
+    
+    this.config.serviceAccounts?.map(sa => {
+       // Create Kubernetes ServiceAccount
+    let svcAccount = cluster.addServiceAccount(sa.name.replace('-', ''), {
+      name: sa.name,
+      namespace: sa.namespace,
     });
 
-    const iamPolicyDocument = this.config.policy
+    const iamPolicyDocument = sa.policy
 
-    if (iamPolicyDocument && this.config.policyName) {
+    if (iamPolicyDocument && sa.policyName) {
       // Create IAM Policy
-      const iamPolicy = new Policy(this, this.config.policyName, {
-        policyName: this.config.policyName,
+      const iamPolicy = new Policy(this, sa.policyName, {
+        policyName: sa.policyName,
         document: PolicyDocument.fromJson(iamPolicyDocument),
       })
 
@@ -48,11 +50,11 @@ export class ServiceAccountStack extends cdk.Stack {
 
 
     // Check if we have any role and its bindings - create required manifests
-    this.config.k8RoleAndBinding?.forEach(roleAndBinding => {
+    sa.k8RoleAndBinding?.forEach(roleAndBinding => {
       const role = {
         apiVersion: "rbac.authorization.k8s.io/v1",
         kind: "Role",
-        metadata: { namespace: this.config.namespace, name: roleAndBinding.name },
+        metadata: { namespace: sa.namespace, name: roleAndBinding.name },
         rules: roleAndBinding.rules
       };
 
@@ -65,8 +67,8 @@ export class ServiceAccountStack extends cdk.Stack {
       const roleBinding = {
         apiVersion: "rbac.authorization.k8s.io/v1",
         kind: "RoleBinding",
-        metadata: { namespace: this.config.namespace, name: `${roleAndBinding.name}-binding` },
-        subjects: rbSubjects ? roleAndBinding.subjects : [{ kind: "ServiceAccount", name: this.config.name, namespace: this.config.namespace }],
+        metadata: { namespace: sa.namespace, name: `${roleAndBinding.name}-binding` },
+        subjects: rbSubjects ? roleAndBinding.subjects : [{ kind: "ServiceAccount", name: sa.name, namespace: sa.namespace }],
         roleRef: {
           kind: "Role",
           name: roleAndBinding.name,
@@ -74,12 +76,16 @@ export class ServiceAccountStack extends cdk.Stack {
         }
       };
 
-      new eks.KubernetesManifest(this, `${this.config.name}RoleAndBinding`, {
+      new eks.KubernetesManifest(this, `${sa.name}RoleAndBinding`, {
         cluster,
         manifest: [role, roleBinding],
       });
 
     })
+
+    })
+
+   
   }
 
 }

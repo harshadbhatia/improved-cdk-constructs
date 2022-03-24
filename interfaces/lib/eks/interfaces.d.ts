@@ -12,11 +12,16 @@ export interface EKSStackConfig {
     allowAdminRole?: string;
     efs: EKSEFSConfig;
     namespaces?: Selector[];
-    charts?: EKSChart[];
-    serviceAccounts?: ServiceAccountCfg[];
     externalDNS: ExternalDNSConfig;
     fargateProfiles?: FargateProfileConfig[];
     s3Buckets?: S3BucketCfg[];
+}
+export interface HelmChartStackConfig {
+    stackName: string;
+    stackDescription: string;
+    clusterName: string;
+    kubectlRoleArn: string;
+    charts?: EKSChart[];
 }
 export interface EKSSAStackConfig {
     stackName: string;

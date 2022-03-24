@@ -3,7 +3,7 @@ import ssm = require('aws-cdk-lib/aws-ssm');
 import acm = require('aws-cdk-lib/aws-certificatemanager');
 import cdk = require('aws-cdk-lib');
 import { Effect } from 'aws-cdk-lib/aws-iam';
-import { CnameRecord, MxRecord, PublicHostedZone } from 'aws-cdk-lib/aws-route53';
+import { CnameRecord, HostedZone, MxRecord, PublicHostedZone } from 'aws-cdk-lib/aws-route53';
 import { Construct } from 'constructs';
 import { DomainRecords, Route53ParentConfig } from '../../interfaces/lib/route53/interfaces';
 import { exit } from 'process';
@@ -112,21 +112,31 @@ export class Route53ParentStack extends cdk.Stack {
 
   createCdnACMs(parentZoneMap: Map<string, PublicHostedZone>) {
     // For cloudfront distribution we need to create a certificate
-    this.config.cdnAcms?.forEach((domain) => {
-      const lg = domain.split('.').slice(1, domain.split('.').length).join('.');
-      const hostedZone = parentZoneMap.get(lg);
+    this.config.cdnAcms?.forEach(c => {
+      const lg = c.domain.split('.').slice(1, c.domain.split('.').length).join('.');
+      // Incase we have already defined outside
+      var hostedZone
+      if (c.parentHostedZoneId && c.parentHostedZoneName) {
+        hostedZone = HostedZone.fromHostedZoneAttributes(this, 'ParentHostedZoneId', {
+            hostedZoneId: c.parentHostedZoneId,
+            zoneName: c.parentHostedZoneName
+        })
+      } else {
+        hostedZone = parentZoneMap.get(lg);
+      }
 
       if (hostedZone) {
         const cert = new acm.DnsValidatedCertificate(this, 'CrossRegionCertificate', {
-          domainName: domain,
+          domainName: c.domain,
+          subjectAlternativeNames: c.alternativeDomains,
           hostedZone: hostedZone,
           region: 'us-east-1',
         });
 
         const param = new ssm.StringParameter(this, `${lg}Param`, {
           stringValue: cert.certificateArn,
-          parameterName: `/acm/${domain}`,
-          description: `${domain} ACM (Cert in US-East-1)`,
+          parameterName: `/acm/${c.domain}`,
+          description: `${c.domain} ACM (Cert in US-East-1)`,
           tier: ssm.ParameterTier.STANDARD,
           type: ssm.ParameterType.STRING,
         });

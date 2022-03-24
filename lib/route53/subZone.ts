@@ -3,7 +3,7 @@ import acm = require('aws-cdk-lib/aws-certificatemanager');
 import cdk = require('aws-cdk-lib');
 import ssm = require('aws-cdk-lib/aws-ssm');
 import { Stack } from 'aws-cdk-lib';
-import { CrossAccountZoneDelegationRecord, PublicHostedZone } from 'aws-cdk-lib/aws-route53';
+import { CrossAccountZoneDelegationRecord, PublicHostedZone, HostedZone } from 'aws-cdk-lib/aws-route53';
 import { Construct } from 'constructs';
 import { Route53SubZoneConfig, SubZoneConfig } from '../../interfaces/lib/route53/interfaces';
 import { exit } from 'process';
@@ -91,11 +91,18 @@ export class Route53SubZoneStack extends cdk.Stack {
   }
 
   createCdnACMs() {
-
-
     // For cloudfront distribution we need to create a certificate
     this.config.cdnAcms?.forEach(c => {
-      const hostedZone = this.parentZoneMap.get(c.domain);
+      var hostedZone
+      if (c.parentHostedZoneId && c.parentHostedZoneName) {
+        hostedZone = HostedZone.fromHostedZoneAttributes(this, 'ParentHostedZoneId', {
+            hostedZoneId: c.parentHostedZoneId,
+            zoneName: c.parentHostedZoneName
+        })
+      } else {
+        hostedZone = this.parentZoneMap.get(c.domain);
+      }
+      
       if (hostedZone) {
         const cert = new acm.DnsValidatedCertificate(this, 'CrossRegionCertificate', {
           domainName: c.domain,
@@ -115,7 +122,6 @@ export class Route53SubZoneStack extends cdk.Stack {
         console.error(`[Route53][subZone] ${c.domain} not found in parent zone map`)
         exit(1)
       }
-
 
     })
 

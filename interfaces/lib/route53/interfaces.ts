@@ -8,7 +8,7 @@ export interface Route53ParentConfig {
 
     acms?: string[];
 
-    cdnAcms?: string[];
+    cdnAcms?: cdnACM[]
 
     domainRecords?: DomainRecords[]
     
@@ -44,6 +44,8 @@ export interface Route53SubZoneConfig {
 
 export interface cdnACM {
     domain: string
+    parentHostedZoneName?: string
+    parentHostedZoneId?: string 
     alternativeDomains: string[]
 }
 

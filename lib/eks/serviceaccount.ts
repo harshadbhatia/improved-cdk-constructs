@@ -8,12 +8,11 @@ import { EKSSAStackConfig } from '../../interfaces/lib/eks/interfaces';
 
 
 export class ServiceAccountStack extends cdk.Stack {
-  body: Construct;
-  bodies: Construct[];
+  
   config: EKSSAStackConfig;
 
   constructor(scope: Construct, id: string, config: EKSSAStackConfig, props?: StackProps) {
-    super(scope, id);
+    super(scope, id, props);
 
     this.config = config;
     this.createServiceAccount()

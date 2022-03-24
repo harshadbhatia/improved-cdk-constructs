@@ -124,7 +124,6 @@ export class EKSCluster extends cdk.Stack {
         });
       });
 
-    // TODO add dyanmic updates for EFS and Subnets ids
     // Add service account for spcified namespaces
     // // Install all charts as nested stacks
     this.config.serviceAccounts?.forEach((sa) => {
@@ -132,6 +131,7 @@ export class EKSCluster extends cdk.Stack {
       // Add dependencies to naespace is always created beforehand
       ns.map((n) => {
         saStack.node.addDependency(n);
+        saStack.node.addDependency(...profiles)
       });
     });
   }

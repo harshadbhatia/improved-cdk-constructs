@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.26 (2022-03-25)
+
+
+### Features
+
+* **websiteStack:** added aliases for certificate ([98599c9](https://github.com/harshadbhatia/improved-cdk-constructs/commit/98599c9b9df273196b9d7fdb4cf90bd21e922031))
+
 ### 0.1.25 (2022-03-25)
 
 

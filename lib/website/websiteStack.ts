@@ -36,6 +36,8 @@ export class WebsiteStack extends cdk.Stack {
         )
 
         const certificate = acm.Certificate.fromCertificateArn(this, "Certificate", acmArn);
+        
+        const al = this.config.website.certificateAliases ? [this.config.website.domain, ...this.config.website.certificateAliases]: [this.config.website.domain]
 
         const cf = new cloudfront.CloudFrontWebDistribution(this, 'WebDistribution', {
             comment: this.config.website.domain,
@@ -56,7 +58,7 @@ export class WebsiteStack extends cdk.Stack {
                 },
             ],
 
-            viewerCertificate: cloudfront.ViewerCertificate.fromAcmCertificate(certificate, { aliases: [this.config.website.domain], }),
+            viewerCertificate: cloudfront.ViewerCertificate.fromAcmCertificate(certificate, { aliases: al }),
         });
 
         var d: string

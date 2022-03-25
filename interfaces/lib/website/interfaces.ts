@@ -15,5 +15,6 @@ export interface WebsiteStackProps {
         bucketName: string,
     }
     ignorePrefix?: string
+    certificateAliases?: string[]
     // cloudfront?: CloudFrontWebDistributionProps
 }

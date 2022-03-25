@@ -100,7 +100,7 @@ export class WebsiteStack extends cdk.Stack {
                 ttl: cdk.Duration.seconds(r.ttl),
                 zone,
                 target: route53.RecordTarget.fromAlias(new targets.CloudFrontTarget(cf)),
-            });
+            }); 
         })
     }
 }

@@ -95,7 +95,7 @@ export class WebsiteStack extends cdk.Stack {
         });
 
         this.config.website.addtionalARecords?.map(r => {
-            new route53.ARecord(this, "CDNARecord", {
+            new route53.ARecord(this, `${r.recordName}CDNARecord`, {
                 recordName: r.recordName,
                 ttl: cdk.Duration.seconds(r.ttl),
                 zone,

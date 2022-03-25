@@ -93,5 +93,14 @@ export class WebsiteStack extends cdk.Stack {
             zone,
             target: route53.RecordTarget.fromAlias(new targets.CloudFrontTarget(cf)),
         });
+
+        this.config.website.addtionalARecords?.map(r => {
+            new route53.ARecord(this, "CDNARecord", {
+                recordName: r.recordName,
+                ttl: cdk.Duration.seconds(r.ttl),
+                zone,
+                target: route53.RecordTarget.fromAlias(new targets.CloudFrontTarget(cf)),
+            });
+        })
     }
 }

@@ -16,5 +16,12 @@ export interface WebsiteStackProps {
     }
     ignorePrefix?: string
     certificateAliases?: string[]
+
+    addtionalARecords?: AdditionalARecord[]
     // cloudfront?: CloudFrontWebDistributionProps
+}
+
+export interface AdditionalARecord {
+    ttl: number
+    recordName: string
 }

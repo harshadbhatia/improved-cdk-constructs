@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.25 (2022-03-25)
+
+
+### Features
+
+* **route53:** added optional zoneDomain ([6954ae3](https://github.com/harshadbhatia/improved-cdk-constructs/commit/6954ae3d54e1ead1ab277da9fa1a11ff88a7f213))
+
 ### 0.1.24 (2022-03-24)
 
 

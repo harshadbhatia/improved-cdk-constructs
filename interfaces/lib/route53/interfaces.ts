@@ -44,6 +44,7 @@ export interface Route53SubZoneConfig {
 
 export interface cdnACM {
     domain: string
+    zoneDomain?: string
     parentHostedZoneName?: string
     parentHostedZoneId?: string 
     alternativeDomains: string[]

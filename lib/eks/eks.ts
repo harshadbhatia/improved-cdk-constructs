@@ -5,7 +5,7 @@ import ssm = require('aws-cdk-lib/aws-ssm');
 import cdk = require('aws-cdk-lib');
 import { Aws, RemovalPolicy } from 'aws-cdk-lib';
 import { IVpc } from 'aws-cdk-lib/aws-ec2';
-import { CapacityType, Cluster, KubernetesManifest, TaintEffect } from 'aws-cdk-lib/aws-eks';
+import { CapacityType, Cluster, KubernetesManifest } from 'aws-cdk-lib/aws-eks';
 import {
   CompositePrincipal,
   Effect,
@@ -22,7 +22,6 @@ import { AwsEFSCSIDriverNested } from './controllers/efs-csi-driver';
 import { AwsLoadBalancerControllerNested } from './controllers/load-balancer-controller';
 import { CloudwatchLoggingNested } from './cw-logging-monitoring';
 import { ExternalDNSNested } from './external-dns';
-import { HelmChartNestedStack } from './helm-chart-nested';
 import { Selector } from 'aws-cdk-lib/aws-eks';
 import { BlockPublicAccess, Bucket, BucketEncryption } from 'aws-cdk-lib/aws-s3';
 import { AwsSecretsCSIDriverNested } from './controllers/secrets-csi-driver';
@@ -98,9 +97,11 @@ export class EKSCluster extends cdk.Stack {
       vpc,
       this.eksCluster.clusterSecurityGroupId,
     );
+    // Sometimes eks completion happens sooner. To ensure everything is finished before next item is executed
+    ns.map(n => s.node.addDependency(n))
 
     // We create this as a storage class
-    this.createStorageClass(s.efs.fileSystemId);
+    const sc = this.createStorageClass(s.efs.fileSystemId);
 
     // Install other bits like S3 , postgres etc which needs to be before the charts are installed
     this.createS3Buckets();
@@ -108,7 +109,7 @@ export class EKSCluster extends cdk.Stack {
   }
 
   createStorageClass(fsID: string): KubernetesManifest {
-    return this.eksCluster.addManifest('EFSSC', {
+    const sc = this.eksCluster.addManifest('EFSSC', {
       apiVersion: 'storage.k8s.io/v1',
       kind: 'StorageClass',
       metadata: {
@@ -121,6 +122,8 @@ export class EKSCluster extends cdk.Stack {
         directoryPerms: '0700',
       },
     });
+
+    return sc
   }
 
   getVPC(): ec2.IVpc {
@@ -205,13 +208,13 @@ export class EKSCluster extends cdk.Stack {
     var profiles: eks.FargateProfile[] = [];
     this.config.fargateProfiles?.forEach((profile) => {
 
-      const  p = new eks.FargateProfile(this, profile.name, {
+      const p = new eks.FargateProfile(this, profile.name, {
         cluster,
         selectors: profile.selectors,
         vpc: vpc,
         subnetSelection: vpc.selectSubnets({ subnetType: ec2.SubnetType.PRIVATE_WITH_NAT }),
       });
-      
+
       profiles.push(p);
 
     });

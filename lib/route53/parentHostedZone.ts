@@ -113,7 +113,14 @@ export class Route53ParentStack extends cdk.Stack {
   createCdnACMs(parentZoneMap: Map<string, PublicHostedZone>) {
     // For cloudfront distribution we need to create a certificate
     this.config.cdnAcms?.forEach(c => {
-      const lg = c.domain.split('.').slice(1, c.domain.split('.').length).join('.');
+      var lg: string = '';
+      // Sometime we just have single zone
+      if (!c.zoneDomain) {
+        lg = c.domain.split('.').slice(1, c.domain.split('.').length).join('.');
+      } else {
+        lg = c.zoneDomain
+      }
+      
       // Incase we have already defined outside
       var hostedZone
       if (c.parentHostedZoneId && c.parentHostedZoneName) {
@@ -140,6 +147,9 @@ export class Route53ParentStack extends cdk.Stack {
           tier: ssm.ParameterTier.STANDARD,
           type: ssm.ParameterType.STRING,
         });
+      } else {
+        console.error(`[Route53][subZone] ${c.domain} not found in parent zone map`)
+        exit(1)
       }
     });
   }

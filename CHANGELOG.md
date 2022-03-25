@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.28 (2022-03-25)
+
+
+### Features
+
+* **websiteStack:** added aliases for A records ([b0ee7d1](https://github.com/harshadbhatia/improved-cdk-constructs/commit/b0ee7d1fedb52a816866d94dd101cea281ddb0f8))
+
 ### 0.1.27 (2022-03-25)
 
 

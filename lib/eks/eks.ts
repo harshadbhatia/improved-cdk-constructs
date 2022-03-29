@@ -252,7 +252,7 @@ export class EKSCluster extends cdk.Stack {
           bucketName: bucket.name,
           encryption: BucketEncryption.S3_MANAGED,
           enforceSSL: true,
-          publicReadAccess: true,
+          publicReadAccess: false,
           blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
           cors: bucket.cors,
           versioned: true,

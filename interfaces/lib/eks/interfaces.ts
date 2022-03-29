@@ -1,4 +1,5 @@
 import { Selector } from "aws-cdk-lib/aws-eks";
+import { CorsRule } from "aws-cdk-lib/aws-s3/lib/bucket";
 
 export interface EKSStackConfig {
   stackName: string;
@@ -108,9 +109,18 @@ export interface FargateProfileConfig {
   createNamespace: boolean
 }
 
+// Default is
 export interface S3BucketCfg {
   name: string
+  isPublic?: boolean
+  cors?: CorsRule[]
 }
+
+
+export interface S3BucketCorsProps {
+  
+}
+
 
 export interface RoleCfg {
   name: string

@@ -246,16 +246,29 @@ export class EKSCluster extends cdk.Stack {
   }
 
   createS3Buckets(): void {
-    this.config.s3Buckets?.forEach((bucket) => {
-      const b = new Bucket(this, bucket.name, {
-        bucketName: bucket.name,
-        encryption: BucketEncryption.S3_MANAGED,
-        enforceSSL: true,
-        publicReadAccess: false,
-        blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
-        versioned: true,
-        removalPolicy: RemovalPolicy.DESTROY,
-      });
+    this.config.s3Buckets?.forEach(bucket => {
+      if (bucket.isPublic) {
+        const b = new Bucket(this, bucket.name, {
+          bucketName: bucket.name,
+          encryption: BucketEncryption.S3_MANAGED,
+          enforceSSL: true,
+          publicReadAccess: true,
+          cors: bucket.cors,
+          versioned: true,
+          removalPolicy: RemovalPolicy.DESTROY,
+        });
+      } else {
+        const b = new Bucket(this, bucket.name, {
+          bucketName: bucket.name,
+          encryption: BucketEncryption.S3_MANAGED,
+          enforceSSL: true,
+          publicReadAccess: false,
+          blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
+          versioned: true,
+          removalPolicy: RemovalPolicy.DESTROY,
+        });
+      }
+      
     });
   }
 }

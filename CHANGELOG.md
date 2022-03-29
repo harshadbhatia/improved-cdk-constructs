@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.31 (2022-03-29)
+
+
+### Features
+
+* **eks:** s3 to be public with cors v2 ([7c4e9bb](https://github.com/harshadbhatia/improved-cdk-constructs/commit/7c4e9bb18a4c742822e54411ec7245812dc5c9f3))
+
 ### 0.1.30 (2022-03-29)
 
 

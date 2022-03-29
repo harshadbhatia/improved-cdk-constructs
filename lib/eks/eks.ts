@@ -247,7 +247,7 @@ export class EKSCluster extends cdk.Stack {
 
   createS3Buckets(): void {
     this.config.s3Buckets?.forEach(bucket => {
-      if (bucket.isPublic) {
+      if (bucket.isPrivateWithCors) {
         const b = new Bucket(this, bucket.name, {
           bucketName: bucket.name,
           encryption: BucketEncryption.S3_MANAGED,

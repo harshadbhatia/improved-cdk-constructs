@@ -112,7 +112,7 @@ export interface FargateProfileConfig {
 // Default is
 export interface S3BucketCfg {
   name: string
-  isPublic?: boolean
+  isPrivateWithCors?: boolean
   cors?: CorsRule[]
 }
 

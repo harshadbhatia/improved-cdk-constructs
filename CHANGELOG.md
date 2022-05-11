@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.33 (2022-05-11)
+
+
+### Features
+
+* **efs:** update efs security group name ([52b2893](https://github.com/harshadbhatia/improved-cdk-constructs/commit/52b2893e9fbe3da72397b61c4d940fb38e342cf5))
+
 ### 0.1.32 (2022-03-29)
 
 

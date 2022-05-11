@@ -40,7 +40,7 @@ export class EFSNestedStack extends NestedStack {
 
     this.sg = new aws_ec2.SecurityGroup(this, "EFSSecurityGroup", {
       vpc: this.vpc,
-      securityGroupName: `efs-sg`
+      securityGroupName: `${this.clusterName}-efs-sg`
     } as SecurityGroupProps);
 
     this.config.ingress.map(ig => {

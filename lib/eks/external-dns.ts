@@ -61,6 +61,9 @@ export class ExternalDNSNested extends NestedStack {
 
   deployManifest(cluster: Cluster) {
 
+    // get current time
+    const timeNow = Date.now() / 1000;
+
     // yaml
     let dataResult: Record<string, object>[] = [];
 
@@ -71,9 +74,10 @@ export class ExternalDNSNested extends NestedStack {
 
       let valuesYaml = fs.readFileSync(path.join(__dirname, `./manifests/external-dns.yaml`));
       // Replace Domain and load YAML
-      let valuesParsed = yaml.loadAll(valuesYaml.toString().replace(
-        new RegExp('{DOMAIN_FILTER}', 'gi'),
-        this.config.domainFilter));
+      let valuesParsed = yaml.loadAll(valuesYaml.toString()
+        .replace(new RegExp('{DOMAIN_FILTER}', 'gi'), this.config.domainFilter)
+        .replace(new RegExp('{OWNER_ID}', 'gi'), `cdk-${timeNow}`)
+        );
       if (typeof valuesParsed === 'object' && valuesParsed !== null) {
         dataResult = valuesParsed as Record<string, object>[];
       }

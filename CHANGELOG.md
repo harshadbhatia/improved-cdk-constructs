@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.34 (2022-05-12)
+
+
+### Features
+
+* **eks:** multi cluster dns support ([6176ae7](https://github.com/harshadbhatia/improved-cdk-constructs/commit/6176ae7be1f3e8591537f1b0f7824f6f6398c68c))
+
 ### 0.1.33 (2022-05-11)
 
 

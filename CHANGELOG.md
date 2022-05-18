@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.37 (2022-05-18)
+
+
+### Features
+
+* **eks:** add dependency for namespace ([08808d3](https://github.com/harshadbhatia/improved-cdk-constructs/commit/08808d363106d5dc477b1171fa509063522149c3))
+
 ### 0.1.36 (2022-05-18)
 
 

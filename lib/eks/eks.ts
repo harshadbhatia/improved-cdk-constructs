@@ -9,6 +9,7 @@ import { CapacityType, Cluster, KubernetesManifest } from 'aws-cdk-lib/aws-eks';
 import {
   CompositePrincipal,
   Effect,
+  Policy,
   PolicyDocument,
   PolicyStatement,
   Role,
@@ -25,6 +26,11 @@ import { ExternalDNSNested } from './external-dns';
 import { Selector } from 'aws-cdk-lib/aws-eks';
 import { BlockPublicAccess, Bucket, BucketEncryption } from 'aws-cdk-lib/aws-s3';
 import { AwsSecretsCSIDriverNested } from './controllers/secrets-csi-driver';
+
+import * as fs from 'fs';
+import * as yaml from 'js-yaml';
+import { exit } from 'process';
+
 
 export class EKSCluster extends cdk.Stack {
   config: EKSStackConfig;
@@ -205,6 +211,9 @@ export class EKSCluster extends cdk.Stack {
   // --description "Service-linked role to support fargate"
 
   createFargateProfiles(cluster: eks.Cluster, vpc: IVpc, ns: eks.KubernetesManifest[]): eks.FargateProfile[] {
+
+    const policy = this.createEKSFargateCloudwatchPolicy()
+
     var profiles: eks.FargateProfile[] = [];
     this.config.fargateProfiles?.forEach((profile) => {
 
@@ -214,12 +223,71 @@ export class EKSCluster extends cdk.Stack {
         vpc: vpc,
         subnetSelection: vpc.selectSubnets({ subnetType: ec2.SubnetType.PRIVATE_WITH_NAT }),
       });
+      // this is required for logging
+      p.podExecutionRole.attachInlinePolicy(policy)
 
       profiles.push(p);
 
     });
 
+    // Enable automatic cloudwwatch logging for the same. This requires a namespace and a config map
+
+    const namespace = cluster.addManifest('aws-observability', {
+      apiVersion: 'v1',
+      kind: 'Namespace',
+      metadata: { name: 'aws-observability', labels: { 'aws-observability': 'enabled' } },
+    });
+
+    // yaml
+    let dataResult: Record<string, object>[] = [];
+    try {
+
+      const path = require('path');
+
+      let valuesYaml = fs.readFileSync(path.join(__dirname, `./manifests/fargate-cloudwatch-logging.yaml`));
+      // Replace Domain and load YAML
+      let valuesParsed = yaml.loadAll(valuesYaml.toString()
+        .replace(new RegExp('{AWS_REGION}', 'gi'), Aws.REGION)
+        );
+      if (typeof valuesParsed === 'object' && valuesParsed !== null) {
+        dataResult = valuesParsed as Record<string, object>[];
+      }
+    } catch (exception) {
+      console.error(" > Failed to load 'fargate-cloudwatch-logging.yaml' for 'EKS Cluster' deploy...");
+      console.error(exception);
+      exit
+    }
+
+    dataResult.forEach(function (val, idx) {
+      cluster.addManifest('fargate-cloudwatch-logging-' + idx, val);
+    });
+
     return profiles;
+  }
+
+  createEKSFargateCloudwatchPolicy(): Policy {
+    // each pod execution role needs to have the policy
+    const iamPolicyDocument = JSON.parse(`{
+      "Version": "2012-10-17",
+      "Statement": [{
+        "Effect": "Allow",
+        "Action": [
+          "logs:CreateLogStream",
+          "logs:CreateLogGroup",
+          "logs:DescribeLogStreams",
+          "logs:PutLogEvents"
+        ],
+        "Resource": "*"
+      }]
+    }`)
+
+    // Create IAM Policy
+    const iamPolicy = new Policy(this, 'EKSFargateLoggingPolicy', {
+      policyName: 'EKSFargateLoggingPolicy',
+      document: PolicyDocument.fromJson(iamPolicyDocument),
+    });
+
+    return iamPolicy
   }
 
   createNamespaces(selectors: Selector[], cluster: eks.Cluster): eks.KubernetesManifest[] {

@@ -248,6 +248,7 @@ export class EKSCluster extends cdk.Stack {
       // Replace Domain and load YAML
       let valuesParsed = yaml.loadAll(valuesYaml.toString()
         .replace(new RegExp('{AWS_REGION}', 'gi'), Aws.REGION)
+        .replace(new RegExp('{CLUSTER_NAME}', 'gi'), cluster.clusterName)
         );
       if (typeof valuesParsed === 'object' && valuesParsed !== null) {
         dataResult = valuesParsed as Record<string, object>[];

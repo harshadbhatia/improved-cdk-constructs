@@ -9,8 +9,8 @@ data:
         Name cloudwatch_logs
         Match   *
         region {AWS_REGION}
-        log_group_name fluent-bit-cloudwatch
-        log_stream_prefix from-fluent-bit-
+        log_group_name /aws/containerinsights/{CLUSTER_NAME}/application
+        log_stream_prefix fargate-
         auto_create_group true
         log_key log
 

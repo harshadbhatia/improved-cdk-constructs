@@ -260,7 +260,8 @@ export class EKSCluster extends cdk.Stack {
     }
 
     dataResult.forEach(function (val, idx) {
-      cluster.addManifest('fargate-cloudwatch-logging-' + idx, val);
+      const a  = cluster.addManifest('fargate-cloudwatch-logging-' + idx, val);
+      a.node.addDependency(namespace)
     });
 
     return profiles;

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.36 (2022-05-18)
+
+
+### Features
+
+* **eks:** enable cloudwatch logging for application ([8bc3ed0](https://github.com/harshadbhatia/improved-cdk-constructs/commit/8bc3ed02c2a356462d18eb1d874027c9c0bd0dc5))
+
 ### 0.1.35 (2022-05-18)
 
 

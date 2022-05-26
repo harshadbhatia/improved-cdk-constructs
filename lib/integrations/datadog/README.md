@@ -1,5 +1,11 @@
 # How it works ?
 
+## Create two secrets at the following location:
+
+- '/account/datadog/api-key'
+- '/account/datadog/app-key'
+
+
 Datadog constructs install the following:
 
 1. Datadog Integration role stack - Allows datadig to communicate

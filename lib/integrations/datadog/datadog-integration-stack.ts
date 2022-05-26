@@ -9,12 +9,9 @@ export class DatadogAWSIntegrationStack extends Stack {
     constructor(scope: Construct, id: string, props: DatadogAWSIntegrationStackProps) {
         super(scope, id, props);
 
-        new Secret(this, 'DatadogAPISecret', { secretName: '/account/datadog/api-key', description: 'Datadog API key'})
-        new Secret(this, 'DatadogAPPSecret', { secretName: '/account/datadog/app-key', description: 'Datadog APP key'})
-
         new DatadogIntegration(this, 'DatadogIntegrationConstruct', props)
         new KinesisToDatadogStream(this, 'DatadogKinesisIntegration', {
-            datadogApiKeySecretName: '/account/datadog/api-key'
+            datadogApiKeySecretName: props.apiKey
         });
 
     }

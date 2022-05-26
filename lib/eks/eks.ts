@@ -339,7 +339,6 @@ export class EKSCluster extends cdk.Stack {
           removalPolicy: RemovalPolicy.DESTROY,
         });
       }
-      
     });
   }
 }

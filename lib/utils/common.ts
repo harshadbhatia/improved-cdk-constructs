@@ -1,3 +1,4 @@
+import { Bucket } from 'aws-cdk-lib/aws-s3';
 import axios, { AxiosResponse } from 'axios';
 
 export function convertStringToArray(input: string): string[] {
@@ -15,4 +16,13 @@ export function fetchAPI(url: string): Promise<AxiosResponse<any, any>> {
   }).catch((error) => {
     console.log(error)
   })
+}
+
+
+export function bucketsToString(buckets?: Bucket[]): string {
+  if (!buckets) {
+    return "";
+  }
+
+  return buckets.map((bucket) => bucket.bucketName).join(",");
 }

@@ -9,4 +9,10 @@ export interface WebsiteStackProps {
         bucketName: string;
     };
     ignorePrefix?: string;
+    certificateAliases?: string[];
+    addtionalARecords?: AdditionalARecord[];
+}
+export interface AdditionalARecord {
+    ttl: number;
+    recordName: string;
 }

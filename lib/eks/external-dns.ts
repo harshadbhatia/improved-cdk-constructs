@@ -16,7 +16,7 @@ export class ExternalDNSNested extends NestedStack {
     super(scope, id);
 
     this.config = externalDNSConfig;
-    
+
     // this.createDNSRole()
     this.deployManifest(eksCluster)
 

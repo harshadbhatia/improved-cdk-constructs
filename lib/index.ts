@@ -16,3 +16,4 @@ export * from './website/websiteStack';
 export * from  './integrations/datadog/aspect';
 export * from  './integrations/datadog/datadog-cdk-stack';
 export * from  './integrations/datadog/datadog-integration-stack';
+export * from './integrations/datadog/setup-integration';

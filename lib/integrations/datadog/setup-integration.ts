@@ -7,7 +7,7 @@ const APP_KEY_SECRET = '/account/datadog/app-key'
 const EXTERNAL_ID_SECRET = '/account/datadog/external-id'
 
 
-export async function setupIntegration(apiKey: string, appKey: string) {
+export async function setupDatadogIntegration(apiKey: string, appKey: string) {
     return await createAWSIntegration(apiKey, appKey)
         .then((externalId) => {
             if (externalId) {

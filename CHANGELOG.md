@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.40 (2022-05-26)
+
+
+### Features
+
+* **datadog:** removed secret creation ([a876bf6](https://github.com/harshadbhatia/improved-cdk-constructs/commit/a876bf64f32b15f784904fb21a0237eb835cb3b1))
+
 ### 0.1.39 (2022-05-26)
 
 

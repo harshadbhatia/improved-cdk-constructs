@@ -47,7 +47,7 @@ export class DatadogOperator extends Construct {
     });
     // This is ideal way where secret is attached automatically
     if (props.useSecretFromCSI) {
-      const spc = this.createSecretProviderClass(cluster);
+      const spc = this.createSecretProviderClass(props, cluster);
       const sa = this.createServiceAccount(props, cluster);
       // Create dependency so when secret provider class is created it can be accessed by SA.
       sa.node.addDependency(spc);

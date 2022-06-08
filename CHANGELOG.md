@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.43 (2022-06-08)
+
+
+### Bug Fixes
+
+* **datadog:** refactor update ([ba243c7](https://github.com/harshadbhatia/improved-cdk-constructs/commit/ba243c73ac7584536879bb2caac80217694565c5))
+
 ### 0.1.42 (2022-06-08)
 
 

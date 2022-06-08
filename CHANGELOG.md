@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.41 (2022-06-08)
+
+
+### Features
+
+* **datadog:** added construct for operator ([6b24a08](https://github.com/harshadbhatia/improved-cdk-constructs/commit/6b24a08cf4b0c1efab37bc6753c1a36e15a7b3e9))
+
 ### 0.1.40 (2022-05-26)
 
 

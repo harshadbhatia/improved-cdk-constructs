@@ -1,10 +1,11 @@
-import { Stack } from "aws-cdk-lib";
+import { Aspects, Stack } from "aws-cdk-lib";
 import { Cluster } from "aws-cdk-lib/aws-eks";
 import { OpenIdConnectProvider } from "aws-cdk-lib/aws-iam";
 import { Construct } from "constructs";
 import { EKSChart } from "../../../interfaces/lib/eks/interfaces";
 import { DatadogOperatorStackProps } from "../../../interfaces/lib/integrations/datadog/intefaces";
 import { HelmChartStack } from "../../eks/helm-chart";
+import { PermissionsBoundaryAspect } from "../../utils/permissions-boundary-aspect";
 import { DatadogAgent } from "./datadog-operator-construct";
 
 export class DatadogOperatorStack extends Stack {
@@ -35,7 +36,6 @@ export class DatadogOperatorStack extends Stack {
       values: {}
     }
 
-    // Create secret
     const cluster = Cluster.fromClusterAttributes(this, `${props.clusterName}Ref`, {
       clusterName: props.clusterName!,
       kubectlRoleArn: props.kubectlRoleArn!,
@@ -47,6 +47,9 @@ export class DatadogOperatorStack extends Stack {
       env: props.env,
       synthesizer: props.operatorSynthesizer,
     });
+
+    if (props.permissionBoundaryRole) { Aspects.of(h).add(new PermissionsBoundaryAspect()) }
+    else { Aspects.of(h).add(new PermissionsBoundaryAspect()) }
 
     return h
 

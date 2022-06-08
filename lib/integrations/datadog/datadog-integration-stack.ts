@@ -1,9 +1,9 @@
 import { Stack } from "aws-cdk-lib";
-import { Secret } from "aws-cdk-lib/aws-secretsmanager";
 import { Construct } from "constructs";
 import { DatadogAWSIntegrationStackProps } from "../../../interfaces/lib/integrations/datadog/intefaces";
 import { KinesisToDatadogStream } from "./datadog-cw-kinesis-datadog-construct";
 import { DatadogIntegration } from "./datadog-integration-construct";
+import { DatadogOperator } from "./datadog-operator-construct";
 
 export class DatadogAWSIntegrationStack extends Stack {
     constructor(scope: Construct, id: string, props: DatadogAWSIntegrationStackProps) {
@@ -13,6 +13,10 @@ export class DatadogAWSIntegrationStack extends Stack {
         new KinesisToDatadogStream(this, 'DatadogKinesisIntegration', {
             datadogApiKeySecretName: props.apiKey
         });
+
+        if (props.installDatadogOperator) {
+            new DatadogOperator(this, 'DatadogOperator', props)
+        }
 
     }
 }

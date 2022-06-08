@@ -1,4 +1,4 @@
-import { StackProps } from "aws-cdk-lib";
+import { DefaultStackSynthesizer, StackProps } from "aws-cdk-lib";
 import { Bucket } from "aws-cdk-lib/aws-s3";
 
 type DatadogPermissionsLevel = "Full" | "Core";
@@ -94,6 +94,16 @@ export interface DatadogAWSIntegrationStackProps extends StackProps {
   readonly additionalIntegrationRoleParams?: {
     [key: string]: string;
   };
+
+  // If we want datadog operator installed
+  apiKeySecret: string;
+  appKeySecret?: string
+  installDatadogOperator?: boolean
+  clusterName?: string
+  kubectlRoleArn?: string
+  operatorSynthesizer?: DefaultStackSynthesizer
+  openIdConnectProviderArn?: string
+  useSecretFromCSI?: boolean
 
 }
 

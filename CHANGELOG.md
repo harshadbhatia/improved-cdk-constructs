@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.53 (2022-06-08)
+
+
+### Bug Fixes
+
+* **datadog-operator:** added permission boundary ([49ea2fb](https://github.com/harshadbhatia/improved-cdk-constructs/commit/49ea2fbf7b84ea86375ab431e9f12a42c50292bd))
+
 ### 0.1.52 (2022-06-08)
 
 

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.42 (2022-06-08)
+
+
+### Features
+
+* **core:** upgrade typescript ([63c8e59](https://github.com/harshadbhatia/improved-cdk-constructs/commit/63c8e59d4eb733147160af37478c94463dd32b66))
+
 ### 0.1.41 (2022-06-08)
 
 

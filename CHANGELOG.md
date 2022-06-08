@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.46 (2022-06-08)
+
+
+### Features
+
+* **utils:** added utils exports ([a76bfe7](https://github.com/harshadbhatia/improved-cdk-constructs/commit/a76bfe7defb821ffac61b639d8c6ed9292de235a))
+
 ### 0.1.45 (2022-06-08)
 
 

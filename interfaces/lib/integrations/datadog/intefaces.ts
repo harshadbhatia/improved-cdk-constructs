@@ -131,7 +131,9 @@ export interface DatadogOperatorStackProps extends StackProps {
   useSecretFromCSI: boolean
 
   apiKeySecret: string;
-  appKeySecret: string
+  appKeySecret: string;
+
+  datadogK8ExistingSecret?: string
 
 
 }

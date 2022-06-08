@@ -124,11 +124,11 @@ export class DatadogOperator extends Construct {
       spec: {
         credentials: {
           apiSecret: {
-            secretName: props.apiKeySecret,
+            secretName: props.datadogK8ExistingSecret!,
             keyName: 'api-key'
           },
           appSecret: {
-            secretName: props.appKeySecret!,
+            secretName: props.datadogK8ExistingSecret!,
             keyName: 'app-key'
           },
         },

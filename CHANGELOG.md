@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.51 (2022-06-08)
+
+
+### Bug Fixes
+
+* **datadog-operator:** apply aspect to inner stack ([858860d](https://github.com/harshadbhatia/improved-cdk-constructs/commit/858860dee64967255b6088fed4b1c13509ccf973))
+
 ### 0.1.50 (2022-06-08)
 
 

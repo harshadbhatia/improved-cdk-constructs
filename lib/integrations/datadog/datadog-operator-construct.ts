@@ -9,46 +9,24 @@ import { HelmChartStack } from "../../eks/helm-chart";
 import { PermissionsBoundaryAspect } from "../../utils";
 
 
-export class DatadogOperator extends Construct {
-
-  DATADOG_OPERATOR_VERSION = "0.8.0"
+export class DatadogAgent extends Construct {
 
   constructor(scope: Construct, id: string, props: DatadogOperatorStackProps) {
 
     super(scope, id);
-    this.installDatadogOperator(props)
+    this.installAgentManifest(props)
 
   }
 
-  installDatadogOperator(props: DatadogOperatorStackProps) {
+  installAgentManifest(props: DatadogOperatorStackProps) {
 
-    const chart: EKSChart = {
-      name: "DatadogOperator",
-      chart: "datadog-operator",
-      namespace: "datadog",
-      release: `v${this.DATADOG_OPERATOR_VERSION}`,
-      version: `${this.DATADOG_OPERATOR_VERSION}`,
-      enabled: true,
-      repository: "https://helm.datadoghq.com",
-      description: `Datadog operator installation v${this.DATADOG_OPERATOR_VERSION}`,
-      createNamespace: true,
-      values: {}
-    }
+    let a: KubernetesManifest
 
-    // Create secret
     const cluster = Cluster.fromClusterAttributes(this, `${props.clusterName}Ref`, {
       clusterName: props.clusterName!,
       kubectlRoleArn: props.kubectlRoleArn!,
       openIdConnectProvider: OpenIdConnectProvider.fromOpenIdConnectProviderArn(this, 'OpenIDConnectProvider', props.openIdConnectProviderArn!),
     });
-    // ..TODO.. harshad - This solves the stack name problem - Long term fix required
-    const h = new HelmChartStack(this.node.root, 'DatadogOperator', chart, props.clusterName!, props.kubectlRoleArn!, {
-      stackName: 'DatadogOperatorHelm',
-      env: props.env,
-      synthesizer: props.operatorSynthesizer,
-    });
-    // Role nested perm issue
-    Aspects.of(h).add(new PermissionsBoundaryAspect(props.permissionBoundaryRole))
 
     // This is ideal way where secret is attached automatically
     if (props.useSecretFromCSI) {
@@ -58,16 +36,18 @@ export class DatadogOperator extends Construct {
       sa.node.addDependency(spc);
 
       // Dependency on helm chart
-      spc.node.addDependency(h)
+      // spc.node.addDependency(h)
 
-      const a = this.installDatadogAgentWithVolumeMounts(cluster, props.apiKeySecret, props.appKeySecret!)
-      a.node.addDependency(h)
+      a = this.installDatadogAgentWithVolumeMounts(cluster, props.apiKeySecret, props.appKeySecret!)
+
 
     } else {
       // Until datadog operator is fixed we simply use this
-      const a = this.installDatadogAgentWithExistingSecret(props, cluster)
-      a.node.addDependency(h)
+      a = this.installDatadogAgentWithExistingSecret(props, cluster)
+
     }
+
+    return a
 
   }
   createServiceAccount(props: DatadogOperatorStackProps, cluster: ICluster): ServiceAccount {

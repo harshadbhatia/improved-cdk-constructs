@@ -3,7 +3,7 @@ import { Effect, OpenIdConnectProvider, PolicyStatement } from "aws-cdk-lib/aws-
 import { Secret } from "aws-cdk-lib/aws-secretsmanager";
 import { Construct } from "constructs";
 import { EKSChart } from "../../../interfaces/lib/eks/interfaces";
-import { DatadogAWSIntegrationStackProps } from "../../../interfaces/lib/integrations/datadog/intefaces";
+import { DatadogOperatorStackProps } from "../../../interfaces/lib/integrations/datadog/intefaces";
 import { HelmChartStack } from "../../eks/helm-chart";
 
 
@@ -11,14 +11,14 @@ export class DatadogOperator extends Construct {
 
   DATADOG_OPERATOR_VERSION = "0.8.0"
 
-  constructor(scope: Construct, id: string, props: DatadogAWSIntegrationStackProps) {
+  constructor(scope: Construct, id: string, props: DatadogOperatorStackProps) {
 
     super(scope, id);
     this.installDatadogOperator(props)
 
   }
 
-  installDatadogOperator(props: DatadogAWSIntegrationStackProps) {
+  installDatadogOperator(props: DatadogOperatorStackProps) {
 
     const chart: EKSChart = {
       name: "DatadogOperator",
@@ -65,7 +65,7 @@ export class DatadogOperator extends Construct {
     }
 
   }
-  createServiceAccount(props: DatadogAWSIntegrationStackProps, cluster: ICluster): ServiceAccount {
+  createServiceAccount(props: DatadogOperatorStackProps, cluster: ICluster): ServiceAccount {
 
     const apiSecret = Secret.fromSecretNameV2(this, 'DatadogApiSecret', props.apiKeySecret);
     const appSecret = Secret.fromSecretNameV2(this, 'DatadogAppSecret', props.appKeySecret!);
@@ -84,7 +84,7 @@ export class DatadogOperator extends Construct {
     return s;
   }
 
-  createSecretProviderClass(props: DatadogAWSIntegrationStackProps, cluster: ICluster): KubernetesManifest {
+  createSecretProviderClass(props: DatadogOperatorStackProps, cluster: ICluster): KubernetesManifest {
     const s = cluster.addManifest('DatadogSecretProvider', {
       apiVersion: "secrets-store.csi.x-k8s.io/v1",
       kind: "SecretProviderClass",
@@ -112,7 +112,7 @@ export class DatadogOperator extends Construct {
     return s;
   }
 
-  installDatadogAgentWithExistingSecret(props: DatadogAWSIntegrationStackProps, cluster: ICluster): KubernetesManifest {
+  installDatadogAgentWithExistingSecret(props: DatadogOperatorStackProps, cluster: ICluster): KubernetesManifest {
 
     const s = cluster.addManifest('DatadogAgent', {
       apiVersion: "datadoghq.com/v1alpha1",

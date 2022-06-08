@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.55 (2022-06-08)
+
+
+### Bug Fixes
+
+* **datadog-operator:** enable apm ([bb874ce](https://github.com/harshadbhatia/improved-cdk-constructs/commit/bb874ceba6a0fee2132070590d3dee88b8b2dc3e))
+
 ### 0.1.54 (2022-06-08)
 
 

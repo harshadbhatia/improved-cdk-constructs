@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.54 (2022-06-08)
+
+
+### Bug Fixes
+
+* **datadog-operator:** ensure variable is checked ([c89647f](https://github.com/harshadbhatia/improved-cdk-constructs/commit/c89647ff669f6373978bb8bd0c9901870d0ce550))
+
 ### 0.1.53 (2022-06-08)
 
 

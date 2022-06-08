@@ -5,7 +5,7 @@ type DatadogPermissionsLevel = "Full" | "Core";
 
 export interface DatadogAWSIntegrationStackProps extends StackProps {
 
-  readonly apiKey: string;
+  readonly apiKeySecret: string;
   readonly externalId: string;
 
   /**

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.50 (2022-06-08)
+
+
+### Features
+
+* **datadog:** rename secret and update ([1a83278](https://github.com/harshadbhatia/improved-cdk-constructs/commit/1a83278e25b200d2a9573b5c98962bb7207c6279))
+
 ### 0.1.49 (2022-06-08)
 
 

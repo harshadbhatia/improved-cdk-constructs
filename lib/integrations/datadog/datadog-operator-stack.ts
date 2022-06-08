@@ -42,7 +42,7 @@ export class DatadogOperatorStack extends Stack {
       openIdConnectProvider: OpenIdConnectProvider.fromOpenIdConnectProviderArn(this, 'OpenIDConnectProvider', props.openIdConnectProviderArn!),
     });
     // ..TODO.. harshad - This solves the stack name problem - Long term fix required
-    const h = new HelmChartStack(this.node.root, 'DatadogOperatorHelm', chart, props.clusterName!, props.kubectlRoleArn!, {
+    const h = new HelmChartStack(this.node.root, 'DOH', chart, props.clusterName!, props.kubectlRoleArn!, {
       stackName: 'DatadogOperatorHelm',
       env: props.env,
       synthesizer: props.operatorSynthesizer,

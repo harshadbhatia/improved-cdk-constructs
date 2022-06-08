@@ -99,6 +99,8 @@ export class DatadogAgent extends Construct {
 
   installDatadogAgentWithExistingSecret(props: DatadogOperatorStackProps, cluster: ICluster): KubernetesManifest {
 
+    if (!props.datadogK8ExistingSecret) console.error("Required property datadogK8ExistingSecret is missing");
+
     const s = cluster.addManifest('DatadogAgent', {
       apiVersion: "datadoghq.com/v1alpha1",
       kind: "DatadogAgent",
@@ -109,11 +111,11 @@ export class DatadogAgent extends Construct {
       spec: {
         credentials: {
           apiSecret: {
-            secretName: props.datadogK8ExistingSecret!,
+            secretName: props.datadogK8ExistingSecret,
             keyName: 'api-key'
           },
           appSecret: {
-            secretName: props.datadogK8ExistingSecret!,
+            secretName: props.datadogK8ExistingSecret,
             keyName: 'app-key'
           },
         },

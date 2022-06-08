@@ -134,6 +134,7 @@ export interface DatadogOperatorStackProps extends StackProps {
   appKeySecret: string;
 
   datadogK8ExistingSecret?: string
+  permissionBoundaryRole?: string // Nested helm stack
 
 
 }

@@ -3,9 +3,12 @@ import { Effect, PolicyStatement } from "aws-cdk-lib/aws-iam";
 import { Function as LambdaFunction } from 'aws-cdk-lib/aws-lambda';
 import { IConstruct } from "constructs";
 
+/**
+ * Aspect to automatically allow lambda to access the secret Name
+ */
 export class ApplyDatadogRoleAspect implements IAspect {
 
-    constructor(private readonly secretName = "/account/datadog/api-key") {}
+    constructor(private readonly secretName = "/account/datadog/api-key") { }
 
     visit(node: IConstruct): void {
         if (node instanceof LambdaFunction) {

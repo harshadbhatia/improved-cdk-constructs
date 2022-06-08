@@ -107,5 +107,6 @@ export interface DatadogOperatorStackProps extends StackProps {
     apiKeySecret: string;
     appKeySecret: string;
     datadogK8ExistingSecret?: string;
+    permissionBoundaryRole?: string;
 }
 export {};

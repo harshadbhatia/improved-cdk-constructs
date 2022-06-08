@@ -1,3 +1,4 @@
+import { Aspects } from "aws-cdk-lib";
 import { Cluster, ICluster, KubernetesManifest, ServiceAccount } from "aws-cdk-lib/aws-eks";
 import { Effect, OpenIdConnectProvider, PolicyStatement } from "aws-cdk-lib/aws-iam";
 import { Secret } from "aws-cdk-lib/aws-secretsmanager";
@@ -5,6 +6,7 @@ import { Construct } from "constructs";
 import { EKSChart } from "../../../interfaces/lib/eks/interfaces";
 import { DatadogOperatorStackProps } from "../../../interfaces/lib/integrations/datadog/intefaces";
 import { HelmChartStack } from "../../eks/helm-chart";
+import { PermissionsBoundaryAspect } from "../../utils";
 
 
 export class DatadogOperator extends Construct {
@@ -39,12 +41,15 @@ export class DatadogOperator extends Construct {
       kubectlRoleArn: props.kubectlRoleArn!,
       openIdConnectProvider: OpenIdConnectProvider.fromOpenIdConnectProviderArn(this, 'OpenIDConnectProvider', props.openIdConnectProviderArn!),
     });
-
-    const h = new HelmChartStack(this, 'DatadogOperator', chart, props.clusterName!, props.kubectlRoleArn!, {
+    // ..TODO.. harshad - This solves the stack name problem - Long term fix required
+    const h = new HelmChartStack(this.node.root, 'DatadogOperator', chart, props.clusterName!, props.kubectlRoleArn!, {
       stackName: 'DatadogOperatorHelm',
       env: props.env,
-      synthesizer: props.operatorSynthesizer
+      synthesizer: props.operatorSynthesizer,
     });
+    // Role nested perm issue
+    Aspects.of(h).add(new PermissionsBoundaryAspect(props.permissionBoundaryRole))
+
     // This is ideal way where secret is attached automatically
     if (props.useSecretFromCSI) {
       const spc = this.createSecretProviderClass(props, cluster);

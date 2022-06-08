@@ -14,9 +14,5 @@ export class DatadogAWSIntegrationStack extends Stack {
             datadogApiKeySecretName: props.apiKey
         });
 
-        if (props.installDatadogOperator) {
-            new DatadogOperator(this, 'DatadogOperator', props)
-        }
-
     }
 }

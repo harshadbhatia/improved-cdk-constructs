@@ -13,7 +13,4 @@ export * from './sftp/sftp-nested-users';
 export * from './snyk/snyk';
 export * from './vpc/vpc';
 export * from './website/websiteStack';
-export * from  './integrations/datadog/aspect';
-export * from  './integrations/datadog/datadog-cdk-stack';
-export * from  './integrations/datadog/datadog-integration-stack';
-export * from './integrations/datadog/setup-integration';
+

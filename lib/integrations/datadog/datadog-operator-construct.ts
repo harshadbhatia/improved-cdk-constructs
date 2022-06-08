@@ -84,7 +84,7 @@ export class DatadogOperator extends Construct {
     return s;
   }
 
-  createSecretProviderClass(cluster: ICluster): KubernetesManifest {
+  createSecretProviderClass(props: DatadogAWSIntegrationStackProps, cluster: ICluster): KubernetesManifest {
     const s = cluster.addManifest('DatadogSecretProvider', {
       apiVersion: "secrets-store.csi.x-k8s.io/v1",
       kind: "SecretProviderClass",
@@ -97,11 +97,11 @@ export class DatadogOperator extends Construct {
         parameters: {
           objects: JSON.stringify([
             {
-              objectName: "/account/datadog/api-key",
+              objectName: props.apiKeySecret,
               objectType: "secretsmanager",
             },
             {
-              objectName: "/account/datadog/app-key",
+              objectName: props.appKeySecret!,
               objectType: "secretsmanager",
             }
           ])
@@ -128,7 +128,7 @@ export class DatadogOperator extends Construct {
             keyName: 'api-key'
           },
           appSecret: {
-            secretName: props.appKeySecret,
+            secretName: props.appKeySecret!,
             keyName: 'app-key'
           },
         },

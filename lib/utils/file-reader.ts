@@ -47,3 +47,16 @@ export function getPath(stack: string): string {
   return path.join(__dirname, `../config/${process.env.ACCOUNT_NAME}/${stack}`);
 }
 
+export function yamlCfgFileReader(path: string): object {
+  return readAnyFile(getPath(path), new YamlReader())
+}
+
+export function iniCfgFileReader(path: string): object {
+  return readAnyFile(getPath(path), new IniReader())
+}
+
+export function jsonCfgFileReader(path: string): object {
+  return readAnyFile(getPath(path), new JsonReader())
+}
+
+

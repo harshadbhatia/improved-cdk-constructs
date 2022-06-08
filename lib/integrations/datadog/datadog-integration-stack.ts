@@ -11,7 +11,7 @@ export class DatadogAWSIntegrationStack extends Stack {
 
         new DatadogIntegration(this, 'DatadogIntegrationConstruct', props)
         new KinesisToDatadogStream(this, 'DatadogKinesisIntegration', {
-            datadogApiKeySecretName: props.apiKey
+            datadogApiKeySecretName: props.apiKeySecret
         });
 
     }

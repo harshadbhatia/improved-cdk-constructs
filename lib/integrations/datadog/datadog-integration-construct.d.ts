@@ -8,5 +8,4 @@ export declare class DatadogIntegration extends Construct {
      */
     constructor(scope: Construct, id: string, props: DatadogAWSIntegrationStackProps);
     createIntegrationRoleStack(props: DatadogIntegrationStackPropsWithDefaults): Stack;
-    private createForwarderStack;
 }

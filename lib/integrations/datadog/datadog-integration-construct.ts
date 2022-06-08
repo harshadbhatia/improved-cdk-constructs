@@ -15,33 +15,11 @@ export class DatadogIntegration extends Construct {
         super(scope, id)
 
         const propsWithDefaults = applyDataDogDefaultsToConfig(props)
-
         this.createIntegrationRoleStack(propsWithDefaults)
-        // This is meant to be legacy, need to investigate other supported services before removal
-        // const f = this.createForwarderStack(propsWithDefaults)
-
     }
 
     createIntegrationRoleStack(props: DatadogIntegrationStackPropsWithDefaults): Stack {
         return new DatadogIntegrationRoleStack(this, 'DatadogIntegrationRole', props)
     }
-    // Responsible for shipping logs, custom metrics, etc - Not required when using layer extension
-    private createForwarderStack(props: DatadogIntegrationStackPropsWithDefaults): CfnStack {
 
-        return new CfnStack(this, "DatadogForwarderStack", {
-            templateUrl: `https://datadog-cloudformation-template.s3.amazonaws.com/aws/forwarder/${props.forwarderVersion}.yaml`,
-            parameters: Object.assign(
-                {
-                    DdApiKey: "USE_ARN",
-                    DdApiKeySecretArn: Secret.fromSecretNameV2(
-                        this,
-                        "DatadogApiKey",
-                        props.apiKey).secretArn,
-                    DdSite: props.site,
-                    FunctionName: props.forwarderName,
-                },
-                { ...props.additionalForwarderParams }
-            ),
-        });
-    }
 }

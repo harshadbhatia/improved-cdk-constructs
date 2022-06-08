@@ -15,6 +15,7 @@ export declare class TextReader implements Readable<object> {
     readFile(path: string): object;
 }
 export declare function getPath(stack: string): string;
+export declare function getModulePath(stack: string): string;
 export declare function yamlCfgFileReader(path: string): object;
 export declare function iniCfgFileReader(path: string): object;
 export declare function jsonCfgFileReader(path: string): object;

@@ -81,14 +81,6 @@ export interface DatadogAWSIntegrationStackProps extends StackProps {
     readonly additionalIntegrationRoleParams?: {
         [key: string]: string;
     };
-    apiKeySecret: string;
-    appKeySecret?: string;
-    installDatadogOperator?: boolean;
-    clusterName?: string;
-    kubectlRoleArn?: string;
-    operatorSynthesizer?: DefaultStackSynthesizer;
-    openIdConnectProviderArn?: string;
-    useSecretFromCSI?: boolean;
 }
 export interface DatadogIntegrationRoleProps extends StackProps {
     externalId: string;
@@ -105,5 +97,15 @@ export interface DatadogStackProps extends StackProps {
     service?: string;
     datadogTags?: string;
     apiKeySecretArn?: string;
+}
+export interface DatadogOperatorStackProps extends StackProps {
+    clusterName: string;
+    kubectlRoleArn: string;
+    openIdConnectProviderArn: string;
+    operatorSynthesizer?: DefaultStackSynthesizer;
+    useSecretFromCSI: boolean;
+    apiKeySecret: string;
+    appKeySecret: string;
+    datadogK8ExistingSecret?: string;
 }
 export {};

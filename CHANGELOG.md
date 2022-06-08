@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.49 (2022-06-08)
+
+
+### Features
+
+* **datadog:** added construct, stack as export ([b954862](https://github.com/harshadbhatia/improved-cdk-constructs/commit/b95486260df17d61ceb218fe917af69f05dc66ab))
+
 ### 0.1.48 (2022-06-08)
 
 

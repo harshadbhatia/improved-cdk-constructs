@@ -128,22 +128,22 @@ export class DatadogAgent extends Construct {
             logsConfigContainerCollectAll: true
           },
           systemProbe: {
-            bpfDebugEnabled: false // enabled when bug is fixed
+            bpfDebugEnabled: true
           },
           security: {
             compliance: {
-              enabled: false // enabled when bug is fixed
+              enabled: true
             },
             runtime: {
-              enabled: false // enabled when bug is fixed
+              enabled: true
             }
           },
           apm: {
-            enabled: false // enable when bug is fixed
+            enabled: true
           },
           process: {
-            enabled: false, // enable when bug is fixed
-            processCollectionEnabled: false
+            enabled: true,
+            processCollectionEnabled: true
           },
         },
         clusterAgent: {

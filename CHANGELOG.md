@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.45 (2022-06-08)
+
+
+### Bug Fixes
+
+* **lib:** added datadog exports ([fd4335a](https://github.com/harshadbhatia/improved-cdk-constructs/commit/fd4335af49d7cb8e22600e9da1617771447795eb))
+
 ### 0.1.44 (2022-06-08)
 
 

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.56 (2022-06-09)
+
+
+### Bug Fixes
+
+* **eks:** change to method instead of construct ([c11fadc](https://github.com/harshadbhatia/improved-cdk-constructs/commit/c11fadc223e81397401b444936885424786f7c91))
+
 ### 0.1.55 (2022-06-08)
 
 

@@ -1,5 +1,5 @@
 import { Aspects, Stack } from "aws-cdk-lib";
-import { Cluster } from "aws-cdk-lib/aws-eks";
+import { Cluster, HelmChart } from "aws-cdk-lib/aws-eks";
 import { OpenIdConnectProvider } from "aws-cdk-lib/aws-iam";
 import { Construct } from "constructs";
 import { EKSChart } from "../../../interfaces/lib/eks/interfaces";
@@ -21,7 +21,7 @@ export class DatadogOperatorStack extends Stack {
 
   }
 
-  installDatadogOperator(props: DatadogOperatorStackProps): Stack {
+  installDatadogOperator(props: DatadogOperatorStackProps): HelmChart {
 
     const chart: EKSChart = {
       name: "DatadogOperator",
@@ -41,15 +41,18 @@ export class DatadogOperatorStack extends Stack {
       kubectlRoleArn: props.kubectlRoleArn!,
       openIdConnectProvider: OpenIdConnectProvider.fromOpenIdConnectProviderArn(this, 'OpenIDConnectProvider', props.openIdConnectProviderArn!),
     });
-    // ..TODO.. harshad - This solves the stack name problem - Long term fix required
-    const h = new HelmChartStack(this, 'DOH', chart, props.clusterName!, props.kubectlRoleArn!, {
-      stackName: 'DatadogOperatorHelm',
-      env: props.env,
-      synthesizer: props.operatorSynthesizer,
+
+    const h = cluster.addHelmChart(chart.name, {
+
+      chart: chart.chart,
+      namespace: chart.namespace,
+      repository: chart.repository,
+      values: chart.values,
+      release: chart.release,
+      version: chart.version,
+      createNamespace: chart.createNamespace,
     });
 
-    if (props.permissionBoundaryRole) { Aspects.of(h).add(new PermissionsBoundaryAspect()) }
-    else { Aspects.of(h).add(new PermissionsBoundaryAspect()) }
 
     return h
 

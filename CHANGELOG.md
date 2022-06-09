@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.57 (2022-06-09)
+
+
+### Features
+
+* **datadog:** remove nesting of stack add add construct directly ([daa53cf](https://github.com/harshadbhatia/improved-cdk-constructs/commit/daa53cff6d075c8f5aeb99908be206eed26d1e10))
+
 ### 0.1.56 (2022-06-09)
 
 

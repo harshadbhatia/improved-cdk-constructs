@@ -21,9 +21,8 @@ export class HelmChartStack extends cdk.Stack {
       kubectlRoleArn: kubectlRoleArn
     })
 
-    const helmChart = new HelmChart(this, this.chart.name, {
+    cluster.addHelmChart(this.chart.name, {
       chart: this.chart.chart,
-      cluster: cluster,
       namespace: this.chart.namespace,
       repository: this.chart.repository,
       values: this.chart.values,

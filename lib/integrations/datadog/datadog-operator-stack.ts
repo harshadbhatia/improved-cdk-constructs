@@ -6,7 +6,7 @@ import { EKSChart } from "../../../interfaces/lib/eks/interfaces";
 import { DatadogOperatorStackProps } from "../../../interfaces/lib/integrations/datadog/intefaces";
 import { HelmChartStack } from "../../eks/helm-chart";
 import { PermissionsBoundaryAspect } from "../../utils/permissions-boundary-aspect";
-import { DatadogAgent } from "./datadog-operator-construct";
+import { DatadogAgent } from "./datadog-agent-construct";
 
 export class DatadogOperatorStack extends Stack {
 
@@ -42,7 +42,7 @@ export class DatadogOperatorStack extends Stack {
       openIdConnectProvider: OpenIdConnectProvider.fromOpenIdConnectProviderArn(this, 'OpenIDConnectProvider', props.openIdConnectProviderArn!),
     });
     // ..TODO.. harshad - This solves the stack name problem - Long term fix required
-    const h = new HelmChartStack(this.node.root, 'DOH', chart, props.clusterName!, props.kubectlRoleArn!, {
+    const h = new HelmChartStack(this, 'DOH', chart, props.clusterName!, props.kubectlRoleArn!, {
       stackName: 'DatadogOperatorHelm',
       env: props.env,
       synthesizer: props.operatorSynthesizer,

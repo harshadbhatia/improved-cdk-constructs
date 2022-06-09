@@ -1,12 +1,8 @@
-import { Aspects } from "aws-cdk-lib";
 import { Cluster, ICluster, KubernetesManifest, ServiceAccount } from "aws-cdk-lib/aws-eks";
 import { Effect, OpenIdConnectProvider, PolicyStatement } from "aws-cdk-lib/aws-iam";
 import { Secret } from "aws-cdk-lib/aws-secretsmanager";
 import { Construct } from "constructs";
-import { EKSChart } from "../../../interfaces/lib/eks/interfaces";
 import { DatadogOperatorStackProps } from "../../../interfaces/lib/integrations/datadog/intefaces";
-import { HelmChartStack } from "../../eks/helm-chart";
-import { PermissionsBoundaryAspect } from "../../utils";
 
 
 export class DatadogAgent extends Construct {

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.58 (2022-06-09)
+
+
+### Features
+
+* **datadog:** cleanup for interfaces ([0746f54](https://github.com/harshadbhatia/improved-cdk-constructs/commit/0746f54b78558772742fdaa18e0fe1d71aa8f0a8))
+
 ### 0.1.57 (2022-06-09)
 
 

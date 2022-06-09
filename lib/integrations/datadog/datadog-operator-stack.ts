@@ -1,11 +1,9 @@
-import { Aspects, Stack } from "aws-cdk-lib";
+import { Stack } from "aws-cdk-lib";
 import { Cluster, HelmChart } from "aws-cdk-lib/aws-eks";
 import { OpenIdConnectProvider } from "aws-cdk-lib/aws-iam";
 import { Construct } from "constructs";
 import { EKSChart } from "../../../interfaces/lib/eks/interfaces";
 import { DatadogOperatorStackProps } from "../../../interfaces/lib/integrations/datadog/intefaces";
-import { HelmChartStack } from "../../eks/helm-chart";
-import { PermissionsBoundaryAspect } from "../../utils/permissions-boundary-aspect";
 import { DatadogAgent } from "./datadog-agent-construct";
 
 export class DatadogOperatorStack extends Stack {
@@ -43,7 +41,6 @@ export class DatadogOperatorStack extends Stack {
     });
 
     const h = cluster.addHelmChart(chart.name, {
-
       chart: chart.chart,
       namespace: chart.namespace,
       repository: chart.repository,

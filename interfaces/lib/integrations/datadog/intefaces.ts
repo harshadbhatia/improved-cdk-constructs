@@ -127,14 +127,11 @@ export interface DatadogOperatorStackProps extends StackProps {
   kubectlRoleArn: string
   openIdConnectProviderArn: string
 
-  operatorSynthesizer?: DefaultStackSynthesizer
   useSecretFromCSI: boolean
 
   apiKeySecret: string;
   appKeySecret: string;
 
   datadogK8ExistingSecret?: string
-  permissionBoundaryRole?: string // Nested helm stack
-
 
 }

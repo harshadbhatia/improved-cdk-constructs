@@ -109,7 +109,7 @@ export interface DatadogIntegrationRoleProps extends StackProps {
 
 // Used for Datadog + CDK stack bundled together
 export interface DatadogStackProps extends StackProps {
-  apiKeySecret: string
+  apiKeySecret?: string
   nodeLayerVersion?: number
   pythonLayerVersion?: number
   enableDatadogTracing?: boolean

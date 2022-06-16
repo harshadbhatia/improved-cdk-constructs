@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.60 (2022-06-16)
+
+
+### Bug Fixes
+
+* **datadog:** add apiSecret with default value ([73b1eb4](https://github.com/harshadbhatia/improved-cdk-constructs/commit/73b1eb432c42e9dbc0cde22760d3215a9779c15c))
+
 ### 0.1.59 (2022-06-16)
 
 

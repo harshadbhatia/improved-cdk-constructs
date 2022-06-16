@@ -5,7 +5,7 @@ import { Datadog } from "datadog-cdk-constructs-v2";
 import { DatadogStackProps } from "../../../interfaces/lib/integrations/datadog/intefaces";
 
 type DatadogStackPropsWithDefaults = Required<Pick<DatadogStackProps, "nodeLayerVersion" | "pythonLayerVersion" | "enableDatadogTracing" |
-"flushMetricsToLogs" | "site" | "datadogEnv" | "datadogTags" >>
+    "flushMetricsToLogs" | "site" | "datadogEnv" | "datadogTags">>
 
 function applyDefaultsToProps(props: DatadogStackProps): DatadogStackPropsWithDefaults {
     return Object.assign({}, props, {
@@ -25,12 +25,12 @@ export class DatadogStack extends Stack {
 
     datadogCDK: Datadog
 
-    constructor(scope: Construct, id: string, props: DatadogStackProps) {
+    constructor(scope: Construct, id: string, props?: DatadogStackProps) {
         super(scope, id, props);
 
-        props.apiKeySecretArn = Secret.fromSecretNameV2(this, 'APIKeySecret', props.apiKeySecret).secretFullArn
+        props!.apiKeySecretArn = Secret.fromSecretNameV2(this, 'APIKeySecret', props!.apiKeySecret).secretFullArn
 
-        const propsWDefaults = applyDefaultsToProps(props)
+        const propsWDefaults = applyDefaultsToProps(props!)
 
         this.datadogCDK = new Datadog(this, "DatadogIntegration", propsWDefaults);
 

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.59 (2022-06-16)
+
+
+### Bug Fixes
+
+* **datadog:** make stack props optional ([a653f4f](https://github.com/harshadbhatia/improved-cdk-constructs/commit/a653f4f104c5d1ff0ffbfc328a627c5015b569a8))
+
 ### 0.1.58 (2022-06-09)
 
 

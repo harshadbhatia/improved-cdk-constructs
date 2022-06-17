@@ -31,7 +31,7 @@ export class DatadogStack extends Stack {
         const apiKeySecret = props!.apiKeySecret || "/account/datadog/api-key";
 
         const propsWDefaults: DatadogStackPropsWithDefaults = applyDefaultsToProps(props!)
-        propsWDefaults.apiKeySecretArn = Secret.fromSecretNameV2(this, 'APIKeySecret', apiKeySecret).secretFullArn
+        propsWDefaults.apiKeySecretArn = Secret.fromSecretNameV2(this, 'APIKeySecret', apiKeySecret).secretArn
 
         this.datadogCDK = new Datadog(this, "DatadogIntegration", propsWDefaults);
 

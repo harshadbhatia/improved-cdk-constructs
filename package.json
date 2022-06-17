@@ -1,6 +1,6 @@
 {
   "name": "@harshadbhatia/improved-cdk-constructs",
-  "version": "0.1.60",
+  "version": "0.1.61",
   "description": "Improved aws cdk constructs",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.61 (2022-06-17)
+
+
+### Bug Fixes
+
+* **datadog:** change arn to without fullArn ([d534312](https://github.com/harshadbhatia/improved-cdk-constructs/commit/d5343124cd0a05f5545802b22ea5cfce31371111))
+
 ### 0.1.60 (2022-06-16)
 
 

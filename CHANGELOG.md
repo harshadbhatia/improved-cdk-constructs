@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.62 (2022-06-20)
+
+
+### Features
+
+* **datadog:** add lambda integration ([96851e6](https://github.com/harshadbhatia/improved-cdk-constructs/commit/96851e6d205297e4137dd1fb6915e43a21d57b54))
+
 ### 0.1.61 (2022-06-17)
 
 

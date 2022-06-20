@@ -5,12 +5,13 @@ import { Datadog } from "datadog-cdk-constructs-v2";
 import { DatadogStackProps } from "../../../interfaces/lib/integrations/datadog/intefaces";
 
 type DatadogStackPropsWithDefaults = Required<Pick<DatadogStackProps, "nodeLayerVersion" | "pythonLayerVersion" | "enableDatadogTracing" |
-    "flushMetricsToLogs" | "site" | "datadogTags">> & Partial<Pick<DatadogStackProps, "apiKeySecretArn">> & { env: string };
+    "flushMetricsToLogs" | "site" >> & Partial<Pick<DatadogStackProps, "apiKeySecretArn">> & { env: string, tags: string };
 
 function applyDefaultsToProps(props: DatadogStackProps): DatadogStackPropsWithDefaults {
     // ENV is different for datadog env
     const p = { ...props };
     delete p['env']
+    delete p['tags']
 
     return Object.assign({}, p, {
         "nodeLayerVersion": 78,
@@ -21,7 +22,7 @@ function applyDefaultsToProps(props: DatadogStackProps): DatadogStackPropsWithDe
         "site": "datadoghq.com",
         "env": props.datadogEnv!,
         "service": "",
-        "datadogTags": ""
+        "tags": props.datadogTags!,
     })
 }
 

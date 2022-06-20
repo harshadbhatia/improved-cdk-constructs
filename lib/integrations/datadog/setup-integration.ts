@@ -1,5 +1,5 @@
 import { CreateSecretCommand, GetSecretValueCommand, SecretsManagerClient } from "@aws-sdk/client-secrets-manager";
-import { v1 } from "@datadog/datadog-api-client";
+import { client, v1 } from "@datadog/datadog-api-client";
 import { exit } from "process";
 
 const API_KEY_SECRET = '/account/datadog/api-key'
@@ -13,14 +13,10 @@ export async function setupDatadogIntegration(apiKey: string, appKey: string) {
             if (externalId) {
                 createExternalIDSecret(externalId)
                 return externalId
-                // .then((data) => externalId)
-                // .catch((err) => console.error("[Datadog] Unable to update external id to secret"))
             } else {
                 // Could be an update // we get external id
                 const s = getSecretValue(EXTERNAL_ID_SECRET, `[Datadog] Unable to get secret at ${EXTERNAL_ID_SECRET}`)
                 return s
-                // .then((v) => JSON.parse(v).id)
-                // .catch((err) => console.log("[Datadog]Unable to get secret"))
             }
 
         }).catch((err) => console.error("[Datadog] Unable to create AWS Integration", err))
@@ -127,6 +123,9 @@ function createAWSAPIIntegration(apiInstance: v1.AWSIntegrationApi): Promise<any
             cspmResourceCollectionEnabled: true,
             // excludedRegions: ["us-east-1", "us-west-2"],
             roleName: "DatadogAWSIntegrationRole",
+            accountSpecificNamespaceRules: {
+                lambda: true
+            }
         },
     };
 
@@ -155,7 +154,7 @@ async function updateAWSAPIIntegration(apiInstance: v1.AWSIntegrationApi): Promi
 // Deprecated ?
 export async function configureLogCollection(lambdaArn: string, services?: string[], secretKey?: string) {
     // const secret = await getAPIKey(API_KEY_SECRET, APP_KEY_SECRET)
-    const configuration = v1.createConfiguration({
+    const configuration = client.createConfiguration({
         authMethods: {
             apiKeyAuth: API_KEY_SECRET,
             appKeyAuth: APP_KEY_SECRET

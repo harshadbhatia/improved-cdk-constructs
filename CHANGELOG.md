@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.63 (2022-06-20)
+
+
+### Features
+
+* **datadog:** allow integration to update external id ([eb46489](https://github.com/harshadbhatia/improved-cdk-constructs/commit/eb4648949a2b79dc4aa2c96bb6ada5276c922723))
+
 ### 0.1.62 (2022-06-20)
 
 

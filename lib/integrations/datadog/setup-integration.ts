@@ -1,4 +1,4 @@
-import { CreateSecretCommand, GetSecretValueCommand, SecretsManagerClient } from "@aws-sdk/client-secrets-manager";
+import { CreateSecretCommand, GetSecretValueCommand, SecretsManagerClient, UpdateSecretCommand } from "@aws-sdk/client-secrets-manager";
 import { client, v1 } from "@datadog/datadog-api-client";
 import { exit } from "process";
 
@@ -24,6 +24,7 @@ export async function setupDatadogIntegration(apiKey: string, appKey: string) {
 
 }
 
+
 async function createExternalIDSecret(externalId: string) {
     const client = getSecretManagerClient()
     const cmd = new CreateSecretCommand({
@@ -36,6 +37,20 @@ async function createExternalIDSecret(externalId: string) {
         console.log("[Datadog] External ID secret created")
         return 'OK'
     }).catch((err) => {
+        // If the secret already exists, we update it
+        const cm = new UpdateSecretCommand({
+            SecretId: EXTERNAL_ID_SECRET,
+            Description: 'External ID associated with Datadog AWS Integration',
+            SecretString: `{"id": "${externalId}"}`,
+        });
+        const c = getSecretManagerClient()
+        c.send(cm).then((data) => {
+            console.log("[Datadog] External ID secret updated")
+            return 'OK'
+        }).catch((err) => {
+            console.error(`[Datadog] Unable to update secret at location /account/datadog/external-id`, err)
+            exit(1)
+        });
         console.error(`[Datadog] Unable to create secret at location /account/datadog/external-id`, err)
         exit(1)
     });

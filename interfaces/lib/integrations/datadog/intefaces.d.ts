@@ -87,7 +87,7 @@ export interface DatadogIntegrationRoleProps extends StackProps {
     permissionsBoundary?: string;
 }
 export interface DatadogStackProps extends StackProps {
-    apiKeySecret: string;
+    apiKeySecret?: string;
     nodeLayerVersion?: number;
     pythonLayerVersion?: number;
     enableDatadogTracing?: boolean;

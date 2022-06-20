@@ -4,5 +4,5 @@ import { Datadog } from "datadog-cdk-constructs-v2";
 import { DatadogStackProps } from "../../../interfaces/lib/integrations/datadog/intefaces";
 export declare class DatadogStack extends Stack {
     datadogCDK: Datadog;
-    constructor(scope: Construct, id: string, props: DatadogStackProps);
+    constructor(scope: Construct, id: string, props?: DatadogStackProps);
 }

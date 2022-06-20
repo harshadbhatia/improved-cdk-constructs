@@ -67,14 +67,10 @@ async function getSecretValue(secretId: string, errorString: string) {
     return await client.send(cmd).then((data: any) => {
         return data.SecretString!
     })
-    // .catch((err) => {
-    //     console.error(errorString)
-    //     exit(1)
-    // })
 }
 
 function createAPIInstance(apiKey: string, appKey: string): v1.AWSIntegrationApi {
-    const configuration = v1.createConfiguration({
+    const configuration = client.createConfiguration({
         authMethods: {
             apiKeyAuth: apiKey,
             appKeyAuth: appKey

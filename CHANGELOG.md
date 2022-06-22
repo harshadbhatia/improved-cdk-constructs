@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.66 (2022-06-22)
+
+
+### Bug Fixes
+
+* **release:** add missing deps ([5867c38](https://github.com/harshadbhatia/improved-cdk-constructs/commit/5867c386314139de1b371a1971bcc2e36a43ba0a))
+
 ### 0.1.65 (2022-06-22)
 
 

@@ -1,6 +1,6 @@
 {
   "name": "@harshadbhatia/improved-cdk-constructs",
-  "version": "0.1.65",
+  "version": "0.1.66",
   "description": "Improved aws cdk constructs",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -19,15 +19,12 @@
     "release": "standard-version"
   },
   "devDependencies": {
-
     "@commitlint/cli": "^16.2.3",
     "@commitlint/config-conventional": "^16.2.4",
-
     "@types/jest": "^27.5.2",
     "@types/node": "^10.17.60",
     "@vscode/dev-container-cli": "^0.238.0",
     "aws-cdk": "^2.27.0",
-
     "husky": "^7.0.4",
     "jest": "^27.5.1",
     "prettier": "^2.6.0",

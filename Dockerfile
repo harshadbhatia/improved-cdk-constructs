@@ -17,12 +17,14 @@ FROM mcr.microsoft.com/vscode/devcontainers/typescript-node:0-${VARIANT}
 
 WORKDIR /workspace
 
-COPY ["package.json", "package-lock.json*", "./"]
+COPY package.json  ./
 
-RUN npm install
+RUN npm install -g yarn
+
+RUN yarn install
 
 COPY . /workspace
 
-# RUN npm audit fix
+# RUN yarn audit fix
 
-# RUN npm audit --audit-level=high
+# RUN yarn audit --audit-level=high

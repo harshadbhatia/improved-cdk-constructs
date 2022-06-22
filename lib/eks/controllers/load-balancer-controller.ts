@@ -4,7 +4,7 @@ import { Construct } from "constructs";
 import iam = require('aws-cdk-lib/aws-iam');
 import { NestedStack } from 'aws-cdk-lib';
 
-export class AwsLoadBalancerControllerNested extends NestedStack {
+export class AwsLoadBalancerController extends NestedStack {
   body: Construct;
 
   constructor(scope: Construct, id: string, cluster: Cluster) {

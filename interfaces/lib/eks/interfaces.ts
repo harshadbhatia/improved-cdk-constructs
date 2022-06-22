@@ -1,5 +1,7 @@
-import { Selector } from "aws-cdk-lib/aws-eks";
-import { CorsRule } from "aws-cdk-lib/aws-s3/lib/bucket";
+import { StackProps } from "aws-cdk-lib";
+import { IConnectable } from "aws-cdk-lib/aws-ec2";
+import { ICluster, Selector } from "aws-cdk-lib/aws-eks";
+import { S3BucketCfg } from "../s3/interfaces";
 
 export interface EKSStackConfig {
   stackName: string;
@@ -45,7 +47,7 @@ export interface EKSSAStackConfig {
   kubectlRoleArn: string;
   namespaces?: Selector[]; // Future
   serviceAccounts?: ServiceAccountCfg[];
- 
+
 }
 
 export interface EKSChart {
@@ -59,6 +61,23 @@ export interface EKSChart {
   version: string;
   enabled: boolean;
   createNamespace: boolean;
+}
+
+// EFS vanilla - only efs and props
+export interface EFSStackProps extends StackProps {
+  fsName: string
+  vpcId: string
+
+  accessPoints: AccessPoint[]
+  cluster: ICluster
+}
+// EFS Shared - allows integration between other stacks
+export interface EFSEKSIntegrationStackProps extends StackProps {
+  fsId: string
+  fsSg: string // EFS Security Group required to access EFS
+
+  cluster?: ICluster // Used to create SC
+  sgs: IConnectable[]
 }
 
 export interface EKSEFSConfig {
@@ -109,18 +128,6 @@ export interface FargateProfileConfig {
   createNamespace: boolean
 }
 
-// Default is
-export interface S3BucketCfg {
-  name: string
-  isPrivateWithCors?: boolean
-  cors?: CorsRule[]
-}
-
-
-export interface S3BucketCorsProps {
-  
-}
-
 
 export interface RoleCfg {
   name: string
@@ -139,4 +146,12 @@ export interface RoleBindingSubjects {
   name: string
   namespace: string
 
+}
+
+// Helm stack
+export interface HelmStackProps extends StackProps {
+  chart: EKSChart
+  clusterName: string
+  kubectlRoleArn?: string
+  kubectlRoleSSM?: string
 }

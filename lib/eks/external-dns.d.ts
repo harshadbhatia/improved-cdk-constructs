@@ -3,7 +3,7 @@ import { Cluster } from 'aws-cdk-lib/aws-eks';
 import { Role } from 'aws-cdk-lib/aws-iam';
 import { Construct } from "constructs";
 import { ExternalDNSConfig } from '../../interfaces/lib/eks/interfaces';
-export declare class ExternalDNSNested extends NestedStack {
+export declare class ExternalDNS extends NestedStack {
     body: Construct;
     bodies: Construct[];
     config: ExternalDNSConfig;

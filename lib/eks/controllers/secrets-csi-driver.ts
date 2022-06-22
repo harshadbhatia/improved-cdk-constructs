@@ -5,7 +5,7 @@ import iam = require('aws-cdk-lib/aws-iam');
 import * as fs from 'fs';
 import * as yaml from 'js-yaml';
 
-export class AwsSecretsCSIDriverNested extends NestedStack {
+export class AwsSecretsCSIDriver extends NestedStack {
     body: Construct;
 
     constructor(scope: Construct, id: string, cluster: Cluster) {

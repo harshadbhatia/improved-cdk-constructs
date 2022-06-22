@@ -1,34 +1,45 @@
 import eks = require('aws-cdk-lib/aws-eks');
 import cdk = require('aws-cdk-lib');
-import { HelmChart } from 'aws-cdk-lib/aws-eks';
+import ssm = require('aws-cdk-lib/aws-ssm');
 import { Construct } from 'constructs';
-import { EKSChart } from '../../interfaces/lib/eks/interfaces';
+import { HelmStackProps } from '../../interfaces/lib/eks/interfaces';
+import { SecretValue } from 'aws-cdk-lib';
+
 
 export class HelmChartStack extends cdk.Stack {
-  chart: EKSChart;
 
-  constructor(scope: Construct, id: string, chart: EKSChart, clusterName: string, kubectlRoleArn: string, props?: cdk.StackProps) {
+  config: HelmStackProps
+
+  constructor(scope: Construct, id: string, props?: HelmStackProps) {
     super(scope, id, props);
 
-    this.chart = chart;
-    this.installHelmChart(clusterName, kubectlRoleArn);
+    this.config = props!
+    this.installHelmChart();
   }
 
-  installHelmChart(clusterName: string, kubectlRoleArn: string) {
+  installHelmChart() {
+    // Get role from ssm if specificed or use arn instead
+    let role = ""
 
-    const cluster = eks.Cluster.fromClusterAttributes(this, `${clusterName}Ref`, {
-      clusterName: clusterName,
-      kubectlRoleArn: kubectlRoleArn
+    if (this.config.kubectlRoleSSM) {
+      role = ssm.StringParameter.valueForStringParameter(this, this.config.kubectlRoleSSM!)
+    } else {
+      role = this.config.kubectlRoleArn!
+    }
+
+    const cluster = eks.Cluster.fromClusterAttributes(this, `${this.config.clusterName}Ref`, {
+      clusterName: this.config.clusterName,
+      kubectlRoleArn: role
     })
 
-    cluster.addHelmChart(this.chart.name, {
-      chart: this.chart.chart,
-      namespace: this.chart.namespace,
-      repository: this.chart.repository,
-      values: this.chart.values,
-      release: this.chart.release,
-      version: this.chart.version,
-      createNamespace: this.chart.createNamespace,
+    cluster.addHelmChart(this.config.chart.name, {
+      chart: this.config.chart.chart,
+      namespace: this.config.chart.namespace,
+      repository: this.config.chart.repository,
+      values: this.config.chart.values,
+      release: this.config.chart.release,
+      version: this.config.chart.version,
+      createNamespace: this.config.chart.createNamespace,
     });
   }
 }

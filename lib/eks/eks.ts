@@ -5,7 +5,7 @@ import ssm = require('aws-cdk-lib/aws-ssm');
 import cdk = require('aws-cdk-lib');
 import { Aws, RemovalPolicy } from 'aws-cdk-lib';
 import { IVpc } from 'aws-cdk-lib/aws-ec2';
-import { CapacityType, Cluster, KubernetesManifest } from 'aws-cdk-lib/aws-eks';
+import { CapacityType, Cluster, Selector } from 'aws-cdk-lib/aws-eks';
 import {
   CompositePrincipal,
   Effect,
@@ -13,23 +13,22 @@ import {
   PolicyDocument,
   PolicyStatement,
   Role,
-  ServicePrincipal,
+  ServicePrincipal
 } from 'aws-cdk-lib/aws-iam';
+import { BlockPublicAccess, Bucket, BucketEncryption } from 'aws-cdk-lib/aws-s3';
 import { Construct } from 'constructs';
 import { EKSStackConfig } from '../../interfaces/lib/eks/interfaces';
 import { convertStringToArray } from '../utils/common';
-import { EFSNestedStack } from '../efs/efs';
-import { AwsEFSCSIDriverNested } from './controllers/efs-csi-driver';
-import { AwsLoadBalancerControllerNested } from './controllers/load-balancer-controller';
-import { CloudwatchLoggingNested } from './cw-logging-monitoring';
-import { ExternalDNSNested } from './external-dns';
-import { Selector } from 'aws-cdk-lib/aws-eks';
-import { BlockPublicAccess, Bucket, BucketEncryption } from 'aws-cdk-lib/aws-s3';
-import { AwsSecretsCSIDriverNested } from './controllers/secrets-csi-driver';
+import { AwsEFSCSIDriver } from './controllers/efs-csi-driver';
+import { AwsLoadBalancerController } from './controllers/load-balancer-controller';
+import { AwsSecretsCSIDriver } from './controllers/secrets-csi-driver';
+import { CloudwatchLogging } from './cw-logging-monitoring';
+import { ExternalDNS } from './external-dns';
 
 import * as fs from 'fs';
 import * as yaml from 'js-yaml';
 import { exit } from 'process';
+import { StringParameter } from 'aws-cdk-lib/aws-ssm';
 
 
 export class EKSCluster extends cdk.Stack {
@@ -65,7 +64,7 @@ export class EKSCluster extends cdk.Stack {
       );
 
       this.eksCluster.awsAuth.addRoleMapping(role, {
-        groups: ['system:masters'],
+        groups: ["system:bootstrappers", "system:nodes", "system:masters"],
         username: 'admin',
       });
     }
@@ -84,53 +83,26 @@ export class EKSCluster extends cdk.Stack {
 
 
     // Enable cluster logging and Monitoring
-    new CloudwatchLoggingNested(this, 'CloudWatchLoggingNested', this.eksCluster);
+    new CloudwatchLogging(this, 'CloudWatchLoggingNested', this.eksCluster);
 
     // Exteranl DNS related stack
     // new PrometheusStack(this, 'PrometheusStack', eksCluster)
 
-    new AwsLoadBalancerControllerNested(this, 'AwsLoadBalancerController', this.eksCluster);
-    new AwsEFSCSIDriverNested(this, 'AwsEFSCSIDriverNested', this.eksCluster);
-    new AwsSecretsCSIDriverNested(this, 'AwsSecretsCSIDriverNested', this.eksCluster);
-    new ExternalDNSNested(this, 'ExternalDNS', this.eksCluster, this.config.externalDNS);
+    new AwsLoadBalancerController(this, 'AwsLoadBalancerController', this.eksCluster);
+    new AwsEFSCSIDriver(this, 'AwsEFSCSIDriverNested', this.eksCluster);
+    new AwsSecretsCSIDriver(this, 'AwsSecretsCSIDriverNested', this.eksCluster);
+    new ExternalDNS(this, 'ExternalDNS', this.eksCluster, this.config.externalDNS);
 
-    // Create EFS as nested resource -- *** This will also deploy Storageclass to the cluster
-    const s = new EFSNestedStack(
-      this,
-      'EFSNestedStack',
-      this.config.clusterName,
-      this.config.efs,
-      vpc,
-      this.eksCluster.clusterSecurityGroupId,
-    );
-    // Sometimes eks completion happens sooner. To ensure everything is finished before next item is executed
-    ns.map(n => s.node.addDependency(n))
-
-    // We create this as a storage class
-    const sc = this.createStorageClass(s.efs.fileSystemId);
+    // For EFS related stack - checkout efs-eks-integration stack
 
     // Install other bits like S3 , postgres etc which needs to be before the charts are installed
     this.createS3Buckets();
 
+    this.createParams()
+
   }
 
-  createStorageClass(fsID: string): KubernetesManifest {
-    const sc = this.eksCluster.addManifest('EFSSC', {
-      apiVersion: 'storage.k8s.io/v1',
-      kind: 'StorageClass',
-      metadata: {
-        name: 'efs-sc',
-      },
-      provisioner: 'efs.csi.aws.com',
-      parameters: {
-        provisioningMode: 'efs-ap',
-        fileSystemId: fsID,
-        directoryPerms: '0700',
-      },
-    });
 
-    return sc
-  }
 
   getVPC(): ec2.IVpc {
     const vpcId = ssm.StringParameter.valueFromLookup(this, '/account/vpc/id');
@@ -142,7 +114,7 @@ export class EKSCluster extends cdk.Stack {
   createClusterHandlerRole(): Role {
     // When this is passed as role, EKS cluster successfully created(I think there is a bug in CDK).
     const policyStatement = new PolicyStatement({
-      sid: 'FakePolciStatement',
+      sid: 'FakePolicyStatement',
       actions: ['logs:PutLogEvents'],
       effect: Effect.ALLOW,
       resources: ['*'],
@@ -249,7 +221,7 @@ export class EKSCluster extends cdk.Stack {
       let valuesParsed = yaml.loadAll(valuesYaml.toString()
         .replace(new RegExp('{AWS_REGION}', 'gi'), Aws.REGION)
         .replace(new RegExp('{CLUSTER_NAME}', 'gi'), cluster.clusterName)
-        );
+      );
       if (typeof valuesParsed === 'object' && valuesParsed !== null) {
         dataResult = valuesParsed as Record<string, object>[];
       }
@@ -260,7 +232,7 @@ export class EKSCluster extends cdk.Stack {
     }
 
     dataResult.forEach(function (val, idx) {
-      const a  = cluster.addManifest('fargate-cloudwatch-logging-' + idx, val);
+      const a = cluster.addManifest('fargate-cloudwatch-logging-' + idx, val);
       a.node.addDependency(namespace)
     });
 
@@ -340,5 +312,18 @@ export class EKSCluster extends cdk.Stack {
         });
       }
     });
+  }
+
+  createParams() {
+    // Export few parameters for application usage
+    new StringParameter(
+      this, "EKSClusterHandlerRole",
+      {
+        parameterName: `/account/stacks/${this.stackName}/kubectl-role`,
+        stringValue: this.eksCluster.kubectlRole!.roleArn,
+        description: "Kubectl Role for stack operations"
+      }
+    );
+
   }
 }

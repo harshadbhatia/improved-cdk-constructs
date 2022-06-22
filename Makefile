@@ -34,8 +34,8 @@ set-git-config:
 	git config --global user.name "Harshad Bhatia"
 
 release: set-git-config
-	npm run clean && npm run build && npm run release && \
-	git push --follow-tags origin master && npm publish --access public
+	yarn run clean && yarn run build && yarn run release && \
+	git push --follow-tags origin master && yarn publish --access public
 
 install-husky:
 	npx husky install
@@ -47,4 +47,4 @@ git-force-push:
 	git add .
 	git commit -m "feat: initial commit"
 	git remote add origin https://github.com/harshadbhatia/improved-cdk-constructs.git
-	git push origin master --force 
+	git push origin master --force

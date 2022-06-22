@@ -7,7 +7,7 @@ import * as fs from 'fs';
 import * as yaml from 'js-yaml';
 import { ExternalDNSConfig } from '../../interfaces/lib/eks/interfaces';
 
-export class ExternalDNSNested extends NestedStack {
+export class ExternalDNS extends NestedStack {
   body: Construct;
   bodies: Construct[];
   config: ExternalDNSConfig;
@@ -23,7 +23,7 @@ export class ExternalDNSNested extends NestedStack {
   }
 
   createDNSRole(): Role {
-    // When this is passed as role, EKS cluster successfully created(I think there is a bug in CDK). 
+    // When this is passed as role, EKS cluster successfully created(I think there is a bug in CDK).
     const policyStatement = new PolicyStatement({
       sid: "AllowExternalDNSUpdates",
       actions: [
@@ -77,7 +77,7 @@ export class ExternalDNSNested extends NestedStack {
       let valuesParsed = yaml.loadAll(valuesYaml.toString()
         .replace(new RegExp('{DOMAIN_FILTER}', 'gi'), this.config.domainFilter)
         .replace(new RegExp('{OWNER_ID}', 'gi'), `cdk-${timeNow}`)
-        );
+      );
       if (typeof valuesParsed === 'object' && valuesParsed !== null) {
         dataResult = valuesParsed as Record<string, object>[];
       }
@@ -136,6 +136,6 @@ export class ExternalDNSNested extends NestedStack {
     });
 
     this.bodies = bodies;
-}
+  }
 
 }

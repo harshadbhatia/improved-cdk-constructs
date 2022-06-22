@@ -1,7 +1,7 @@
 import { NestedStack, StackProps } from 'aws-cdk-lib';
 import { Cluster } from 'aws-cdk-lib/aws-eks';
 import { Construct } from "constructs";
-export declare class CloudwatchLoggingNested extends NestedStack {
+export declare class CloudwatchLogging extends NestedStack {
     body: Construct;
     bodies: Construct[];
     eksCluster: Cluster;

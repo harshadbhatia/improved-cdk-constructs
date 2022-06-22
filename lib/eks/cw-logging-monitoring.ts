@@ -5,7 +5,7 @@ import * as fs from 'fs';
 import * as yaml from 'js-yaml';
 
 
-export class CloudwatchLoggingNested extends NestedStack {
+export class CloudwatchLogging extends NestedStack {
   body: Construct;
   bodies: Construct[];
 

@@ -1,15 +1,18 @@
-import { NestedStack, StackProps } from 'aws-cdk-lib';
-import { FileSystem } from "aws-cdk-lib/aws-efs";
+import { Stack } from 'aws-cdk-lib';
 import { IVpc, SecurityGroup } from "aws-cdk-lib/aws-ec2";
+import { FileSystem } from "aws-cdk-lib/aws-efs";
 import { Construct } from 'constructs';
-import { EKSEFSConfig } from '../../interfaces/lib/eks/interfaces';
-export declare class EFSNestedStack extends NestedStack {
-    clusterName: string;
-    config: EKSEFSConfig;
-    vpc: IVpc;
+import { EFSStackProps } from '../../interfaces/lib/eks/interfaces';
+/**
+ * EFS Stack is only responsible for creating efs and access point only.
+ * Security groups are created by the Shared Stack.
+ */
+export declare class EFSStack extends Stack {
+    config: EFSStackProps;
     efs: FileSystem;
     sg: SecurityGroup;
-    constructor(scope: Construct, id: string, eksCluster: string, config: EKSEFSConfig, vpc: IVpc, eksClusterSG: string, props?: StackProps);
+    constructor(scope: Construct, id: string, props?: EFSStackProps);
+    getVPC(): IVpc;
     createEfs(): void;
     createParams(): void;
 }

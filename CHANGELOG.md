@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.65 (2022-06-22)
+
+
+### Bug Fixes
+
+* **release:** update to yarn instead ([0ea8665](https://github.com/harshadbhatia/improved-cdk-constructs/commit/0ea86653ed2086efdd03c02ab8aa71e04fd01ffb))
+
 ### 0.1.64 (2022-06-20)
 
 

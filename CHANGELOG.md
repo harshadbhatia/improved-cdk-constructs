@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.69 (2022-06-23)
+
+
+### Features
+
+* **release:** update all js file ([c9331f9](https://github.com/harshadbhatia/improved-cdk-constructs/commit/c9331f98be24af3e92a03db4ee9a22beceddb958))
+
 ### 0.1.68 (2022-06-23)
 
 

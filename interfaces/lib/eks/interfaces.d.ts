@@ -114,7 +114,7 @@ export interface RoleBindingSubjects {
     name: string;
     namespace: string;
 }
-export interface HelmStackProps {
+export interface HelmStackProps extends StackProps {
     chart: EKSChart;
     clusterName: string;
     kubectlRoleArn?: string;

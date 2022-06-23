@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.68 (2022-06-23)
+
+
+### Bug Fixes
+
+* **efs:** re-add efs sg id ([a6a6cdd](https://github.com/harshadbhatia/improved-cdk-constructs/commit/a6a6cdd780973d9b4c3664ca35b3d9d3efe395ef))
+
 ### 0.1.67 (2022-06-23)
 
 

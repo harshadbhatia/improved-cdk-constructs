@@ -25,10 +25,10 @@ import { AwsSecretsCSIDriver } from './controllers/secrets-csi-driver';
 import { CloudwatchLogging } from './cw-logging-monitoring';
 import { ExternalDNS } from './external-dns';
 
+import { StringParameter } from 'aws-cdk-lib/aws-ssm';
 import * as fs from 'fs';
 import * as yaml from 'js-yaml';
 import { exit } from 'process';
-import { StringParameter } from 'aws-cdk-lib/aws-ssm';
 
 
 export class EKSCluster extends cdk.Stack {
@@ -81,7 +81,6 @@ export class EKSCluster extends cdk.Stack {
     profiles = this.createFargateProfiles(this.eksCluster, vpc, ns);
     this.createWorkerNodeGroup(this.eksCluster, workerRole, vpc);
 
-
     // Enable cluster logging and Monitoring
     new CloudwatchLogging(this, 'CloudWatchLoggingNested', this.eksCluster);
 
@@ -89,12 +88,15 @@ export class EKSCluster extends cdk.Stack {
     // new PrometheusStack(this, 'PrometheusStack', eksCluster)
 
     new AwsLoadBalancerController(this, 'AwsLoadBalancerController', this.eksCluster);
-    new AwsEFSCSIDriver(this, 'AwsEFSCSIDriverNested', this.eksCluster);
-    new AwsSecretsCSIDriver(this, 'AwsSecretsCSIDriverNested', this.eksCluster);
-    new ExternalDNS(this, 'ExternalDNS', this.eksCluster, this.config.externalDNS);
+    new AwsEFSCSIDriver(this, 'AwsEFSCSIDriver', this.eksCluster);
+    new AwsSecretsCSIDriver(this, 'AwsSecretsCSIDriver', this.eksCluster);
+    new ExternalDNS(this, 'ExternalDNS', {
+      clusterName: config.clusterName,
+      eksCluster: this.eksCluster,
+      domainFilter: this.config.externalDNS.domainFilter
+    });
 
     // For EFS related stack - checkout efs-eks-integration stack
-
     // Install other bits like S3 , postgres etc which needs to be before the charts are installed
     this.createS3Buckets();
 

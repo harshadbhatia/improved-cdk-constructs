@@ -1,74 +1,41 @@
-import { Aws, NestedStack, StackProps } from 'aws-cdk-lib';
+import { NestedStack, NestedStackProps } from 'aws-cdk-lib';
 import { Cluster } from 'aws-cdk-lib/aws-eks';
-import { AccountRootPrincipal, Effect, Policy, PolicyDocument, PolicyStatement, Role } from 'aws-cdk-lib/aws-iam';
+import { Policy, PolicyDocument } from 'aws-cdk-lib/aws-iam';
 import { Construct } from "constructs";
 import * as fs from 'fs';
 
 import * as yaml from 'js-yaml';
-import { ExternalDNSConfig } from '../../interfaces/lib/eks/interfaces';
+
+export interface ExternalDNSProps extends NestedStackProps {
+  eksCluster: Cluster
+  domainFilter: string;
+  clusterName: string
+}
 
 export class ExternalDNS extends NestedStack {
   body: Construct;
   bodies: Construct[];
-  config: ExternalDNSConfig;
+  config: ExternalDNSProps;
 
-  constructor(scope: Construct, id: string, eksCluster: Cluster, externalDNSConfig: ExternalDNSConfig, props?: StackProps) {
-    super(scope, id);
+  constructor(scope: Construct, id: string, props?: ExternalDNSProps) {
+    super(scope, id, props);
 
-    this.config = externalDNSConfig;
+    this.config = props!;
 
-    // this.createDNSRole()
-    this.deployManifest(eksCluster)
+    this.deployManifest()
 
   }
 
-  createDNSRole(): Role {
-    // When this is passed as role, EKS cluster successfully created(I think there is a bug in CDK).
-    const policyStatement = new PolicyStatement({
-      sid: "AllowExternalDNSUpdates",
-      actions: [
-        "route53:ChangeResourceRecordSets",
-      ],
-      effect: Effect.ALLOW,
-      resources: ["arn:aws:route53:::hostedzone/*"]
-    })
-
-    const policyStatement2 = new PolicyStatement({
-      sid: "AllowExternalDNSUpdates2",
-      actions: [
-        "route53:ListHostedZones",
-        "route53:ListResourceRecordSets"
-      ],
-      effect: Effect.ALLOW,
-      resources: ["*"]
-    })
-
-    const policyDocument = new PolicyDocument({
-      statements: [policyStatement, policyStatement2],
-    });
-
-    const externalDNSRole = new Role(this, `ExternalDNSRole`, {
-      roleName: `${Aws.STACK_NAME}-ExternalDNSRole`,
-      description: `Role for external dns to create entries`,
-      assumedBy: new AccountRootPrincipal(),
-      inlinePolicies: {
-        'ExternalDNSPolicy': policyDocument
-      }
-    })
-
-    return externalDNSRole
-  }
-
-  deployManifest(cluster: Cluster) {
-
-    // get current time
-    const timeNow = Date.now() / 1000;
+  deployManifest() {
+    /**
+     * The OWNER_ID here is very important. The Controller uses that to update any records.
+     * If ever you find records are not being update that is because owner has changed from previous to this run.
+     */
 
     // yaml
     let dataResult: Record<string, object>[] = [];
 
     try {
-
 
       const path = require('path');
 
@@ -76,7 +43,7 @@ export class ExternalDNS extends NestedStack {
       // Replace Domain and load YAML
       let valuesParsed = yaml.loadAll(valuesYaml.toString()
         .replace(new RegExp('{DOMAIN_FILTER}', 'gi'), this.config.domainFilter)
-        .replace(new RegExp('{OWNER_ID}', 'gi'), `cdk-${timeNow}`)
+        .replace(new RegExp('{OWNER_ID}', 'gi'), this.config.clusterName)
       );
       if (typeof valuesParsed === 'object' && valuesParsed !== null) {
         dataResult = valuesParsed as Record<string, object>[];
@@ -89,7 +56,7 @@ export class ExternalDNS extends NestedStack {
     }
 
     // Create Kubernetes ServiceAccount
-    let svcAccount = cluster.addServiceAccount('external-dns', {
+    let svcAccount = this.config.eksCluster.addServiceAccount('external-dns', {
       name: 'external-dns',
       namespace: 'kube-system',
     });
@@ -131,9 +98,9 @@ export class ExternalDNS extends NestedStack {
     let bodies: Construct[] = [];
 
     // Install External DNS
-    dataResult.forEach(function (val, idx) {
-      bodies.push(cluster.addManifest('external-dns-' + idx, val));
-    });
+    dataResult.forEach((val, idx) => {
+      bodies.push(this.config.eksCluster.addManifest('external-dns-' + idx, val));
+    })
 
     this.bodies = bodies;
   }

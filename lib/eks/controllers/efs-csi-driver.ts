@@ -69,7 +69,7 @@ export class AwsEFSCSIDriver extends NestedStack {
       repository: 'https://kubernetes-sigs.github.io/aws-efs-csi-driver/',
       chart: 'aws-efs-csi-driver',
       namespace: 'kube-system',
-      version: '2.2.2',
+      version: '2.2.6',
       values: {
         'clusterName': cluster.clusterName,
         'image': {

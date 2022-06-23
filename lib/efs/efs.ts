@@ -82,6 +82,15 @@ export class EFSStack extends Stack {
       }
     );
 
+    new StringParameter(
+      this, "EFSSGID",
+      {
+        parameterName: `/account/stacks/${this.stackName}/efs-sg-id`,
+        stringValue: this.sg.securityGroupId,
+        description: "EFS Security group ID"
+      }
+    );
+
   }
 }
 

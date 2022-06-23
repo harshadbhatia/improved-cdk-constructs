@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.67 (2022-06-23)
+
+
+### Features
+
+* **eks:** shorten nested stack name, dns owner fix and version upgrade ([9c59bd7](https://github.com/harshadbhatia/improved-cdk-constructs/commit/9c59bd757cd0427cb070a666ff7db4584b2e7e56))
+
 ### 0.1.66 (2022-06-22)
 
 

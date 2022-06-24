@@ -5,6 +5,7 @@ import { CorsRule } from "aws-cdk-lib/aws-s3";
 export interface S3BucketCfg {
   name: string
   isPrivateWithCors?: boolean
+  enableEventbridge?: boolean
   cors?: CorsRule[]
 }
 

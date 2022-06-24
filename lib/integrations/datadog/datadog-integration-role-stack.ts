@@ -42,19 +42,44 @@ export class DatadogIntegrationRoleStack extends NestedStack {
                 sid: "DatadogAWSIntegrationPolicy",
                 effect: Effect.ALLOW,
                 actions: [
-                    'logs:TestMetricFilter',
+                    'backup:List*',
+
+                    's3:GetBucketLocation',
+                    's3:ListAllMyBuckets',
+                    's3:GetBucketTagging',
+                    's3:GetBucketLogging',
+                    's3:PutBucketNotification',
+                    's3:GetBucketNotification',
+
                     'sqs:ListQueues',
-                    'cloudtrail:GetTrailStatus',
-                    'redshift:DescribeLoggingStatus',
+
+                    'logs:TestMetricFilter',
+                    'logs:PutSubscriptionFilter',
+                    'logs:DescribeSubscriptionFilters',
+                    'logs:DeleteSubscriptionFilter',
+                    'logs:FilterLogEvents',
+                    'logs:DescribeLogGroups',
+                    'logs:DescribeLogStreams',
+
+                    'es:DescribeElasticsearchDomains',
+                    'es:ListTags',
+
+                    'cloudwatch:Get*',
                     'cloudwatch:Describe*',
+
+                    'cloudtrail:GetTrailStatus',
+
+                    'cloudfront:GetDistributionConfig',
+                    'codedeploy:BatchGet*',
                     'budgets:ViewBudget',
                     'cloudfront:ListDistributions',
-                    'cloudwatch:Get*',
-                    's3:ListAllMyBuckets',
+                    'cloudtrail:LookupEvents',
+
                     'elasticfilesystem:DescribeFileSystems',
                     'kinesis:List*',
-                    's3:GetBucketTagging',
-                    'logs:PutSubscriptionFilter',
+
+                    'redshift:DescribeLoggingStatus',
+
                     'ses:Get*',
                     'autoscaling:Describe*',
                     'support:DescribeTrustedAdvisor*',
@@ -64,44 +89,43 @@ export class DatadogIntegrationRoleStack extends NestedStack {
                     'codedeploy:List*',
                     'states:DescribeStateMachine',
                     'ecs:List*',
-                    'route53:List*',
+
                     'sns:List*',
-                    'backup:List*',
-                    's3:PutBucketNotification',
+
+
                     'tag:GetTagKeys',
                     'fsx:DescribeFileSystems',
                     'elasticmapreduce:List*',
                     'elasticfilesystem:DescribeAccessPoints',
                     'elasticache:List*',
-                    's3:GetBucketLogging',
+
                     'es:ListDomainNames',
-                    'cloudfront:GetDistributionConfig',
-                    'codedeploy:BatchGet*',
+
                     'fsx:ListTagsForResource',
                     'states:ListStateMachines',
                     'xray:GetTraceSummaries',
-                    'logs:DescribeLogGroups',
+
                     'rds:List*',
                     'elasticfilesystem:DescribeTags',
-                    'logs:DescribeSubscriptionFilters',
+
                     'cloudtrail:DescribeTrails',
                     'elasticmapreduce:Describe*',
                     'tag:GetTagValues',
                     'health:DescribeAffectedEntities',
-                    'logs:DeleteSubscriptionFilter',
-                    'logs:FilterLogEvents',
+
                     'ec2:Describe*',
-                    's3:GetBucketNotification',
+
                     'organizations:DescribeOrganization',
                     'tag:GetResources',
                     'health:DescribeEvents',
-                    'es:DescribeElasticsearchDomains',
-                    'es:ListTags',
-                    'cloudtrail:LookupEvents',
+
+
                     'rds:Describe*',
                     'ecs:Describe*',
                     'cloudwatch:List*',
-                    'logs:DescribeLogStreams',
+
+                    'route53:List*',
+
                     'dynamodb:List*',
                     'sns:Publish',
                     'redshift:DescribeClusters',
@@ -110,14 +134,16 @@ export class DatadogIntegrationRoleStack extends NestedStack {
                     'elasticache:Describe*',
                     'lambda:GetPolicy',
                     'dynamodb:Describe*',
-                    's3:GetBucketLocation',
+
                     'apigateway:GET',
                     'lambda:List*',
                     'elasticloadbalancing:DescribeLoadBalancers',
                     'elasticloadbalancing:Describe*',
                     'kinesis:Describe*',
                     'eks:List*', // Datadog ui error
-                    'acm:List*' // Same as above
+                    'acm:List*', // Same as above
+                    'eks:Describe*',
+                    'acm:Describe*'
                 ],
                 resources: ["*"]
             }

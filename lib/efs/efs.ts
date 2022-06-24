@@ -55,17 +55,29 @@ export class EFSStack extends Stack {
 
     // Either we have a secondary user or root ACL
     this.config.accessPoints?.map(ap => {
+      let efs_ap: aws_efs.AccessPoint
+
       if (ap.acls) {
-        this.efs.addAccessPoint(ap.logicalId, {
+        efs_ap = this.efs.addAccessPoint(ap.logicalId, {
           createAcl: ap.acls,
           path: ap.path,
         })
       } else {
-        this.efs.addAccessPoint(ap.logicalId, {
+        efs_ap = this.efs.addAccessPoint(ap.logicalId, {
           path: ap.path,
           posixUser: ap.posixUser,
         })
       }
+
+      // export param for use
+      new StringParameter(
+        this, `AP${ap.logicalId}`,
+        {
+          parameterName: `/account/stacks/${this.stackName}/efs/ap-${ap.logicalId}`,
+          stringValue: efs_ap.accessPointId,
+          description: `${ap.logicalId} Access point ID`
+        }
+      );
     })
 
   }

@@ -16,12 +16,12 @@ export async function setupDatadogIntegration(apiKey: string, appKey: string) {
             } else {
                 // Could be an update // we get external id
                 const s = getSecretValue(EXTERNAL_ID_SECRET, `[Datadog] Unable to get secret at ${EXTERNAL_ID_SECRET}`)
-                return s
+                return s.then(v => {
+                    return JSON.parse(v).id
+                })
             }
 
         }).catch((err) => console.error("[Datadog] Unable to create AWS Integration", err))
-
-
 }
 
 
@@ -51,8 +51,6 @@ async function createExternalIDSecret(externalId: string) {
             console.error(`[Datadog] Unable to update secret at location /account/datadog/external-id`, err)
             exit(1)
         });
-        console.error(`[Datadog] Unable to create secret at location /account/datadog/external-id`, err)
-        exit(1)
     });
 
 }

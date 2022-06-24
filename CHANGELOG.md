@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.71 (2022-06-24)
+
+
+### Features
+
+* **efs:** export parameters for efs and fix for datadog ([5f94d6a](https://github.com/harshadbhatia/improved-cdk-constructs/commit/5f94d6a9273132ec87dea724e5bbf15426fe118e))
+
 ### 0.1.70 (2022-06-24)
 
 ### 0.1.69 (2022-06-23)

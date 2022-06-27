@@ -143,7 +143,14 @@ export class DatadogIntegrationRoleStack extends NestedStack {
                     'eks:List*', // Datadog ui error
                     'acm:List*', // Same as above
                     'eks:Describe*',
-                    'acm:Describe*'
+                    'acm:Describe*',
+
+                    'iam:ListPolicies',
+                    'config:DescribeConfigurationRecorders',
+                    'config:DescribeConfigurationRecorderStatus',
+                    'iam:GetAccountPasswordPolicy',
+                    'iam:ListVirtualMFADevices',
+                    'iam:GetAccountSummary'
                 ],
                 resources: ["*"]
             }

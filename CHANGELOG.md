@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.72 (2022-06-27)
+
+
+### Features
+
+* **datadog:** add permissions to datadog ([639f1b6](https://github.com/harshadbhatia/improved-cdk-constructs/commit/639f1b671ce576b3e3741e55d08dba54d0350fad))
+
 ### 0.1.71 (2022-06-24)
 
 

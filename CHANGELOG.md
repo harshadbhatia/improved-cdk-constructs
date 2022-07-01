@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.74 (2022-07-01)
+
+
+### Bug Fixes
+
+* **cdk:** pin aws/sdk version and upstream deps have change ([31afdce](https://github.com/harshadbhatia/improved-cdk-constructs/commit/31afdce3127aec03ebf7f8c9ec069b6a68a7c9df))
+
 ### 0.1.73 (2022-06-27)
 
 

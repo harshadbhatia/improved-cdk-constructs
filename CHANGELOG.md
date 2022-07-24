@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.77 (2022-07-24)
+
+
+### Features
+
+* **cdk:** allow private subnet access ([6318565](https://github.com/harshadbhatia/improved-cdk-constructs/commit/631856531f06e5148a0bfa28d920f6f3d17d18aa))
+
 ### 0.1.76 (2022-07-24)
 
 

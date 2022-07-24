@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.75 (2022-07-24)
+
+
+### Features
+
+* **cdk:** upgrade version to inlcude eks fixes ([de4dde7](https://github.com/harshadbhatia/improved-cdk-constructs/commit/de4dde7f56a713701636fd5f0dd2cdb7ea1b4523))
+
 ### 0.1.74 (2022-07-01)
 
 

@@ -29,6 +29,8 @@ export interface EKSStackConfig {
   // any possible buckets to create
   s3Buckets?: S3BucketCfg[];
 
+  isPrivateCluster?: boolean
+
 }
 
 export interface HelmChartStackConfig {

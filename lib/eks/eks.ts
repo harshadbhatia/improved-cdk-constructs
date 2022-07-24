@@ -5,7 +5,7 @@ import ssm = require('aws-cdk-lib/aws-ssm');
 import cdk = require('aws-cdk-lib');
 import { Aws, RemovalPolicy } from 'aws-cdk-lib';
 import { IVpc } from 'aws-cdk-lib/aws-ec2';
-import { CapacityType, Cluster, Selector } from 'aws-cdk-lib/aws-eks';
+import { CapacityType, Cluster, EndpointAccess, Selector } from 'aws-cdk-lib/aws-eks';
 import {
   CompositePrincipal,
   Effect,
@@ -158,6 +158,7 @@ export class EKSCluster extends cdk.Stack {
         vpc: vpc,
         description: 'Security group for EKS cluster control plane',
       }),
+      endpointAccess: config.isPrivateCluster ? EndpointAccess.PRIVATE : EndpointAccess.PUBLIC_AND_PRIVATE,
       // mastersRole: role // Or else we are unable to login
     });
 

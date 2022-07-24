@@ -18,6 +18,7 @@ export interface EKSStackConfig {
     externalDNS: ExternalDNSConfig;
     fargateProfiles?: FargateProfileConfig[];
     s3Buckets?: S3BucketCfg[];
+    isPrivateCluster?: boolean;
 }
 export interface HelmChartStackConfig {
     stackName: string;

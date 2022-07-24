@@ -145,6 +145,17 @@ export class EKSCluster extends cdk.Stack {
       `arn:aws:iam::${Aws.ACCOUNT_ID}:role/${Aws.REGION}/${this.config.allowAdminRole}`,
     );
 
+    const cpSg = new ec2.SecurityGroup(this, 'ClusterControlPaneSecurityGroup', {
+      vpc: vpc,
+      description: 'Security group for EKS cluster control plane',
+    })
+
+    if (config.isPrivateCluster) { // We allow by default all traffic to the cluster from Private subnets
+      vpc.privateSubnets.forEach(subnet => {
+        cpSg.addIngressRule(ec2.Peer.ipv4(subnet.ipv4CidrBlock), ec2.Port.allTcp(), 'Allow control plane traffic from VPC (Private) ')
+      })
+    }
+
     const cluster = new eks.Cluster(this, 'Cluster', {
       clusterName: config.clusterName,
       vpc: vpc,
@@ -154,10 +165,7 @@ export class EKSCluster extends cdk.Stack {
         roleArn: clusterHandlerRole.roleArn,
       },
       vpcSubnets: [{ subnetType: ec2.SubnetType.PRIVATE_WITH_NAT }],
-      securityGroup: new ec2.SecurityGroup(this, 'ClusterControlPaneSecurityGroup', {
-        vpc: vpc,
-        description: 'Security group for EKS cluster control plane',
-      }),
+      securityGroup: cpSg,
       endpointAccess: config.isPrivateCluster ? EndpointAccess.PRIVATE : EndpointAccess.PUBLIC_AND_PRIVATE,
       // mastersRole: role // Or else we are unable to login
     });

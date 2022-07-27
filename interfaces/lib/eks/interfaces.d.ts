@@ -19,6 +19,7 @@ export interface EKSStackConfig {
     fargateProfiles?: FargateProfileConfig[];
     s3Buckets?: S3BucketCfg[];
     isPrivateCluster?: boolean;
+    installArgoCD?: boolean;
 }
 export interface HelmChartStackConfig {
     stackName: string;

@@ -30,6 +30,7 @@ export interface EKSStackConfig {
   s3Buckets?: S3BucketCfg[];
 
   isPrivateCluster?: boolean
+  installArgoCD?: boolean
 
 }
 

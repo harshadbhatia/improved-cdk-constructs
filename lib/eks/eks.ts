@@ -29,6 +29,7 @@ import { StringParameter } from 'aws-cdk-lib/aws-ssm';
 import * as fs from 'fs';
 import * as yaml from 'js-yaml';
 import { exit } from 'process';
+import { ArgoCD } from './argo-cd';
 
 
 export class EKSCluster extends cdk.Stack {
@@ -102,6 +103,8 @@ export class EKSCluster extends cdk.Stack {
 
     this.createParams()
 
+    this.installArgoCD(this.eksCluster);
+
   }
 
 
@@ -124,6 +127,7 @@ export class EKSCluster extends cdk.Stack {
 
     const policyDocument = new PolicyDocument({
       statements: [policyStatement],
+
     });
 
     const clusterHandlerRole = new Role(this, `ClusterHandlerRole`, {
@@ -133,37 +137,46 @@ export class EKSCluster extends cdk.Stack {
       inlinePolicies: {
         AccessPolicy: policyDocument,
       },
+      managedPolicies: [
+        iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonEKSClusterPolicy')]
     });
 
     return clusterHandlerRole;
   }
 
   createEKSCluster(vpc: ec2.IVpc, config: EKSStackConfig, clusterHandlerRole: iam.Role): eks.Cluster {
-    const role = Role.fromRoleArn(
-      this,
-      'AdminRole',
-      `arn:aws:iam::${Aws.ACCOUNT_ID}:role/${Aws.REGION}/${this.config.allowAdminRole}`,
-    );
+    // const role = Role.fromRoleArn(
+    //   this,
+    //   'AdminRole',
+    //   `arn:aws:iam::${Aws.ACCOUNT_ID}:role/${Aws.REGION}/${this.config.allowAdminRole}`,
+    // );
 
     const cpSg = new ec2.SecurityGroup(this, 'ClusterControlPaneSecurityGroup', {
       vpc: vpc,
       description: 'Security group for EKS cluster control plane',
+      securityGroupName: `${config.clusterName}-control-plane-sg`,
     })
 
     if (config.isPrivateCluster) { // We allow by default all traffic to the cluster from Private subnets
       vpc.privateSubnets.forEach(subnet => {
-        cpSg.addIngressRule(ec2.Peer.ipv4(subnet.ipv4CidrBlock), ec2.Port.allTcp(), 'Allow control plane traffic from VPC (Private) ')
+        cpSg.addIngressRule(
+          ec2.Peer.ipv4(subnet.ipv4CidrBlock),
+          ec2.Port.allTcp(),
+          'Allow control plane traffic from VPC (Private)'
+        )
       })
     }
 
     const cluster = new eks.Cluster(this, 'Cluster', {
       clusterName: config.clusterName,
       vpc: vpc,
+      placeClusterHandlerInVpc: config.isPrivateCluster ? true : false,
+      // role: role,
       defaultCapacity: 0, // we want to manage capacity our selves
       version: eks.KubernetesVersion.V1_21,
-      clusterHandlerEnvironment: {
-        roleArn: clusterHandlerRole.roleArn,
-      },
+      // clusterHandlerEnvironment: {
+      //   roleArn: clusterHandlerRole.roleArn,
+      // },
       vpcSubnets: [{ subnetType: ec2.SubnetType.PRIVATE_WITH_NAT }],
       securityGroup: cpSg,
       endpointAccess: config.isPrivateCluster ? EndpointAccess.PRIVATE : EndpointAccess.PUBLIC_AND_PRIVATE,
@@ -336,5 +349,15 @@ export class EKSCluster extends cdk.Stack {
       }
     );
 
+  }
+
+  installArgoCD(cluster: eks.Cluster) {
+    // https://raw.githubusercontent.com/argoproj/argo-cd/v2.4.7/manifests/install.yaml
+    if (this.config.installArgoCD) {
+      new ArgoCD(this, 'ArgoCD', {
+        clusterName: this.config.clusterName,
+        eksCluster: this.eksCluster,
+      });
+    }
   }
 }

@@ -20,4 +20,5 @@ export declare class EKSCluster extends cdk.Stack {
     createNamespaces(selectors: Selector[], cluster: eks.Cluster): eks.KubernetesManifest[];
     createS3Buckets(): void;
     createParams(): void;
+    installArgoCD(cluster: eks.Cluster): void;
 }

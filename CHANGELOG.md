@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.78 (2022-07-27)
+
+
+### Features
+
+* **eks:** added argo cd, remove role handler ([c1600e1](https://github.com/harshadbhatia/improved-cdk-constructs/commit/c1600e1e68821a7e3a3c269df73f6ec22e8efcb1))
+
 ### 0.1.77 (2022-07-24)
 
 

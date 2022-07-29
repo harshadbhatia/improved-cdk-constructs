@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.79 (2022-07-29)
+
+
+### Bug Fixes
+
+* **eks:** fix sa naming ([07ae9fb](https://github.com/harshadbhatia/improved-cdk-constructs/commit/07ae9fbd9c51dc450037b87a925faa46ed98da7a))
+
 ### 0.1.78 (2022-07-27)
 
 

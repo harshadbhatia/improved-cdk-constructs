@@ -9,7 +9,7 @@ import { Cluster } from 'aws-cdk-lib/aws-eks';
 
 
 export class ServiceAccountStack extends cdk.Stack {
-  
+
   config: EKSSAStackConfig;
 
   constructor(scope: Construct, id: string, config: EKSSAStackConfig, eksCluster: Cluster, props?: StackProps) {
@@ -21,7 +21,7 @@ export class ServiceAccountStack extends cdk.Stack {
   }
 
   createServiceAccount(cluster: Cluster) {
-    
+
     this.config.serviceAccounts?.map(sa => {
        // Create Kubernetes ServiceAccount
     let svcAccount = cluster.addServiceAccount(sa.name.replace('-', ''), {
@@ -70,7 +70,7 @@ export class ServiceAccountStack extends cdk.Stack {
         }
       };
 
-      new eks.KubernetesManifest(this, `${sa.name}RoleAndBinding`, {
+      new eks.KubernetesManifest(this, `${sa.name}${roleAndBinding.name}RoleAndBinding`, {
         cluster,
         manifest: [role, roleBinding],
       });
@@ -79,7 +79,7 @@ export class ServiceAccountStack extends cdk.Stack {
 
     })
 
-   
+
   }
 
 }

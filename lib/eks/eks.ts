@@ -30,6 +30,7 @@ import * as fs from 'fs';
 import * as yaml from 'js-yaml';
 import { exit } from 'process';
 import { ArgoCD } from './argo-cd';
+import lb from './policies/aws-load-balancer-controller-2.4.2.json'
 
 
 export class EKSCluster extends cdk.Stack {
@@ -44,6 +45,18 @@ export class EKSCluster extends cdk.Stack {
 
     const clusterHandlerRole = this.createClusterHandlerRole();
 
+    const policyStatement = new PolicyStatement({
+      sid: 'AllowSubnetDiscovery',
+      actions: ['ec2:DescribeAvailabilityZones'],
+      effect: Effect.ALLOW,
+      resources: ['*'],
+    });
+
+    const policyDocument = new PolicyDocument({
+      statements: [policyStatement],
+
+    });
+
     // IAM role for our EC2 worker nodes
     const workerRole = new iam.Role(this, 'EKSWorkerRole', {
       assumedBy: new iam.ServicePrincipal('ec2.amazonaws.com'),
@@ -52,7 +65,11 @@ export class EKSCluster extends cdk.Stack {
         iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonEC2ContainerRegistryReadOnly'),
         iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonEKS_CNI_Policy'),
         iam.ManagedPolicy.fromAwsManagedPolicyName('CloudWatchAgentServerPolicy'),
+        iam.ManagedPolicy.fromAwsManagedPolicyName('ElasticLoadBalancingFullAccess'),
       ],
+      inlinePolicies: {
+        AllowSubnetDiscovery: PolicyDocument.fromJson(lb),
+      }
     });
 
     this.eksCluster = this.createEKSCluster(vpc, config, clusterHandlerRole);
@@ -88,8 +105,15 @@ export class EKSCluster extends cdk.Stack {
     // Exteranl DNS related stack
     // new PrometheusStack(this, 'PrometheusStack', eksCluster)
 
-    new AwsLoadBalancerController(this, 'AwsLoadBalancerController', this.eksCluster);
-    new AwsEFSCSIDriver(this, 'AwsEFSCSIDriver', this.eksCluster);
+    if (this.config.addons?.loadBalancer) {
+      new AwsLoadBalancerController(this, 'AwsLoadBalancerController', this.eksCluster, this.config.addons.loadBalancer);
+    }
+
+    if (this.config.addons?.efs?.enabled) {
+      new AwsEFSCSIDriver(this, 'AwsEFSCSIDriver', this.eksCluster, this.config.addons.efs);
+    }
+
+
     new AwsSecretsCSIDriver(this, 'AwsSecretsCSIDriver', this.eksCluster);
     new ExternalDNS(this, 'ExternalDNS', {
       clusterName: config.clusterName,
@@ -170,13 +194,9 @@ export class EKSCluster extends cdk.Stack {
     const cluster = new eks.Cluster(this, 'Cluster', {
       clusterName: config.clusterName,
       vpc: vpc,
-      placeClusterHandlerInVpc: config.isPrivateCluster ? true : false,
-      // role: role,
+      placeClusterHandlerInVpc: config.placeClusterHandlerInVpc ? config.placeClusterHandlerInVpc : false,
       defaultCapacity: 0, // we want to manage capacity our selves
       version: eks.KubernetesVersion.V1_21,
-      // clusterHandlerEnvironment: {
-      //   roleArn: clusterHandlerRole.roleArn,
-      // },
       vpcSubnets: [{ subnetType: ec2.SubnetType.PRIVATE_WITH_NAT }],
       securityGroup: cpSg,
       endpointAccess: config.isPrivateCluster ? EndpointAccess.PRIVATE : EndpointAccess.PUBLIC_AND_PRIVATE,

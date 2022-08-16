@@ -1,51 +1,63 @@
 import { Cluster } from 'aws-cdk-lib/aws-eks';
-import axios from 'axios';
 import { Construct } from "constructs";
 import iam = require('aws-cdk-lib/aws-iam');
-import { NestedStack } from 'aws-cdk-lib';
+import { Stack, StackProps } from 'aws-cdk-lib';
 
-export class AwsLoadBalancerController extends NestedStack {
+import p from '../policies/aws-load-balancer-controller-2.4.2.json'
+
+export interface AwsLoadBalancerControllerProps extends StackProps {
+  enabled: boolean
+  installIAM: boolean;
+  installHelm: boolean;
+}
+
+export class AwsLoadBalancerController extends Stack {
   body: Construct;
 
-  constructor(scope: Construct, id: string, cluster: Cluster) {
-    super(scope, id);
+  constructor(scope: Construct, id: string, cluster: Cluster, props?: AwsLoadBalancerControllerProps) {
+    super(scope, id, props);
 
-    const url = "https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.2/docs/install/iam_policy.json"
+    if (props?.installIAM) {
+      this.createPolicyAndSA(scope, cluster);
+    }
+
+    if (props?.installHelm) {
+      this.installHelmChart(cluster);
+    }
+
+  }
+
+  createPolicyAndSA(scope: Construct, cluster: Cluster) {
+    let svcAccount = cluster.addServiceAccount('aws-load-balancer-controller', {
+      name: 'aws-load-balancer-controller',
+      namespace: 'kube-system',
+    });
 
 
-    axios.get(url).then(response => {
+    const iamPolicy = new iam.Policy(scope, 'AWSLoadBalancerControllerIAMPolicy', {
+      policyName: 'AwsLoadBalancerControllerIAMPolicy',
+      document: iam.PolicyDocument.fromJson(p),
+    });
 
-      const iamPolicyDocument = response.data
-      // Create Kubernetes ServiceAccount
-      let svcAccount = cluster.addServiceAccount('aws-load-balancer-controller', {
-        name: 'aws-load-balancer-controller',
-        namespace: 'kube-system',
-      });
+    svcAccount.role.attachInlinePolicy(iamPolicy);
+  }
 
-      const iamPolicy = new iam.Policy(scope, 'AWSLoadBalancerControllerIAMPolicy', {
-        policyName: 'AwsLoadBalancerControllerIAMPolicy',
-        document: iam.PolicyDocument.fromJson(iamPolicyDocument),
-
-      });
-
-      svcAccount.role.attachInlinePolicy(iamPolicy);
-
-      // Install Load Balancer Controller
-      this.body = cluster.addHelmChart('aws-load-balancer-controller', {
-        release: 'aws-load-balancer-controller',
-        repository: 'https://aws.github.io/eks-charts',
-        chart: 'aws-load-balancer-controller',
-        namespace: 'kube-system',
-        values: {
-          'clusterName': cluster.clusterName,
-          'serviceAccount': {
-            'create': false,
-            'name': 'aws-load-balancer-controller',
-          }
-        },
-      })
+  installHelmChart(cluster: Cluster) {
+    // Install Load Balancer Controller
+    cluster.addHelmChart('aws-load-balancer-controller', {
+      release: 'aws-load-balancer-controller',
+      repository: 'https://aws.github.io/eks-charts',
+      chart: 'aws-load-balancer-controller',
+      namespace: 'kube-system',
+      version: '1.4.3',
+      values: {
+        'clusterName': cluster.clusterName,
+        'serviceAccount': {
+          'create': false,
+          'name': 'aws-load-balancer-controller',
+        }
+      },
     })
-
   }
 
 }

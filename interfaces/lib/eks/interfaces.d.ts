@@ -1,6 +1,8 @@
 import { StackProps } from "aws-cdk-lib";
 import { IConnectable } from "aws-cdk-lib/aws-ec2";
 import { ICluster, Selector } from "aws-cdk-lib/aws-eks";
+import { AwsEFSCSIDriverProps } from "../../../lib/eks/controllers/efs-csi-driver";
+import { AwsLoadBalancerControllerProps } from "../../../lib/eks/controllers/load-balancer-controller";
 import { S3BucketCfg } from "../s3/interfaces";
 export interface EKSStackConfig {
     stackName: string;
@@ -20,6 +22,12 @@ export interface EKSStackConfig {
     s3Buckets?: S3BucketCfg[];
     isPrivateCluster?: boolean;
     installArgoCD?: boolean;
+    placeClusterHandlerInVpc?: boolean;
+    addons?: Addons;
+}
+export interface Addons {
+    loadBalancer?: AwsLoadBalancerControllerProps;
+    efs?: AwsEFSCSIDriverProps;
 }
 export interface HelmChartStackConfig {
     stackName: string;

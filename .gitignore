@@ -1,4 +1,4 @@
-#  TODO reenable after npm public push 
+#  TODO reenable after npm public push
 # *.js
 # *.d.ts
 
@@ -22,3 +22,12 @@ dist/
 
 .npmrc
 token.txt
+
+# Yarn 2
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions

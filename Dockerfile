@@ -21,6 +21,8 @@ COPY package.json  ./
 
 RUN npm install -g yarn
 
+# RUN yarn set version berry
+
 RUN yarn install
 
 COPY . /workspace

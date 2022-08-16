@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.80 (2022-08-16)
+
+
+### Features
+
+* **eks:** change load balancer to install chart only ([b0b48cc](https://github.com/harshadbhatia/improved-cdk-constructs/commit/b0b48cc0b7f3dfb6cabcd0926a34230b6505829d))
+
 ### 0.1.79 (2022-07-29)
 
 

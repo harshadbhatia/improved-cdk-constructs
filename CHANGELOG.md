@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.81 (2022-08-16)
+
+
+### Features
+
+* **eks:** upgrades to each controller to be installed with config values ([5bd5ecb](https://github.com/harshadbhatia/improved-cdk-constructs/commit/5bd5ecb90a2794c164e355afe81fc4f519cf0dcd))
+
 ### 0.1.80 (2022-08-16)
 
 

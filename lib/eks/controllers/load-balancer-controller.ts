@@ -10,7 +10,7 @@ export class AwsLoadBalancerController extends NestedStack {
   constructor(scope: Construct, id: string, cluster: Cluster) {
     super(scope, id);
 
-    const url = "https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.3.0/docs/install/iam_policy.json"
+    const url = "https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.2/docs/install/iam_policy.json"
 
 
     axios.get(url).then(response => {
@@ -23,7 +23,7 @@ export class AwsLoadBalancerController extends NestedStack {
       });
 
       const iamPolicy = new iam.Policy(scope, 'AWSLoadBalancerControllerIAMPolicy', {
-        policyName: 'AwsoadBalancerControllerIAMPolicy',
+        policyName: 'AwsLoadBalancerControllerIAMPolicy',
         document: iam.PolicyDocument.fromJson(iamPolicyDocument),
 
       });

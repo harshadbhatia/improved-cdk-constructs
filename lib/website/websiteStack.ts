@@ -3,6 +3,7 @@ import ssm = require('aws-cdk-lib/aws-ssm');
 import route53 = require('aws-cdk-lib/aws-route53');
 import acm = require('aws-cdk-lib/aws-certificatemanager');
 import cloudfront = require('aws-cdk-lib/aws-cloudfront');
+import origins = require('aws-cdk-lib/aws-cloudfront-origins');
 import targets = require('aws-cdk-lib/aws-route53-targets');
 import s3 = require('aws-cdk-lib/aws-s3');
 import cdk = require('aws-cdk-lib');
@@ -36,29 +37,25 @@ export class WebsiteStack extends cdk.Stack {
         )
 
         const certificate = acm.Certificate.fromCertificateArn(this, "Certificate", acmArn);
-        
-        const al = this.config.website.certificateAliases ? [this.config.website.domain, ...this.config.website.certificateAliases]: [this.config.website.domain]
 
-        const cf = new cloudfront.CloudFrontWebDistribution(this, 'WebDistribution', {
+        const al = this.config.website.certificateAliases ? [this.config.website.domain, ...this.config.website.certificateAliases] : [this.config.website.domain]
+        // Use new style distribution
+        const cf = new cloudfront.Distribution(this, 'WebDistribution', {
             comment: this.config.website.domain,
-            originConfigs: [
+            defaultBehavior: {
+                origin: new origins.S3Origin(hostingBucket),
+                viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS
+            },
+            errorResponses: [
                 {
-                    s3OriginSource: {
-                        s3BucketSource: hostingBucket,
-                    },
-                    behaviors: [{ isDefaultBehavior: true },],
-                },
-
+                    httpStatus: 403,
+                    responseHttpStatus: 200,
+                    responsePagePath: './index.html'
+                }
             ],
-            errorConfigurations: [
-                {
-                    errorCode: 403,
-                    responseCode: 200,
-                    responsePagePath: '/index.html',
-                },
-            ],
-
-            viewerCertificate: cloudfront.ViewerCertificate.fromAcmCertificate(certificate, { aliases: al }),
+            domainNames: al,
+            certificate: certificate,
+            minimumProtocolVersion: cloudfront.SecurityPolicyProtocol.TLS_V1_2_2021
         });
 
         var d: string
@@ -69,7 +66,7 @@ export class WebsiteStack extends cdk.Stack {
         } else {
             d = this.config.website.domain
         }
-        
+
 
         const zoneId = ssm.StringParameter.valueForStringParameter(this, `/route53/${d}/zone`)
         const zone = route53.HostedZone.fromHostedZoneAttributes(this, "DomainHostedZone",
@@ -100,7 +97,7 @@ export class WebsiteStack extends cdk.Stack {
                 ttl: cdk.Duration.seconds(r.ttl),
                 zone,
                 target: route53.RecordTarget.fromAlias(new targets.CloudFrontTarget(cf)),
-            }); 
+            });
         })
     }
 }

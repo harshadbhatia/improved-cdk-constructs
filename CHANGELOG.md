@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.83 (2022-08-28)
+
+
+### Features
+
+* **website:** error in response path ([2cfd07f](https://github.com/harshadbhatia/improved-cdk-constructs/commit/2cfd07f15d9d7f94361ad940a07c0c074418fda2))
+
 ### 0.1.82 (2022-08-28)
 
 

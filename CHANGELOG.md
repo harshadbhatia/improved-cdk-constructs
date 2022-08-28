@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.82 (2022-08-28)
+
+
+### Features
+
+* **website:** new distribution over old style ([029afbf](https://github.com/harshadbhatia/improved-cdk-constructs/commit/029afbfa46a39ed2d37af31804047482e98caf40))
+
 ### 0.1.81 (2022-08-16)
 
 

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.85 (2022-08-29)
+
+
+### Features
+
+* **route53:** convert value to string ([0d7b949](https://github.com/harshadbhatia/improved-cdk-constructs/commit/0d7b949614470080f50537d46153459ca4ba8711))
+
 ### 0.1.84 (2022-08-28)
 
 

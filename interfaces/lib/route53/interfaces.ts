@@ -4,14 +4,14 @@ export interface Route53ParentConfig {
 
     domainNames: string[];
 
-    crossAccountDelagationIds: number[]
+    crossAccountDelagationIds: string[]
 
     acms?: string[];
 
     cdnAcms?: cdnACM[]
 
     domainRecords?: DomainRecords[]
-    
+
 }
 
 export interface DomainRecords {
@@ -21,16 +21,16 @@ export interface DomainRecords {
 
 export interface MXRecordValue {
     priority: number
-    pointsTo: string  
+    pointsTo: string
 }
 
 export interface MXRecordInput {
     comment: string
     recordName: string
-    values: MXRecordValue[] 
+    values: MXRecordValue[]
     ttl: number
 }
- 
+
 export interface Route53SubZoneConfig {
     stackName: string;
     stackDescription: string;
@@ -46,7 +46,7 @@ export interface cdnACM {
     domain: string
     zoneDomain?: string
     parentHostedZoneName?: string
-    parentHostedZoneId?: string 
+    parentHostedZoneId?: string
     alternativeDomains: string[]
 }
 

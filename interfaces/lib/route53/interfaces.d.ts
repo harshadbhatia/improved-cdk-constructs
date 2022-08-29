@@ -2,7 +2,7 @@ export interface Route53ParentConfig {
     stackName: string;
     stackDescription: string;
     domainNames: string[];
-    crossAccountDelagationIds: number[];
+    crossAccountDelagationIds: string[];
     acms?: string[];
     cdnAcms?: cdnACM[];
     domainRecords?: DomainRecords[];

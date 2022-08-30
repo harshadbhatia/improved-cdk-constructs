@@ -142,7 +142,7 @@ export class Route53ParentStack extends cdk.Stack {
 
         const param = new ssm.StringParameter(this, `${lg}Param`, {
           stringValue: cert.certificateArn,
-          parameterName: `/acm/${c.domain}` ? `/acm/${c.domain}` : `/acm/${c.zoneDomain!}`,
+          parameterName: c.domain ? `/acm/${c.domain}` : `/acm/${c.zoneDomain!}`,
           description: `${c.domain} ACM (Cert in US-East-1)`,
           tier: ssm.ParameterTier.STANDARD,
           type: ssm.ParameterType.STRING,

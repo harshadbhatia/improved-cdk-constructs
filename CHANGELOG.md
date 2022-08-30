@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.87 (2022-08-30)
+
+
+### Features
+
+* **route53:** ensure zone domain is also exported ([b2d7f01](https://github.com/harshadbhatia/improved-cdk-constructs/commit/b2d7f016cc10c1f70f2a824c5b0ea0caf9140a91))
+
 ### 0.1.86 (2022-08-30)
 
 

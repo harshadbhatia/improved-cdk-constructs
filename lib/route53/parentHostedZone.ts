@@ -114,19 +114,19 @@ export class Route53ParentStack extends cdk.Stack {
     // For cloudfront distribution we need to create a certificate
     this.config.cdnAcms?.forEach(c => {
       var lg: string = '';
-      // Sometime we just have single zone
+      // Sometime we just have single zone - Top level domain can simply be passed as Zonedomain
       if (!c.zoneDomain) {
         lg = c.domain.split('.').slice(1, c.domain.split('.').length).join('.');
       } else {
         lg = c.zoneDomain
       }
-      
+
       // Incase we have already defined outside
       var hostedZone
       if (c.parentHostedZoneId && c.parentHostedZoneName) {
         hostedZone = HostedZone.fromHostedZoneAttributes(this, 'ParentHostedZoneId', {
-            hostedZoneId: c.parentHostedZoneId,
-            zoneName: c.parentHostedZoneName
+          hostedZoneId: c.parentHostedZoneId,
+          zoneName: c.parentHostedZoneName
         })
       } else {
         hostedZone = parentZoneMap.get(lg);
@@ -134,7 +134,7 @@ export class Route53ParentStack extends cdk.Stack {
 
       if (hostedZone) {
         const cert = new acm.DnsValidatedCertificate(this, 'CrossRegionCertificate', {
-          domainName: c.domain,
+          domainName: c.domain ? c.domain : c.zoneDomain!,
           subjectAlternativeNames: c.alternativeDomains,
           hostedZone: hostedZone,
           region: 'us-east-1',

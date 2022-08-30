@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.88 (2022-08-30)
+
+
+### Features
+
+* fix bug to support zoneDomain ([fb17251](https://github.com/harshadbhatia/improved-cdk-constructs/commit/fb172517afc10789827e7ad2963702d4bc4952da))
+
 ### 0.1.87 (2022-08-30)
 
 

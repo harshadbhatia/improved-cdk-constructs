@@ -142,13 +142,13 @@ export class Route53ParentStack extends cdk.Stack {
 
         const param = new ssm.StringParameter(this, `${lg}Param`, {
           stringValue: cert.certificateArn,
-          parameterName: `/acm/${c.domain}`,
+          parameterName: `/acm/${c.domain}` ? `/acm/${c.domain}` : `/acm/${c.zoneDomain!}`,
           description: `${c.domain} ACM (Cert in US-East-1)`,
           tier: ssm.ParameterTier.STANDARD,
           type: ssm.ParameterType.STRING,
         });
       } else {
-        console.error(`[Route53][subZone] ${c.domain} not found in parent zone map`)
+        console.error(`[Route53][ParentZone] ${c.domain} not found in parent zone map`)
         exit(1)
       }
     });

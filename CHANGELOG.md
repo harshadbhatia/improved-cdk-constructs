@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.86 (2022-08-30)
+
+
+### Features
+
+* **route53:** sure parent stack with tld only ([a2e5d9c](https://github.com/harshadbhatia/improved-cdk-constructs/commit/a2e5d9ce5ff97ed0836097dcaeb79985d15cd5c6))
+
 ### 0.1.85 (2022-08-29)
 
 

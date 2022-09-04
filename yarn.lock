@@ -1511,10 +1511,10 @@
   dependencies:
     "@jridgewell/trace-mapping" "0.3.9"
 
-"@datadog/datadog-api-client@^1.0.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@datadog/datadog-api-client/-/datadog-api-client-1.2.0.tgz#23a1583b7c1ff0b5bdea311f2dff5b8ef280973b"
-  integrity sha512-u0yeEbtipiVjQOVjbsBLbnFmmDTd7Kahpy3UcB7Vn/z5+DBRPKhE31/KWpJ9/fg04t3ZlAUYzo93IR2xUf1iww==
+"@datadog/datadog-api-client@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@datadog/datadog-api-client/-/datadog-api-client-1.3.0.tgz#ac60967ccfb5ab69bb26515eed18d70963997141"
+  integrity sha512-PR0VooKg5PZq4ItqGHDC0LUcG0vxQLhD9q8H7bjkAG1rw05OMLrS9hKVX4GqvY7aMpJGeC5Xnn/WdQLiysNa7A==
   dependencies:
     "@types/buffer-from" "^1.1.0"
     "@types/node" "*"
@@ -1942,10 +1942,10 @@
   dependencies:
     "@types/yargs-parser" "*"
 
-"@vscode/dev-container-cli@^0.238.0":
-  version "0.238.3"
-  resolved "https://registry.yarnpkg.com/@vscode/dev-container-cli/-/dev-container-cli-0.238.3.tgz#1ac9b1c1d71b8bea002d7332adbd5d97c7e61008"
-  integrity sha512-SR/8TezBcbS5safHDe98DBDqytQmKRDdbxehwnDAqUdPWU1MuzuvhJuK8roL3pjk8vxgTJnjq6wzdQ+xk0+S9Q==
+"@vscode/dev-container-cli@^0.250.0":
+  version "0.250.0"
+  resolved "https://registry.yarnpkg.com/@vscode/dev-container-cli/-/dev-container-cli-0.250.0.tgz#e22a3e1f9eca8e32f88d60b5ff1c4813680d7aec"
+  integrity sha512-X4xwy/ZF0svLfIZsr1GIihNIRWRb3BMrFSlKVl2XA2SuNE+CtECdMSg9NRvShz6pcUctpNx4IO5FOYxn5L1E4g==
   dependencies:
     node-pty "^0.10.1"
 
@@ -2088,10 +2088,10 @@ at-least-node@^1.0.0:
   resolved "https://registry.yarnpkg.com/at-least-node/-/at-least-node-1.0.0.tgz#602cd4b46e844ad4effc92a8011a3c46e0238dc2"
   integrity sha512-+q/t7Ekv1EDY2l6Gda6LLiX14rU9TV20Wa3ofeQmwPFZbOMo9DXrLbOjFaaclkXKWidIaopwAObQDqwWtGUjqg==
 
-aws-cdk-lib@^2.37.1:
-  version "2.37.1"
-  resolved "https://registry.yarnpkg.com/aws-cdk-lib/-/aws-cdk-lib-2.37.1.tgz#8ff0dbb784236cb5c201fe2e2de41222d83bac87"
-  integrity sha512-TN9PkfxGvwpODOBedhmCHUFMwvrNBJIadY42BYyOerk1Hw9bOT5R3phqhm4ujzJDHKXtdgRNFRg1zw6spRodjg==
+aws-cdk-lib@^2.40.0:
+  version "2.40.0"
+  resolved "https://registry.yarnpkg.com/aws-cdk-lib/-/aws-cdk-lib-2.40.0.tgz#d0a9c92a29caf814d1148db3c6dcb4340f8bc44b"
+  integrity sha512-AHDPU4I+WP3x+8W2TcSNPDhiA1wmvYkhaz5VjsQ9bqrnu2tJhcQaYkJCUu49MOVfUDpWYp9DnZIL0Yirlp5X6w==
   dependencies:
     "@balena/dockerignore" "^1.0.2"
     case "1.6.3"
@@ -2103,10 +2103,10 @@ aws-cdk-lib@^2.37.1:
     semver "^7.3.7"
     yaml "1.10.2"
 
-aws-cdk@^2.37.1:
-  version "2.37.1"
-  resolved "https://registry.yarnpkg.com/aws-cdk/-/aws-cdk-2.37.1.tgz#e253ce36aa8bf52ce18a628d83c68012eabd6acf"
-  integrity sha512-TqYhLiFqMEoFqGPubhD7GAXat9lRxA+nVrKQl3Ukyk92SnY/y0BZUpUaddM8IA6lL+RAPbrnEYV2slhu38I+Vw==
+aws-cdk@^2.40.0:
+  version "2.40.0"
+  resolved "https://registry.yarnpkg.com/aws-cdk/-/aws-cdk-2.40.0.tgz#999e067eb2e52484a5349a3132a59ed10cc328a1"
+  integrity sha512-oHacGkLFDELwhpJsZSAhFHWDxIeZW3DgKkwiXlNO81JxNfjcHgPR2rsbh/Gz+n4ErAEzOV6WfuWVMe68zv+iPg==
   optionalDependencies:
     fsevents "2.3.2"
 
@@ -2389,10 +2389,10 @@ config@^3.3.7:
   dependencies:
     json5 "^2.1.1"
 
-constructs@^10.1.77:
-  version "10.1.77"
-  resolved "https://registry.yarnpkg.com/constructs/-/constructs-10.1.77.tgz#c74d850f1ca4ffcf0850c2a4f72240de8c792aea"
-  integrity sha512-iaNAYLf65IKdAX1lMgCQHbxmmDrrfKECTqQzedUOxTMZlKmaxWpwgKwTTk2OTOA+2ypqzEzePWPLeYDGYXBO6g==
+constructs@^10.1.94:
+  version "10.1.94"
+  resolved "https://registry.yarnpkg.com/constructs/-/constructs-10.1.94.tgz#2a3f34604298c712f250c0c24496a333bb4a98d7"
+  integrity sha512-ShUAjsF2SOxJKjx/cM8qsdhUO23HrObUp4PQLLfgDnS6E4sj5qu4XZYIW+FNk8LZXQXFSus5uSRzSK03C8eXmw==
 
 conventional-changelog-angular@^5.0.11, conventional-changelog-angular@^5.0.12:
   version "5.0.13"

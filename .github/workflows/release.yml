@@ -1,8 +1,6 @@
 name: Publish Package to Github Packages
 
 on:
-  # push:
-  #   branches: [ master]
   release:
     types: [created]
   push:
@@ -21,6 +19,11 @@ jobs:
       - run: npm i -g yarn
       - run: yarn install --frozen-lockfile
       - run: yarn test
-      - run: make release
+      - uses: google-github-actions/release-please-action@v3
+        id: release
+        with:
+          release-type: node
+      - run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+        if: ${{ steps.release.outputs.release_created }}

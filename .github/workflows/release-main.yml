@@ -26,7 +26,7 @@ jobs:
         if: ${{ steps.release.outputs.release_created }}
       - run: npm i -g yarn
         if: ${{ steps.release.outputs.release_created }}
-      - run: yarn install --frozen-lockfile
+      - run: yarn install --immutable
         if: ${{ steps.release.outputs.release_created }}
       - run: yarn test
         if: ${{ steps.release.outputs.release_created }}
@@ -34,7 +34,6 @@ jobs:
       - name: Allow private package registry access
         id: allow-private-package-registry-access
         run: |
-          echo "nodeLinker: node-modules" > ./.yarnrc.yml
           echo "npmScopes:" >> ./.yarnrc.yml
           echo "  ${{ github.event.repository.owner.login }}:" >> ./.yarnrc.yml
           echo "    npmRegistryServer: https://registry.npmjs.org" >> ./.yarnrc.yml

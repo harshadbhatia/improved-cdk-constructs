@@ -40,7 +40,7 @@ jobs:
           echo "    npmAlwaysAuth: true" >> ./.yarnrc.yml
           echo "    npmAuthToken: ${{ secrets.NPM_ACCESS_TOKEN }}" >> ./.yarnrc.yml
 
-      - run: yarn npm publish
+      - run: yarn npm publish --access public
         env:
           YARN_NPM_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
         if: ${{ steps.release.outputs.release_created }}

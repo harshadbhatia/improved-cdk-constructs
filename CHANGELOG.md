@@ -6,6 +6,13 @@ All notable changes to this project will be documented in this file. See [standa
 
 - yarn publish fix ([0225ae3](https://github.com/harshadbhatia/improved-cdk-constructs/commit/0225ae321c420766f9cd86da28941939dff73b55))
 
+## [0.2.3](https://github.com/harshadbhatia/improved-cdk-constructs/compare/v0.2.2...v0.2.3) (2022-09-17)
+
+
+### Bug Fixes
+
+* release main to release please with yarnv2 ([ea3bb36](https://github.com/harshadbhatia/improved-cdk-constructs/commit/ea3bb36e390a3922fbe8acacf72fd4f761692259))
+
 ## [0.2.2](https://github.com/harshadbhatia/improved-cdk-constructs/compare/v0.2.1...v0.2.2) (2022-09-17)
 
 

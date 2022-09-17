@@ -35,7 +35,7 @@ set-git-config:
 
 release: set-git-config
 	yarn run clean && yarn run build && yarn run release && \
-	git push --follow-tags origin master && yarn publish --access public
+	git push --follow-tags origin master && yarn run publish --access public
 
 install-husky:
 	npx husky install

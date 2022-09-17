@@ -31,6 +31,16 @@ jobs:
       - run: yarn test
         if: ${{ steps.release.outputs.release_created }}
 
+      - name: Allow private package registry access
+        id: allow-private-package-registry-access
+        run: |
+          echo "nodeLinker: node-modules" > ./.yarnrc.yml
+          echo "npmScopes:" >> ./.yarnrc.yml
+          echo "  ${{ github.event.repository.owner.login }}:" >> ./.yarnrc.yml
+          echo "    npmRegistryServer: https://registry.npmjs.org" >> ./.yarnrc.yml
+          echo "    npmAlwaysAuth: true" >> ./.yarnrc.yml
+          echo "    npmAuthToken: ${{ secrets.NPM_ACCESS_TOKEN }}" >> ./.yarnrc.yml
+
       - run: yarn npm publish
         env:
           YARN_NPM_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

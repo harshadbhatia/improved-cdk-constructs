@@ -22,6 +22,7 @@
 		"shardulm94.trailing-spaces",
 		"esbenp.prettier-vscode",
 		"amazonwebservices.aws-toolkit-vscode",
+		"arcanis.vscode-zipfs"
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.

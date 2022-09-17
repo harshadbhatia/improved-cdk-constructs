@@ -9,6 +9,9 @@ import s3 = require('aws-cdk-lib/aws-s3');
 import cdk = require('aws-cdk-lib');
 import { Construct } from 'constructs';
 import { WebsiteConfig } from '../../interfaces/lib/website/interfaces';
+import { Duration } from 'aws-cdk-lib';
+import { BehaviorOptions, HttpVersion, ResponseSecurityHeadersBehavior } from 'aws-cdk-lib/aws-cloudfront';
+import { exit } from 'process';
 
 
 export class WebsiteStack extends cdk.Stack {
@@ -30,6 +33,7 @@ export class WebsiteStack extends cdk.Stack {
             encryption: s3.BucketEncryption.S3_MANAGED,
         })
 
+
         hostingBucket.grantReadWrite(new iam.ArnPrincipal(`arn:aws:iam::${cdk.Stack.of(this).account}:role/buildkite-deployment-role`))
 
         const acmArn = ssm.StringParameter.valueForStringParameter(
@@ -38,14 +42,48 @@ export class WebsiteStack extends cdk.Stack {
 
         const certificate = acm.Certificate.fromCertificateArn(this, "Certificate", acmArn);
 
+        var defaultBehavior: BehaviorOptions = {
+            origin: new origins.S3Origin(hostingBucket),
+            viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+        }
+        // If config is passed
+        if (this.config.website.responseHeaderBehaviour) {
+            var shb: ResponseSecurityHeadersBehavior
+
+            if (this.config.website.responseHeaderBehaviour.strictTransportSecurity) {
+                const t = Duration.seconds(Number(this.config.website.responseHeaderBehaviour.strictTransportSecurity.accessControlMaxAge))
+                // Duration doesnt have the method to convert config
+                shb = {
+                    ...this.config.website.responseHeaderBehaviour,
+                    strictTransportSecurity: {
+                        ...this.config.website.responseHeaderBehaviour.strictTransportSecurity,
+                        accessControlMaxAge: t
+                    }
+                }
+            } else {
+                shb = this.config.website.responseHeaderBehaviour
+            }
+
+            const responseHeaderPolicy = new cloudfront.ResponseHeadersPolicy(this, 'ResponseHeadersPolicy', {
+                responseHeadersPolicyName: 'ResponseHeaderCustomPolicy',
+                comment: 'A default response policy with security headers',
+                securityHeadersBehavior: shb,
+            });
+
+            defaultBehavior = {
+                origin: new origins.S3Origin(hostingBucket),
+                viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+                responseHeadersPolicy: responseHeaderPolicy
+            }
+        }
+
         const al = this.config.website.certificateAliases ? [this.config.website.domain, ...this.config.website.certificateAliases] : [this.config.website.domain]
         // Use new style distribution
         const cf = new cloudfront.Distribution(this, 'WebDistribution', {
             comment: this.config.website.domain,
-            defaultBehavior: {
-                origin: new origins.S3Origin(hostingBucket),
-                viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS
-            },
+            httpVersion: HttpVersion.HTTP2_AND_3,
+            webAclId: this.config.website.webACLId ? this.config.website.webACLId : undefined,
+            defaultBehavior: defaultBehavior,
             errorResponses: [
                 {
                     httpStatus: 403,
@@ -58,6 +96,7 @@ export class WebsiteStack extends cdk.Stack {
             minimumProtocolVersion: cloudfront.SecurityPolicyProtocol.TLS_V1_2_2021
         });
 
+        // incase we have cross account hosting zone domains to support
         var d: string
 
         if (this.config.website.ignorePrefix && this.config.website.domain.startsWith(this.config.website.ignorePrefix)) {

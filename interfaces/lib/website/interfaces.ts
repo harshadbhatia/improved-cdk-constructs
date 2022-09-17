@@ -1,11 +1,14 @@
 import { BucketProps } from "aws-cdk-lib/aws-s3";
-import { CloudFrontWebDistributionProps } from "aws-cdk-lib/aws-cloudfront";
+import { CloudFrontWebDistributionProps, ResponseSecurityHeadersBehavior } from "aws-cdk-lib/aws-cloudfront";
+
 
 export interface WebsiteConfig {
     stackName: string;
     stackDescription: string;
 
     website: WebsiteStackProps
+
+
 
 }
 
@@ -19,6 +22,10 @@ export interface WebsiteStackProps {
 
     addtionalARecords?: AdditionalARecord[]
     // cloudfront?: CloudFrontWebDistributionProps
+
+    responseHeaderBehaviour?: ResponseSecurityHeadersBehavior
+
+    webACLId?: string // WAF ACL id
 }
 
 export interface AdditionalARecord {

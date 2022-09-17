@@ -1,0 +1,9 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory `/Users/harshadbhatia/Desktop/Demyst/repos/production-account-infra/improved-cdk-constructs'
+echo "--- Deployment"
+docker run -e NODE_ENV=dev \
+	-e CDK_DEFAULT_ACCOUNT=613159723622 -e CDK_DEFAULT_REGION=ap-southeast-2 \
+	-t cdk cdk deploy -v --all --require-approval never
+ 
+make: Leaving directory `/Users/harshadbhatia/Desktop/Demyst/repos/production-account-infra/improved-cdk-constructs'
+ 

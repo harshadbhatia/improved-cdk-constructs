@@ -21,9 +21,12 @@ COPY package.json  ./
 
 RUN npm install -g yarn
 
-# RUN yarn set version berry
+RUN yarn set version berry
 
 RUN yarn install
+
+RUN yarn dlx @yarnpkg/sdks base
+RUN yarn dlx @yarnpkg/sdks vscode
 
 COPY . /workspace
 

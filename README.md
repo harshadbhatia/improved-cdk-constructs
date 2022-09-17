@@ -29,6 +29,7 @@ It is done using conventialcommit and husky for git hooks to validate messages.
 - Add tests
 - Cleanup
 - Write documentation
+- Do proper branching strategy
 
 ## Notes on specific modules
 

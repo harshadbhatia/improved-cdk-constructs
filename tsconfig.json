@@ -2,10 +2,7 @@
   "compilerOptions": {
     "target": "ES2018",
     "module": "commonjs",
-    "lib": [
-      "es2018",
-      "DOM"
-    ],
+    "lib": ["es2018", "DOM"],
     "esModuleInterop": true,
     "declaration": true,
     "strict": true,
@@ -21,15 +18,8 @@
     "inlineSources": true,
     "experimentalDecorators": true,
     "resolveJsonModule": true,
-    "strictPropertyInitialization": false,
-    "typeRoots": [
-      "./node_modules/@types"
-    ]
+    "strictPropertyInitialization": false
   },
   "include": ["**/*.ts"],
-  "exclude": [
-    "node_modules",
-    "cdk.out",
-    "dist"
-  ]
+  "exclude": ["node_modules", "cdk.out", "dist"]
 }

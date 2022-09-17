@@ -1,3 +1,4 @@
+import { ResponseSecurityHeadersBehavior } from "aws-cdk-lib/aws-cloudfront";
 export interface WebsiteConfig {
     stackName: string;
     stackDescription: string;
@@ -11,6 +12,8 @@ export interface WebsiteStackProps {
     ignorePrefix?: string;
     certificateAliases?: string[];
     addtionalARecords?: AdditionalARecord[];
+    responseHeaderBehaviour?: ResponseSecurityHeadersBehavior;
+    webACLId?: string;
 }
 export interface AdditionalARecord {
     ttl: number;

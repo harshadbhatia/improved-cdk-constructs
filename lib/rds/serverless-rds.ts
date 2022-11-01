@@ -43,7 +43,7 @@ export class ServerlessRDSStack extends cdk.Stack {
             });
 
             securityGroup.addIngressRule(
-                ec2.Peer.anyIpv4(),
+                ec2.Peer.ipv4(cfg.allowedCidr),
                 ec2.Port.tcp(5432),
                 `${cfg.defaultDBName} - Database ingress`
             );

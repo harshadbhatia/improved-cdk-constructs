@@ -13,13 +13,13 @@ It is done using conventialcommit and husky for git hooks to validate messages.
 
 # Github Actions
 
-- New release is made PR is merged to master. This will push a commit.
+- New release is made PR is merged to master. This will push a commit. The commits should follow conventional commits naming standards
 
 ## Useful commands
 
-- `npm run build` compile typescript to js
-- `npm run watch` watch for changes and compile
-- `npm run test` perform the jest unit tests
+- `yarn run build` compile typescript to js
+- `yarn run watch` watch for changes and compile
+- `yarn run test` perform the jest unit tests
 - `cdk deploy` deploy this stack to your default AWS account/region
 - `cdk diff` compare deployed stack with current state
 - `cdk synth` emits the synthesized CloudFormation template

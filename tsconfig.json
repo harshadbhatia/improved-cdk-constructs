@@ -18,7 +18,12 @@
     "inlineSources": true,
     "experimentalDecorators": true,
     "resolveJsonModule": true,
-    "strictPropertyInitialization": false
+    "strictPropertyInitialization": false,
+    "baseUrl": ".",
+    "paths": {
+      "http://*": ["~/.cache/deno/deps/http/*"],
+      "https://*": ["~/.cache/deno/deps/https/*"],
+    },
   },
   "include": ["**/*.ts"],
   "exclude": ["node_modules", "cdk.out", "dist"]

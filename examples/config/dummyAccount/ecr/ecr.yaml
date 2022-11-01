@@ -1,0 +1,15 @@
+stackName: ECR-Stack
+stackDescription: ECR Stack
+
+repos:
+  - repositoryName: ecr-repo-1
+    rules:
+      tagPrefix: ["latest", "prod"]
+      maxImageCount: 30
+      maxAge: 30
+    allowAccountAccess: ["123456323232", "133456323232", "443456323232"]
+  - repositoryName: ecr-repo-2
+    rules:
+      tagPrefix: ["base", "base-old"]
+      maxImageCount: 45
+      maxAge: 33

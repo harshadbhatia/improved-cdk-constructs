@@ -3,7 +3,7 @@ export interface VPCConfig {
     stackDescription: string;
     natGateways: number;
     cidrMask: number;
-    kubernetesClustersToTag: string[];
+    kubernetesClustersToTag?: string[];
     vpcIdSSM: string;
     vpcIdSSMDescription: string;
     privateSubnetSSM: string;

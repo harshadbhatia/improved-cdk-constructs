@@ -1,0 +1,750 @@
+export const snapshot = {};
+
+snapshot[`isVPCSnapshotMatch 1`] = `
+{
+  Parameters: {
+    BootstrapVersion: {
+      Default: "/cdk-bootstrap/hnb659fds/version",
+      Description: "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      Type: "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  Resources: {
+    IsolatedSubnetIdsB319AB5E: {
+      Properties: {
+        Description: "Stores isolated subnet Ids for the default account",
+        Name: "/account/vpc/subnets/isolated",
+        Type: "StringList",
+        Value: {
+          "Fn::Join": [
+            "",
+            [
+              {
+                Ref: "VPCProtectedSubnet1Subnet80897F3B",
+              },
+              ",",
+              {
+                Ref: "VPCProtectedSubnet2Subnet55C21155",
+              },
+              ",",
+              {
+                Ref: "VPCSpareSubnet1SubnetC7F5809F",
+              },
+              ",",
+              {
+                Ref: "VPCSpareSubnet2SubnetF9300999",
+              },
+            ],
+          ],
+        },
+      },
+      Type: "AWS::SSM::Parameter",
+    },
+    PrivateSubnetIds97B1AB6C: {
+      Properties: {
+        Description: "Stores private subnet Ids for the default account",
+        Name: "/account/vpc/subnets/private",
+        Type: "StringList",
+        Value: {
+          "Fn::Join": [
+            "",
+            [
+              {
+                Ref: "VPCPrivateSubnet1Subnet8BCA10E0",
+              },
+              ",",
+              {
+                Ref: "VPCPrivateSubnet2SubnetCFCDAA7A",
+              },
+            ],
+          ],
+        },
+      },
+      Type: "AWS::SSM::Parameter",
+    },
+    PublicSubnetIds18C64464: {
+      Properties: {
+        Description: "Stores public subnet Ids for the default account",
+        Name: "/account/vpc/subnets/public",
+        Type: "StringList",
+        Value: {
+          "Fn::Join": [
+            "",
+            [
+              {
+                Ref: "VPCPublicSubnet1SubnetB4246D30",
+              },
+              ",",
+              {
+                Ref: "VPCPublicSubnet2Subnet74179F39",
+              },
+            ],
+          ],
+        },
+      },
+      Type: "AWS::SSM::Parameter",
+    },
+    VPCB9E5F0B4: {
+      Properties: {
+        CidrBlock: "10.0.0.0/16",
+        EnableDnsHostnames: true,
+        EnableDnsSupport: true,
+        InstanceTenancy: "default",
+        Tags: [
+          {
+            Key: "Name",
+            Value: "MyTestVPCStack/VPC",
+          },
+        ],
+      },
+      Type: "AWS::EC2::VPC",
+    },
+    VPCIGWB7E252D3: {
+      Properties: {
+        Tags: [
+          {
+            Key: "Name",
+            Value: "MyTestVPCStack/VPC",
+          },
+        ],
+      },
+      Type: "AWS::EC2::InternetGateway",
+    },
+    VPCIdCB646FB3: {
+      Properties: {
+        Description: "Stores VPC Id for the account account",
+        Name: "/account/vpc/id",
+        Type: "String",
+        Value: {
+          Ref: "VPCB9E5F0B4",
+        },
+      },
+      Type: "AWS::SSM::Parameter",
+    },
+    VPCPrivateSubnet1DefaultRouteAE1D6490: {
+      Properties: {
+        DestinationCidrBlock: "0.0.0.0/0",
+        NatGatewayId: {
+          Ref: "VPCPublicSubnet1NATGatewayE0556630",
+        },
+        RouteTableId: {
+          Ref: "VPCPrivateSubnet1RouteTableBE8A6027",
+        },
+      },
+      Type: "AWS::EC2::Route",
+    },
+    VPCPrivateSubnet1RouteTableAssociation347902D1: {
+      Properties: {
+        RouteTableId: {
+          Ref: "VPCPrivateSubnet1RouteTableBE8A6027",
+        },
+        SubnetId: {
+          Ref: "VPCPrivateSubnet1Subnet8BCA10E0",
+        },
+      },
+      Type: "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    VPCPrivateSubnet1RouteTableBE8A6027: {
+      Properties: {
+        Tags: [
+          {
+            Key: "kubernetes.io/role/internal-elb",
+            Value: "1",
+          },
+          {
+            Key: "Name",
+            Value: "MyTestVPCStack/VPC/PrivateSubnet1",
+          },
+        ],
+        VpcId: {
+          Ref: "VPCB9E5F0B4",
+        },
+      },
+      Type: "AWS::EC2::RouteTable",
+    },
+    VPCPrivateSubnet1Subnet8BCA10E0: {
+      Properties: {
+        AvailabilityZone: {
+          "Fn::Select": [
+            0,
+            {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        CidrBlock: "10.0.64.0/19",
+        MapPublicIpOnLaunch: false,
+        Tags: [
+          {
+            Key: "aws-cdk:subnet-name",
+            Value: "Private",
+          },
+          {
+            Key: "aws-cdk:subnet-type",
+            Value: "Private",
+          },
+          {
+            Key: "kubernetes.io/role/internal-elb",
+            Value: "1",
+          },
+          {
+            Key: "Name",
+            Value: "MyTestVPCStack/VPC/PrivateSubnet1",
+          },
+        ],
+        VpcId: {
+          Ref: "VPCB9E5F0B4",
+        },
+      },
+      Type: "AWS::EC2::Subnet",
+    },
+    VPCPrivateSubnet2DefaultRouteF4F5CFD2: {
+      Properties: {
+        DestinationCidrBlock: "0.0.0.0/0",
+        NatGatewayId: {
+          Ref: "VPCPublicSubnet1NATGatewayE0556630",
+        },
+        RouteTableId: {
+          Ref: "VPCPrivateSubnet2RouteTable0A19E10E",
+        },
+      },
+      Type: "AWS::EC2::Route",
+    },
+    VPCPrivateSubnet2RouteTable0A19E10E: {
+      Properties: {
+        Tags: [
+          {
+            Key: "kubernetes.io/role/internal-elb",
+            Value: "1",
+          },
+          {
+            Key: "Name",
+            Value: "MyTestVPCStack/VPC/PrivateSubnet2",
+          },
+        ],
+        VpcId: {
+          Ref: "VPCB9E5F0B4",
+        },
+      },
+      Type: "AWS::EC2::RouteTable",
+    },
+    VPCPrivateSubnet2RouteTableAssociation0C73D413: {
+      Properties: {
+        RouteTableId: {
+          Ref: "VPCPrivateSubnet2RouteTable0A19E10E",
+        },
+        SubnetId: {
+          Ref: "VPCPrivateSubnet2SubnetCFCDAA7A",
+        },
+      },
+      Type: "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    VPCPrivateSubnet2SubnetCFCDAA7A: {
+      Properties: {
+        AvailabilityZone: {
+          "Fn::Select": [
+            1,
+            {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        CidrBlock: "10.0.96.0/19",
+        MapPublicIpOnLaunch: false,
+        Tags: [
+          {
+            Key: "aws-cdk:subnet-name",
+            Value: "Private",
+          },
+          {
+            Key: "aws-cdk:subnet-type",
+            Value: "Private",
+          },
+          {
+            Key: "kubernetes.io/role/internal-elb",
+            Value: "1",
+          },
+          {
+            Key: "Name",
+            Value: "MyTestVPCStack/VPC/PrivateSubnet2",
+          },
+        ],
+        VpcId: {
+          Ref: "VPCB9E5F0B4",
+        },
+      },
+      Type: "AWS::EC2::Subnet",
+    },
+    VPCProtectedSubnet1RouteTable649D5C07: {
+      Properties: {
+        Tags: [
+          {
+            Key: "Name",
+            Value: "MyTestVPCStack/VPC/ProtectedSubnet1",
+          },
+        ],
+        VpcId: {
+          Ref: "VPCB9E5F0B4",
+        },
+      },
+      Type: "AWS::EC2::RouteTable",
+    },
+    VPCProtectedSubnet1RouteTableAssociationC2EDB200: {
+      Properties: {
+        RouteTableId: {
+          Ref: "VPCProtectedSubnet1RouteTable649D5C07",
+        },
+        SubnetId: {
+          Ref: "VPCProtectedSubnet1Subnet80897F3B",
+        },
+      },
+      Type: "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    VPCProtectedSubnet1Subnet80897F3B: {
+      Properties: {
+        AvailabilityZone: {
+          "Fn::Select": [
+            0,
+            {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        CidrBlock: "10.0.128.0/19",
+        MapPublicIpOnLaunch: false,
+        Tags: [
+          {
+            Key: "aws-cdk:subnet-name",
+            Value: "Protected",
+          },
+          {
+            Key: "aws-cdk:subnet-type",
+            Value: "Isolated",
+          },
+          {
+            Key: "Name",
+            Value: "MyTestVPCStack/VPC/ProtectedSubnet1",
+          },
+        ],
+        VpcId: {
+          Ref: "VPCB9E5F0B4",
+        },
+      },
+      Type: "AWS::EC2::Subnet",
+    },
+    VPCProtectedSubnet2RouteTable5E3CD6BD: {
+      Properties: {
+        Tags: [
+          {
+            Key: "Name",
+            Value: "MyTestVPCStack/VPC/ProtectedSubnet2",
+          },
+        ],
+        VpcId: {
+          Ref: "VPCB9E5F0B4",
+        },
+      },
+      Type: "AWS::EC2::RouteTable",
+    },
+    VPCProtectedSubnet2RouteTableAssociationEC3251A4: {
+      Properties: {
+        RouteTableId: {
+          Ref: "VPCProtectedSubnet2RouteTable5E3CD6BD",
+        },
+        SubnetId: {
+          Ref: "VPCProtectedSubnet2Subnet55C21155",
+        },
+      },
+      Type: "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    VPCProtectedSubnet2Subnet55C21155: {
+      Properties: {
+        AvailabilityZone: {
+          "Fn::Select": [
+            1,
+            {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        CidrBlock: "10.0.160.0/19",
+        MapPublicIpOnLaunch: false,
+        Tags: [
+          {
+            Key: "aws-cdk:subnet-name",
+            Value: "Protected",
+          },
+          {
+            Key: "aws-cdk:subnet-type",
+            Value: "Isolated",
+          },
+          {
+            Key: "Name",
+            Value: "MyTestVPCStack/VPC/ProtectedSubnet2",
+          },
+        ],
+        VpcId: {
+          Ref: "VPCB9E5F0B4",
+        },
+      },
+      Type: "AWS::EC2::Subnet",
+    },
+    VPCPublicSubnet1DefaultRoute91CEF279: {
+      DependsOn: [
+        "VPCVPCGW99B986DC",
+      ],
+      Properties: {
+        DestinationCidrBlock: "0.0.0.0/0",
+        GatewayId: {
+          Ref: "VPCIGWB7E252D3",
+        },
+        RouteTableId: {
+          Ref: "VPCPublicSubnet1RouteTableFEE4B781",
+        },
+      },
+      Type: "AWS::EC2::Route",
+    },
+    VPCPublicSubnet1EIP6AD938E8: {
+      Properties: {
+        Domain: "vpc",
+        Tags: [
+          {
+            Key: "kubernetes.io/role/elb",
+            Value: "1",
+          },
+          {
+            Key: "Name",
+            Value: "MyTestVPCStack/VPC/PublicSubnet1",
+          },
+        ],
+      },
+      Type: "AWS::EC2::EIP",
+    },
+    VPCPublicSubnet1NATGatewayE0556630: {
+      DependsOn: [
+        "VPCPublicSubnet1DefaultRoute91CEF279",
+        "VPCPublicSubnet1RouteTableAssociation0B0896DC",
+      ],
+      Properties: {
+        AllocationId: {
+          "Fn::GetAtt": [
+            "VPCPublicSubnet1EIP6AD938E8",
+            "AllocationId",
+          ],
+        },
+        SubnetId: {
+          Ref: "VPCPublicSubnet1SubnetB4246D30",
+        },
+        Tags: [
+          {
+            Key: "kubernetes.io/role/elb",
+            Value: "1",
+          },
+          {
+            Key: "Name",
+            Value: "MyTestVPCStack/VPC/PublicSubnet1",
+          },
+        ],
+      },
+      Type: "AWS::EC2::NatGateway",
+    },
+    VPCPublicSubnet1RouteTableAssociation0B0896DC: {
+      Properties: {
+        RouteTableId: {
+          Ref: "VPCPublicSubnet1RouteTableFEE4B781",
+        },
+        SubnetId: {
+          Ref: "VPCPublicSubnet1SubnetB4246D30",
+        },
+      },
+      Type: "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    VPCPublicSubnet1RouteTableFEE4B781: {
+      Properties: {
+        Tags: [
+          {
+            Key: "kubernetes.io/role/elb",
+            Value: "1",
+          },
+          {
+            Key: "Name",
+            Value: "MyTestVPCStack/VPC/PublicSubnet1",
+          },
+        ],
+        VpcId: {
+          Ref: "VPCB9E5F0B4",
+        },
+      },
+      Type: "AWS::EC2::RouteTable",
+    },
+    VPCPublicSubnet1SubnetB4246D30: {
+      Properties: {
+        AvailabilityZone: {
+          "Fn::Select": [
+            0,
+            {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        CidrBlock: "10.0.0.0/19",
+        MapPublicIpOnLaunch: true,
+        Tags: [
+          {
+            Key: "aws-cdk:subnet-name",
+            Value: "Public",
+          },
+          {
+            Key: "aws-cdk:subnet-type",
+            Value: "Public",
+          },
+          {
+            Key: "kubernetes.io/role/elb",
+            Value: "1",
+          },
+          {
+            Key: "Name",
+            Value: "MyTestVPCStack/VPC/PublicSubnet1",
+          },
+        ],
+        VpcId: {
+          Ref: "VPCB9E5F0B4",
+        },
+      },
+      Type: "AWS::EC2::Subnet",
+    },
+    VPCPublicSubnet2DefaultRouteB7481BBA: {
+      DependsOn: [
+        "VPCVPCGW99B986DC",
+      ],
+      Properties: {
+        DestinationCidrBlock: "0.0.0.0/0",
+        GatewayId: {
+          Ref: "VPCIGWB7E252D3",
+        },
+        RouteTableId: {
+          Ref: "VPCPublicSubnet2RouteTable6F1A15F1",
+        },
+      },
+      Type: "AWS::EC2::Route",
+    },
+    VPCPublicSubnet2RouteTable6F1A15F1: {
+      Properties: {
+        Tags: [
+          {
+            Key: "kubernetes.io/role/elb",
+            Value: "1",
+          },
+          {
+            Key: "Name",
+            Value: "MyTestVPCStack/VPC/PublicSubnet2",
+          },
+        ],
+        VpcId: {
+          Ref: "VPCB9E5F0B4",
+        },
+      },
+      Type: "AWS::EC2::RouteTable",
+    },
+    VPCPublicSubnet2RouteTableAssociation5A808732: {
+      Properties: {
+        RouteTableId: {
+          Ref: "VPCPublicSubnet2RouteTable6F1A15F1",
+        },
+        SubnetId: {
+          Ref: "VPCPublicSubnet2Subnet74179F39",
+        },
+      },
+      Type: "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    VPCPublicSubnet2Subnet74179F39: {
+      Properties: {
+        AvailabilityZone: {
+          "Fn::Select": [
+            1,
+            {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        CidrBlock: "10.0.32.0/19",
+        MapPublicIpOnLaunch: true,
+        Tags: [
+          {
+            Key: "aws-cdk:subnet-name",
+            Value: "Public",
+          },
+          {
+            Key: "aws-cdk:subnet-type",
+            Value: "Public",
+          },
+          {
+            Key: "kubernetes.io/role/elb",
+            Value: "1",
+          },
+          {
+            Key: "Name",
+            Value: "MyTestVPCStack/VPC/PublicSubnet2",
+          },
+        ],
+        VpcId: {
+          Ref: "VPCB9E5F0B4",
+        },
+      },
+      Type: "AWS::EC2::Subnet",
+    },
+    VPCSpareSubnet1RouteTable5C716B24: {
+      Properties: {
+        Tags: [
+          {
+            Key: "Name",
+            Value: "MyTestVPCStack/VPC/SpareSubnet1",
+          },
+        ],
+        VpcId: {
+          Ref: "VPCB9E5F0B4",
+        },
+      },
+      Type: "AWS::EC2::RouteTable",
+    },
+    VPCSpareSubnet1RouteTableAssociation1CCE7E20: {
+      Properties: {
+        RouteTableId: {
+          Ref: "VPCSpareSubnet1RouteTable5C716B24",
+        },
+        SubnetId: {
+          Ref: "VPCSpareSubnet1SubnetC7F5809F",
+        },
+      },
+      Type: "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    VPCSpareSubnet1SubnetC7F5809F: {
+      Properties: {
+        AvailabilityZone: {
+          "Fn::Select": [
+            0,
+            {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        CidrBlock: "10.0.192.0/19",
+        MapPublicIpOnLaunch: false,
+        Tags: [
+          {
+            Key: "aws-cdk:subnet-name",
+            Value: "Spare",
+          },
+          {
+            Key: "aws-cdk:subnet-type",
+            Value: "Isolated",
+          },
+          {
+            Key: "Name",
+            Value: "MyTestVPCStack/VPC/SpareSubnet1",
+          },
+        ],
+        VpcId: {
+          Ref: "VPCB9E5F0B4",
+        },
+      },
+      Type: "AWS::EC2::Subnet",
+    },
+    VPCSpareSubnet2RouteTable8CBEFE5D: {
+      Properties: {
+        Tags: [
+          {
+            Key: "Name",
+            Value: "MyTestVPCStack/VPC/SpareSubnet2",
+          },
+        ],
+        VpcId: {
+          Ref: "VPCB9E5F0B4",
+        },
+      },
+      Type: "AWS::EC2::RouteTable",
+    },
+    VPCSpareSubnet2RouteTableAssociation239ABF54: {
+      Properties: {
+        RouteTableId: {
+          Ref: "VPCSpareSubnet2RouteTable8CBEFE5D",
+        },
+        SubnetId: {
+          Ref: "VPCSpareSubnet2SubnetF9300999",
+        },
+      },
+      Type: "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    VPCSpareSubnet2SubnetF9300999: {
+      Properties: {
+        AvailabilityZone: {
+          "Fn::Select": [
+            1,
+            {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        CidrBlock: "10.0.224.0/19",
+        MapPublicIpOnLaunch: false,
+        Tags: [
+          {
+            Key: "aws-cdk:subnet-name",
+            Value: "Spare",
+          },
+          {
+            Key: "aws-cdk:subnet-type",
+            Value: "Isolated",
+          },
+          {
+            Key: "Name",
+            Value: "MyTestVPCStack/VPC/SpareSubnet2",
+          },
+        ],
+        VpcId: {
+          Ref: "VPCB9E5F0B4",
+        },
+      },
+      Type: "AWS::EC2::Subnet",
+    },
+    VPCVPCGW99B986DC: {
+      Properties: {
+        InternetGatewayId: {
+          Ref: "VPCIGWB7E252D3",
+        },
+        VpcId: {
+          Ref: "VPCB9E5F0B4",
+        },
+      },
+      Type: "AWS::EC2::VPCGatewayAttachment",
+    },
+  },
+  Rules: {
+    CheckBootstrapVersion: {
+      Assertions: [
+        {
+          Assert: {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    Ref: "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          AssertDescription: "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;

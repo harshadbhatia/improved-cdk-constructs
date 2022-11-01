@@ -1,11 +1,14 @@
 
-import cdk = require('aws-cdk-lib');
-import { Stack } from 'aws-cdk-lib';
-import { Repository } from 'aws-cdk-lib/aws-ecr';
-import { Construct } from 'constructs';
+// import cdk = require('aws-cdk-lib');
+// import { Stack } from 'aws-cdk-lib';
+// import { Repository } from 'aws-cdk-lib/aws-ecr';
+// import { Construct } from 'constructs';
 import { ECRCfg } from '../../interfaces/lib/ecr/interfaces';
-import { AccountPrincipal, Effect, PolicyStatement, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
+// import { AccountPrincipal, Effect, PolicyStatement, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
 
+
+import { cdk, constructs, ec2, ssm } from "../../deps.ts";
+import { VPCConfig } from '../../interfaces/lib/vpc/interfaces.ts';
 
 export class ECRStack extends Stack {
 

@@ -1,0 +1,18 @@
+stackName: DummyAccount VPC
+stackDescription: "VPC for DummyAccount"
+
+natGateways: 1
+cidrMask: 20
+
+
+vpcIdSSM: /account/vpc/id
+vpcIdSSMDescription: 'Stores VPC Id for the account account'
+
+privateSubnetSSM: /account/vpc/subnets/private
+privateSubnetSSMDescription: 'Stores private subnet Ids for the default account'
+
+publicSubnetSSM: /account/vpc/subnets/public
+publicSubnetSSMDescription: 'Stores public subnet Ids for the default account'
+
+isolatedSubnetSSM: /account/vpc/subnets/isolated
+isolatedSubnetSSMDescription: 'Stores isolated subnet Ids for the default account'

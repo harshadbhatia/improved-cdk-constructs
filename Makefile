@@ -1,7 +1,9 @@
 .ONESHELL:
 
-ACCOUNT_ID=$(shell aws sts get-caller-identity --query Account --output text)
-ACCOUNT_NAME:=$(shell aws iam list-account-aliases --query AccountAliases --output text)
+# ACCOUNT_ID=$(shell aws sts get-caller-identity --query Account --output text)
+# ACCOUNT_NAME:=$(shell aws iam list-account-aliases --query AccountAliases --output text)
+ACCOUNT_ID=1234567891
+ACCOUNT_NAME=dummyAccount
 
 ACCOUNT_REGION=ap-southeast-2
 NODE_ENV=dev
@@ -48,3 +50,16 @@ git-force-push:
 	git commit -m "feat: initial commit"
 	git remote add origin https://github.com/harshadbhatia/improved-cdk-constructs.git
 	git push origin master --force
+
+
+cache:
+	deno cache examples/bin/lib.ts
+
+deno-run:
+	deno run --unstable --allow-env --allow-read --allow-write examples/bin/lib.ts
+
+deno-test:
+	deno test --unstable --allow-env --allow-read --allow-write test
+
+deno-test-snap:
+	deno test --allow-all -- --update test

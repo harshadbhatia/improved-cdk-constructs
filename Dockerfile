@@ -17,16 +17,20 @@ FROM mcr.microsoft.com/vscode/devcontainers/typescript-node:0-${VARIANT}
 
 WORKDIR /workspace
 
-COPY package.json  ./
+RUN curl -fsSL https://deno.land/install.sh | sh
+RUN export DENO_INSTALL="/root/.deno"
+RUN export PATH="$DENO_INSTALL/bin:$PATH"
 
-RUN npm install -g yarn
+# COPY package.json  ./
 
-RUN yarn set version berry
+# RUN npm install -g yarn
 
-RUN yarn install
+# RUN yarn set version berry
 
-RUN yarn dlx @yarnpkg/sdks base
-RUN yarn dlx @yarnpkg/sdks vscode
+# RUN yarn install
+
+# RUN yarn dlx @yarnpkg/sdks base
+# RUN yarn dlx @yarnpkg/sdks vscode
 
 COPY . /workspace
 

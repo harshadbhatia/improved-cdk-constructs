@@ -1,0 +1,152 @@
+export const snapshot = {};
+
+snapshot[`isECRSnapshotMatch 1`] = `
+{
+  Parameters: {
+    BootstrapVersion: {
+      Default: "/cdk-bootstrap/hnb659fds/version",
+      Description: "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      Type: "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  Resources: {
+    Repoecrrepo13414714E: {
+      DeletionPolicy: "Retain",
+      Properties: {
+        RepositoryName: "ecr-repo-1",
+        RepositoryPolicyText: {
+          Statement: [
+            {
+              Action: [
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:BatchGetImage",
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:PutImage",
+                "ecr:InitiateLayerUpload",
+                "ecr:UploadLayerPart",
+                "ecr:CompleteLayerUpload",
+              ],
+              Effect: "Allow",
+              Principal: {
+                AWS: [
+                  {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:",
+                        {
+                          Ref: "AWS::Partition",
+                        },
+                        ":iam::123456323232:root",
+                      ],
+                    ],
+                  },
+                  {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:",
+                        {
+                          Ref: "AWS::Partition",
+                        },
+                        ":iam::133456323232:root",
+                      ],
+                    ],
+                  },
+                  {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:",
+                        {
+                          Ref: "AWS::Partition",
+                        },
+                        ":iam::443456323232:root",
+                      ],
+                    ],
+                  },
+                ],
+              },
+              Sid: "AllowAccountAccess",
+            },
+          ],
+          Version: "2012-10-17",
+        },
+      },
+      Type: "AWS::ECR::Repository",
+      UpdateReplacePolicy: "Retain",
+    },
+    Repoecrrepo2E6F9F8E7: {
+      DeletionPolicy: "Retain",
+      Properties: {
+        RepositoryName: "ecr-repo-2",
+        RepositoryPolicyText: {
+          Statement: [
+            {
+              Action: [
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:BatchGetImage",
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:PutImage",
+                "ecr:InitiateLayerUpload",
+                "ecr:UploadLayerPart",
+                "ecr:CompleteLayerUpload",
+              ],
+              Effect: "Allow",
+              Principal: {
+                AWS: {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        Ref: "AWS::Partition",
+                      },
+                      ":iam::",
+                      {
+                        Ref: "AWS::AccountId",
+                      },
+                      ":root",
+                    ],
+                  ],
+                },
+              },
+              Sid: "AllowAccountAccess",
+            },
+          ],
+          Version: "2012-10-17",
+        },
+      },
+      Type: "AWS::ECR::Repository",
+      UpdateReplacePolicy: "Retain",
+    },
+  },
+  Rules: {
+    CheckBootstrapVersion: {
+      Assertions: [
+        {
+          Assert: {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    Ref: "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          AssertDescription: "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;

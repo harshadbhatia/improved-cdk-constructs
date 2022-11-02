@@ -17,12 +17,13 @@
 
   // Add the IDs of extensions you want installed when the container is created.
   "extensions": [
-    "github.copilot",
-    "shardulm94.trailing-spaces",
-    "esbenp.prettier-vscode",
-    "amazonwebservices.aws-toolkit-vscode",
-    "arcanis.vscode-zipfs"
-  ],
+	"github.copilot",
+	"shardulm94.trailing-spaces",
+	"esbenp.prettier-vscode",
+	"amazonwebservices.aws-toolkit-vscode",
+	"arcanis.vscode-zipfs",
+	"denoland.vscode-deno"
+],
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
   // "forwardPorts": [],

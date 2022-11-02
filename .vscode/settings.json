@@ -4,5 +4,7 @@
     "**/.pnp.*": true
   },
   // "prettier.prettierPath": ".yarn/sdks/prettier/index.js",
-  "deno.enable": true
+  "deno.enable": true,
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "denoland.vscode-deno"
 }

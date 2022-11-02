@@ -1,9 +1,13 @@
-import { DefaultStackSynthesizer, StackProps } from "aws-cdk-lib";
-import { Bucket } from "aws-cdk-lib/aws-s3";
+// import { DefaultStackSynthesizer, StackProps } from "aws-cdk-lib";
+//
+// import { Bucket } from "aws-cdk-lib/aws-s3";
+
+import { cdk, s3 } from "../../../../deps.ts";
+
 
 type DatadogPermissionsLevel = "Full" | "Core";
 
-export interface DatadogAWSIntegrationStackProps extends StackProps {
+export interface DatadogAWSIntegrationStackProps extends cdk.StackProps {
 
   readonly apiKeySecret: string;
   readonly externalId: string;
@@ -62,14 +66,14 @@ export interface DatadogAWSIntegrationStackProps extends StackProps {
    * Permissions will be automatically added to the Datadog integration IAM role.
    * https://docs.datadoghq.com/logs/archives/rehydrating/?tab=awss
    */
-  readonly logArchives?: Bucket[] | undefined;
+  readonly logArchives?: s3.Bucket[] | undefined;
 
   /**
    * S3 buckets for Datadog CloudTrail integration. Permissions will be automatically
    * added to the Datadog integration IAM role.
    * https://docs.datadoghq.com/integrations/amazon_cloudtrail
    */
-  readonly cloudTrails?: Bucket[] | undefined;
+  readonly cloudTrails?: s3.Bucket[] | undefined;
 
   /**
    * Additional parameters to pass through to the underlying Forwarder CloudFormation
@@ -102,13 +106,13 @@ export interface DatadogAWSIntegrationStackProps extends StackProps {
 
 // Stack config --> A + Defaults
 
-export interface DatadogIntegrationRoleProps extends StackProps {
+export interface DatadogIntegrationRoleProps extends cdk.StackProps {
   externalId: string
   permissionsBoundary?: string
 }
 
 // Used for Datadog + CDK stack bundled together
-export interface DatadogStackProps extends StackProps {
+export interface DatadogStackProps extends cdk.StackProps {
   apiKeySecret?: string
   nodeLayerVersion?: number
   pythonLayerVersion?: number
@@ -122,7 +126,7 @@ export interface DatadogStackProps extends StackProps {
 }
 
 
-export interface DatadogOperatorStackProps extends StackProps {
+export interface DatadogOperatorStackProps extends cdk.StackProps {
   clusterName: string
   kubectlRoleArn: string
   openIdConnectProviderArn: string

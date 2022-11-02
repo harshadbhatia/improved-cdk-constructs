@@ -1,4 +1,7 @@
-export interface ECRCfg {
+import { cdk } from "../../../deps.ts";
+
+
+export interface ECRStackProps extends cdk.StackProps {
     stackName: string;
     stackDescription: string;
 

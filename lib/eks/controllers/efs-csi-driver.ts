@@ -1,18 +1,14 @@
-import { NestedStack, NestedStackProps } from 'aws-cdk-lib';
-import { Cluster } from 'aws-cdk-lib/aws-eks';
-import { Construct } from "constructs";
-import iam = require('aws-cdk-lib/aws-iam');
+import { constructs, cdk, eks, iam } from '../../../deps.ts'
 
-export interface AwsEFSCSIDriverProps extends NestedStackProps {
+export interface AwsEFSCSIDriverProps extends cdk.NestedStackProps {
   enabled: boolean;
   installIAM: boolean;
   installHelm: boolean;
 }
 
-export class AwsEFSCSIDriver extends NestedStack {
-  body: Construct;
+export class AwsEFSCSIDriver extends cdk.NestedStack {
 
-  constructor(scope: Construct, id: string, cluster: Cluster, props?: AwsEFSCSIDriverProps) {
+  constructor(scope: constructs.Construct, id: string, cluster: eks.Cluster, props?: AwsEFSCSIDriverProps) {
     super(scope, id, props);
 
     if (props?.installIAM) {
@@ -25,7 +21,7 @@ export class AwsEFSCSIDriver extends NestedStack {
 
   }
 
-  createPolicyAndSA(scope: Construct, cluster: Cluster) {
+  createPolicyAndSA(scope: constructs.Construct, cluster: eks.Cluster) {
     const iamPolicyDocument = JSON.parse(`{
         "Version": "2012-10-17",
         "Statement": [
@@ -80,7 +76,7 @@ export class AwsEFSCSIDriver extends NestedStack {
     svcAccount.role.attachInlinePolicy(iamPolicy);
   }
 
-  installHelmChart(cluster: Cluster) {
+  installHelmChart(cluster: eks.Cluster) {
     // Install EFS CSI Driver
     // https://docs.aws.amazon.com/eks/latest/userguide/add-ons-images.html
     cluster.addHelmChart('aws-efs-csi-driver', {

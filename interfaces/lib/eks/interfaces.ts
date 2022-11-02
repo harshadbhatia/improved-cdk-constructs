@@ -1,9 +1,9 @@
-import { StackProps } from "aws-cdk-lib";
-import { IConnectable } from "aws-cdk-lib/aws-ec2";
-import { ICluster, Selector } from "aws-cdk-lib/aws-eks";
-import { AwsEFSCSIDriverProps } from "../../../lib/eks/controllers/efs-csi-driver";
-import { AwsLoadBalancerControllerProps } from "../../../lib/eks/controllers/load-balancer-controller";
-import { S3BucketCfg } from "../s3/interfaces";
+
+import { AwsEFSCSIDriverProps } from "../../../lib/eks/controllers/efs-csi-driver.ts";
+import { AwsLoadBalancerControllerProps } from "../../../lib/eks/controllers/load-balancer-controller.ts";
+
+import { cdk, ec2, eks } from "../../../deps.ts";
+import { S3BucketCfg } from "../index.ts";
 
 export interface EKSStackConfig {
   stackName: string;
@@ -22,7 +22,7 @@ export interface EKSStackConfig {
   // For storage we will have rules and access point definitions
   efs: EKSEFSConfig
   // To break dependency on between SA and charts
-  namespaces?: Selector[];
+  namespaces?: eks.Selector[];
 
   externalDNS: ExternalDNSConfig;
   //  Used to create fargate profiles on the cluster
@@ -58,7 +58,7 @@ export interface EKSSAStackConfig {
   stackDescription: string;
   clusterName: string;
   kubectlRoleArn: string;
-  namespaces?: Selector[]; // Future
+  namespaces?: eks.Selector[]; // Future
   serviceAccounts?: ServiceAccountCfg[];
 
 }
@@ -77,20 +77,20 @@ export interface EKSChart {
 }
 
 // EFS vanilla - only efs and props
-export interface EFSStackProps extends StackProps {
+export interface EFSStackProps extends cdk.StackProps {
   fsName: string
   vpcId: string
 
   accessPoints: AccessPoint[]
-  cluster: ICluster
+  cluster: eks.ICluster
 }
 // EFS Shared - allows integration between other stacks
-export interface EFSEKSIntegrationStackProps extends StackProps {
+export interface EFSEKSIntegrationStackProps extends cdk.StackProps {
   fsId: string
   fsSg: string // EFS Security Group required to access EFS
 
-  cluster?: ICluster // Used to create SC
-  sgs: IConnectable[]
+  cluster?: eks.ICluster // Used to create SC
+  sgs: ec2.IConnectable[]
 }
 
 export interface EKSEFSConfig {
@@ -136,7 +136,7 @@ export interface ServiceAccountCfg {
 }
 
 export interface FargateProfileConfig {
-  selectors: Selector[]
+  selectors: eks.Selector[]
   name: string
   createNamespace: boolean
 }
@@ -162,7 +162,7 @@ export interface RoleBindingSubjects {
 }
 
 // Helm stack
-export interface HelmStackProps extends StackProps {
+export interface HelmStackProps extends cdk.StackProps {
   chart: EKSChart
   clusterName: string
   kubectlRoleArn?: string

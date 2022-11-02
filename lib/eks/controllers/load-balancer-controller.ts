@@ -1,20 +1,16 @@
-import { Cluster } from 'aws-cdk-lib/aws-eks';
-import { Construct } from "constructs";
-import iam = require('aws-cdk-lib/aws-iam');
-import { Stack, StackProps } from 'aws-cdk-lib';
 
-import p from '../policies/aws-load-balancer-controller-2.4.2.json'
+import { constructs, cdk, eks, iam } from '../../../deps.ts'
+import p from '../policies/aws-load-balancer-controller-2.4.2.json' assert { type: "json" }
 
-export interface AwsLoadBalancerControllerProps extends StackProps {
+export interface AwsLoadBalancerControllerProps extends cdk.StackProps {
   enabled: boolean
   installIAM: boolean;
   installHelm: boolean;
 }
 
-export class AwsLoadBalancerController extends Stack {
-  body: Construct;
+export class AwsLoadBalancerController extends cdk.Stack {
 
-  constructor(scope: Construct, id: string, cluster: Cluster, props?: AwsLoadBalancerControllerProps) {
+  constructor(scope: constructs.Construct, id: string, cluster: eks.Cluster, props?: AwsLoadBalancerControllerProps) {
     super(scope, id, props);
 
     if (props?.installIAM) {
@@ -27,8 +23,8 @@ export class AwsLoadBalancerController extends Stack {
 
   }
 
-  createPolicyAndSA(scope: Construct, cluster: Cluster) {
-    let svcAccount = cluster.addServiceAccount('aws-load-balancer-controller', {
+  createPolicyAndSA(scope: constructs.Construct, cluster: eks.Cluster) {
+    const svcAccount = cluster.addServiceAccount('aws-load-balancer-controller', {
       name: 'aws-load-balancer-controller',
       namespace: 'kube-system',
     });
@@ -42,7 +38,7 @@ export class AwsLoadBalancerController extends Stack {
     svcAccount.role.attachInlinePolicy(iamPolicy);
   }
 
-  installHelmChart(cluster: Cluster) {
+  installHelmChart(cluster: eks.Cluster) {
     // Install Load Balancer Controller
     cluster.addHelmChart('aws-load-balancer-controller', {
       release: 'aws-load-balancer-controller',

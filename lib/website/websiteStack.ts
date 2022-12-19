@@ -36,14 +36,20 @@ export class WebsiteStack extends cdk.Stack {
 
         hostingBucket.grantReadWrite(new iam.ArnPrincipal(`arn:aws:iam::${cdk.Stack.of(this).account}:role/buildkite-deployment-role`))
 
+        const originAccessIdentity = new cloudfront.OriginAccessIdentity(
+            this,
+            "OriginAccessIdentiy"
+        )
+        hostingBucket.grantRead(originAccessIdentity)
         const acmArn = ssm.StringParameter.valueForStringParameter(
             this, `/acm/${this.config.website.domain}`
         )
 
         const certificate = acm.Certificate.fromCertificateArn(this, "Certificate", acmArn);
 
+        const origin = new origins.S3Origin(hostingBucket, {originAccessIdentity})
         var defaultBehavior: BehaviorOptions = {
-            origin: new origins.S3Origin(hostingBucket),
+            origin: origin,
             viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
         }
         // If config is passed
@@ -71,7 +77,7 @@ export class WebsiteStack extends cdk.Stack {
             });
 
             defaultBehavior = {
-                origin: new origins.S3Origin(hostingBucket),
+                origin: origin,
                 viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
                 responseHeadersPolicy: responseHeaderPolicy
             }

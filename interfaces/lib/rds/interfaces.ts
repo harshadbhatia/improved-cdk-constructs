@@ -2,7 +2,6 @@ export interface ServerlessRDSConfig {
     stackName: string;
     stackDescription: string;
     databases: ServerlessRDSDatabaseConfig[];
-
 }
 
 export interface ServerlessRDSDatabaseConfig {
@@ -10,4 +9,5 @@ export interface ServerlessRDSDatabaseConfig {
     lambdaName: string;
     defaultDBName: string;
     parameterGroupName: string;
+    allowedCidr: string;
 }

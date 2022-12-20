@@ -6,6 +6,13 @@ All notable changes to this project will be documented in this file. See [standa
 
 - yarn publish fix ([0225ae3](https://github.com/harshadbhatia/improved-cdk-constructs/commit/0225ae321c420766f9cd86da28941939dff73b55))
 
+## [0.3.1](https://github.com/harshadbhatia/improved-cdk-constructs/compare/v0.3.0...v0.3.1) (2022-12-20)
+
+
+### Bug Fixes
+
+* Add origin access identity to website stack ([#35](https://github.com/harshadbhatia/improved-cdk-constructs/issues/35)) ([ff44d0a](https://github.com/harshadbhatia/improved-cdk-constructs/commit/ff44d0ab4aafc439ff375a0a5a2d5f547adb022b))
+
 ## [0.3.0](https://github.com/harshadbhatia/improved-cdk-constructs/compare/v0.2.5...v0.3.0) (2022-11-01)
 
 

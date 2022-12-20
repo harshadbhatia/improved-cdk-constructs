@@ -20,6 +20,7 @@ export class ECRStack extends Stack {
 
       const r = new Repository(this, `Repo${repo.repositoryName.replace("-", "")}`, {
         repositoryName: repo.repositoryName,
+        imageScanOnPush: true
       })
 
       r.addToResourcePolicy(new PolicyStatement({
@@ -31,7 +32,8 @@ export class ECRStack extends Stack {
           "ecr:PutImage",
           "ecr:InitiateLayerUpload",
           "ecr:UploadLayerPart",
-          "ecr:CompleteLayerUpload"
+          "ecr:CompleteLayerUpload",
+          "ecr:DescribeRepositories"
         ],
         principals: repo.allowAccountAccess.map(a => {
           return new AccountPrincipal(a)

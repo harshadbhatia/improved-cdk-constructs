@@ -71,7 +71,7 @@ export class WebsiteStack extends cdk.Stack {
             }
 
             const responseHeaderPolicy = new cloudfront.ResponseHeadersPolicy(this, 'ResponseHeadersPolicy', {
-                responseHeadersPolicyName: 'ResponseHeaderCustomPolicy',
+                responseHeadersPolicyName: this.config.website.responseHeaderName || 'ResponseHeaderCustomPolicy',
                 comment: 'A default response policy with security headers',
                 securityHeadersBehavior: shb,
             });

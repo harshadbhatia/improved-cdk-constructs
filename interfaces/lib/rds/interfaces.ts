@@ -10,4 +10,5 @@ export interface ServerlessRDSDatabaseConfig {
     defaultDBName: string;
     parameterGroupName: string;
     allowedCidr: string;
+    snapshotIdentifier?: string;
 }

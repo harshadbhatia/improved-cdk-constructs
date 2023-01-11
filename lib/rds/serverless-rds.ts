@@ -34,7 +34,6 @@ export class ServerlessRDSStack extends cdk.Stack {
         const vpc = this.getVPC();
 
         this.config.databases.map(cfg => {
-
             const securityGroup = new SecurityGroup(this, `${cfg.defaultDBName}-DBSecurityGroup`, {
                 vpc,
                 description: `${cfg.defaultDBName} - Database ingress`,
@@ -48,17 +47,31 @@ export class ServerlessRDSStack extends cdk.Stack {
                 `${cfg.defaultDBName} - Database ingress`
             );
 
-            const cluster = new rds.ServerlessCluster(this, cfg.clusterName, {
-                engine: rds.DatabaseClusterEngine.AURORA_POSTGRESQL,
-                vpc: vpc,
-                enableDataApi: true,
-                parameterGroup: rds.ParameterGroup.fromParameterGroupName(this, 'ParameterGroup', cfg.parameterGroupName),
-                defaultDatabaseName: cfg.defaultDBName,
-                securityGroups: [securityGroup],
-            });
+            if (cfg.snapshotIdentifier) {
+                const cluster = new rds.ServerlessClusterFromSnapshot(this, cfg.clusterName, {
+                    engine: rds.DatabaseClusterEngine.AURORA_POSTGRESQL,
+                    snapshotIdentifier: cfg.snapshotIdentifier,
+                    vpc: vpc,
+                    enableDataApi: true,
+                    parameterGroup: rds.ParameterGroup.fromParameterGroupName(this, 'ParameterGroup', cfg.parameterGroupName),
+                    defaultDatabaseName: cfg.defaultDBName,
+                    securityGroups: [securityGroup],
+                });
+
+            }
+            else {
+                const cluster = new rds.ServerlessCluster(this, cfg.clusterName, {
+                    engine: rds.DatabaseClusterEngine.AURORA_POSTGRESQL,
+                    vpc: vpc,
+                    enableDataApi: true,
+                    parameterGroup: rds.ParameterGroup.fromParameterGroupName(this, 'ParameterGroup', cfg.parameterGroupName),
+                    defaultDatabaseName: cfg.defaultDBName,
+                    securityGroups: [securityGroup],
+                });
+            }
+
 
         })
 
     }
 }
-

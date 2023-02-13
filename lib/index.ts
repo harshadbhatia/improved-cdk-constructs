@@ -14,6 +14,5 @@ export * from './snyk/snyk';
 export * from './vpc/vpc';
 export * from './website/websiteStack';
 
-export * from './integrations/datadog';
 export * from './utils'
 

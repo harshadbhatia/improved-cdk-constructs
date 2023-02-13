@@ -24,6 +24,7 @@ export interface WebsiteStackProps {
     // cloudfront?: CloudFrontWebDistributionProps
 
     responseHeaderBehaviour?: ResponseSecurityHeadersBehavior
+    responseHeaderName?: string
 
     webACLId?: string // WAF ACL id
 }

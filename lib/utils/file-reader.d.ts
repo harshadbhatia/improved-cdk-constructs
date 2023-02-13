@@ -1,4 +1,4 @@
-declare type Readable<T> = {
+type Readable<T> = {
     readFile(path: string): object;
 };
 export declare function readAnyFile<T>(path: string, reader: Readable<T>): object;

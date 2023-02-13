@@ -1,6 +1,6 @@
 import { StackProps } from "aws-cdk-lib";
 import { Bucket } from "aws-cdk-lib/aws-s3";
-declare type DatadogPermissionsLevel = "Full" | "Core";
+type DatadogPermissionsLevel = "Full" | "Core";
 export interface DatadogAWSIntegrationStackProps extends StackProps {
     readonly apiKeySecret: string;
     readonly externalId: string;

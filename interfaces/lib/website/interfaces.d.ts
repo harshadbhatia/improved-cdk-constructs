@@ -13,6 +13,7 @@ export interface WebsiteStackProps {
     certificateAliases?: string[];
     addtionalARecords?: AdditionalARecord[];
     responseHeaderBehaviour?: ResponseSecurityHeadersBehavior;
+    responseHeaderName?: string;
     webACLId?: string;
 }
 export interface AdditionalARecord {

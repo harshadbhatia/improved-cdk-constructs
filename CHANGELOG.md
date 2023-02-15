@@ -6,6 +6,13 @@ All notable changes to this project will be documented in this file. See [standa
 
 - yarn publish fix ([0225ae3](https://github.com/harshadbhatia/improved-cdk-constructs/commit/0225ae321c420766f9cd86da28941939dff73b55))
 
+## [0.4.1](https://github.com/harshadbhatia/improved-cdk-constructs/compare/v0.4.0...v0.4.1) (2023-02-15)
+
+
+### Bug Fixes
+
+* fix cidr range and moved config as props ([#49](https://github.com/harshadbhatia/improved-cdk-constructs/issues/49)) ([0e16a1f](https://github.com/harshadbhatia/improved-cdk-constructs/commit/0e16a1febf841850947ad0d33b608719442a74b2))
+
 ## [0.4.0](https://github.com/harshadbhatia/improved-cdk-constructs/compare/v0.3.1...v0.4.0) (2023-02-13)
 
 

@@ -1,8 +1,10 @@
-export interface VPCConfig {
+import { StackProps } from "aws-cdk-lib";
+export interface VPCConfig extends StackProps {
     stackName: string;
     stackDescription: string;
     natGateways: number;
-    cidrMask: number;
+    cidrRange?: string;
+    maxAzs: number;
     kubernetesClustersToTag: string[];
     vpcIdSSM: string;
     vpcIdSSMDescription: string;

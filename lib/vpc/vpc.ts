@@ -8,10 +8,10 @@ export class VPCStack extends Stack {
   vpc: Vpc;
   config: VPCConfig;
 
-  constructor(scope: Construct, id: string, config: VPCConfig, props?: StackProps) {
+  constructor(scope: Construct, id: string, props: VPCConfig) {
     super(scope, id, props);
 
-    this.config = config;
+    this.config = props;
     this.createVPC();
     this.addTags();
     this.createParams();
@@ -19,8 +19,8 @@ export class VPCStack extends Stack {
 
   createVPC(): void {
     this.vpc = new Vpc(this, 'VPC', {
-      maxAzs: 4,
-      cidr: '10.0.0.0/16',
+      maxAzs: this.config.maxAzs || 4,
+      cidr: this.config.cidrRange || '10.0.0.0/16',
       natGateways: this.config.natGateways,
       subnetConfiguration: [
         {
@@ -29,7 +29,7 @@ export class VPCStack extends Stack {
         },
         {
           name: 'Private',
-          subnetType: SubnetType.PRIVATE_WITH_NAT,
+          subnetType: SubnetType.PRIVATE_WITH_EGRESS,
         },
         {
           name: 'Protected',

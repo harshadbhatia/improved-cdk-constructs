@@ -1,6 +1,7 @@
 import { StackProps } from "aws-cdk-lib";
+import { VpcProps } from "aws-cdk-lib/aws-ec2/lib/vpc";
 
-export interface VPCConfig extends StackProps {
+export interface VPCConfig extends StackProps, VpcProps  {
     stackName: string;
     stackDescription: string;
     natGateways: number;
@@ -15,4 +16,4 @@ export interface VPCConfig extends StackProps {
     publicSubnetSSMDescription: string
     isolatedSubnetSSM: string;
     isolatedSubnetSSMDescription: string;
-}
+  }

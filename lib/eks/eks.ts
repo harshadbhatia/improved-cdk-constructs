@@ -3,7 +3,7 @@ import ec2 = require('aws-cdk-lib/aws-ec2');
 import eks = require('aws-cdk-lib/aws-eks');
 import ssm = require('aws-cdk-lib/aws-ssm');
 import cdk = require('aws-cdk-lib');
-import { Aws, RemovalPolicy } from 'aws-cdk-lib';
+import { Aws, RemovalPolicy, aws_kms } from 'aws-cdk-lib';
 import { IVpc } from 'aws-cdk-lib/aws-ec2';
 import { CapacityType, Cluster, EndpointAccess, Selector } from 'aws-cdk-lib/aws-eks';
 import {
@@ -200,6 +200,7 @@ export class EKSCluster extends cdk.Stack {
       vpcSubnets: [{ subnetType: ec2.SubnetType.PRIVATE_WITH_NAT }],
       securityGroup: cpSg,
       endpointAccess: config.isPrivateCluster ? EndpointAccess.PRIVATE : EndpointAccess.PUBLIC_AND_PRIVATE,
+      // secretsEncryptionKey: aws_kms.Key.fromKeyArn(this, 'ClusterKmsKey',  Fn.importValue('keyArn').toString()),
       // mastersRole: role // Or else we are unable to login
     });
 

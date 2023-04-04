@@ -31,8 +31,3 @@ It is done using conventialcommit and husky for git hooks to validate messages.
 - Write documentation
 - Do proper branching strategy
 
-## Notes on specific modules
-
-- Datadog currently operator is not fully functional when paired with CSI secret driver. Defect has been raised.
-- Alternative is to install datadog integration, create a secret called and pass it to the DatadogOperator stack.
-  params used is `datadogK8ExistingSecret`

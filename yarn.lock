@@ -15,10 +15,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-cdk/asset-awscli-v1@npm:^2.2.97":
-  version: 2.2.128
-  resolution: "@aws-cdk/asset-awscli-v1@npm:2.2.128"
-  checksum: 4c3e727400243bf942156433e1916d37157ee304685b984317d3c4efabf5fce30859a12e0aed9564b87f9d325f319c91b7a64753da2652a455a6dfbf69075fd8
+"@aws-cdk/asset-awscli-v1@npm:^2.2.177":
+  version: 2.2.196
+  resolution: "@aws-cdk/asset-awscli-v1@npm:2.2.196"
+  checksum: 157269f090af9dd84348bfa95fffddd98d2137d39e7030fc78817b26c13938574147c7f874d1ebf8a37dbdba48e0583986fa0938832ad586a08221ccd8de5eb5
   languageName: node
   linkType: hard
 
@@ -29,10 +29,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-cdk/asset-node-proxy-agent-v5@npm:^2.0.77":
-  version: 2.0.104
-  resolution: "@aws-cdk/asset-node-proxy-agent-v5@npm:2.0.104"
-  checksum: d2be783c738c939a20f784aa62d0c9c2d5f58422c133c1fa560165596422d44309e2efbf61339618e70dd58936429a57f8f21e03b479d0c255399c10ca7e146b
+"@aws-cdk/asset-node-proxy-agent-v5@npm:^2.0.148":
+  version: 2.0.165
+  resolution: "@aws-cdk/asset-node-proxy-agent-v5@npm:2.0.165"
+  checksum: 6ab3d9637258505a2305c4d30e90dcc0df35d83c01cb4e9738b07a86d9ba27e48a500c1ae1c48e06f784607e494a3e4a71361941533d319e13e40329f91154a2
   languageName: node
   linkType: hard
 
@@ -2521,33 +2521,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"at-least-node@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "at-least-node@npm:1.0.0"
-  checksum: 463e2f8e43384f1afb54bc68485c436d7622acec08b6fad269b421cb1d29cebb5af751426793d0961ed243146fe4dc983402f6d5a51b720b277818dbf6f2e49e
-  languageName: node
-  linkType: hard
-
 "aws-cdk-lib@npm:^2.72.1":
-  version: 2.72.1
-  resolution: "aws-cdk-lib@npm:2.72.1"
+  version: 2.84.0
+  resolution: "aws-cdk-lib@npm:2.84.0"
   dependencies:
-    "@aws-cdk/asset-awscli-v1": ^2.2.97
+    "@aws-cdk/asset-awscli-v1": ^2.2.177
     "@aws-cdk/asset-kubectl-v20": ^2.1.1
-    "@aws-cdk/asset-node-proxy-agent-v5": ^2.0.77
+    "@aws-cdk/asset-node-proxy-agent-v5": ^2.0.148
     "@balena/dockerignore": ^1.0.2
     case: 1.6.3
-    fs-extra: ^9.1.0
+    fs-extra: ^11.1.1
     ignore: ^5.2.4
     jsonschema: ^1.4.1
     minimatch: ^3.1.2
     punycode: ^2.3.0
-    semver: ^7.3.8
+    semver: ^7.5.1
     table: ^6.8.1
     yaml: 1.10.2
   peerDependencies:
     constructs: ^10.0.0
-  checksum: 04199a1ea158532fd91988af1b63dae19dc47091e2048b9c65fbddeee54057a61e2cfc5843e47aeed45f6392d547ae8dc3792e08a0e67bc13269a8df6b75f31c
+  checksum: fa7ecfaf4b220fd3ea1dbd982245b47164400a925a25dc8fc9542ed003ba6a13ca9527fbc4eb190dafeaddcbeae8530b411e7db102adee07b9adb0312748f9c3
   languageName: node
   linkType: hard
 
@@ -3701,15 +3694,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fs-extra@npm:^9.1.0":
-  version: 9.1.0
-  resolution: "fs-extra@npm:9.1.0"
+"fs-extra@npm:^11.1.1":
+  version: 11.1.1
+  resolution: "fs-extra@npm:11.1.1"
   dependencies:
-    at-least-node: ^1.0.0
     graceful-fs: ^4.2.0
     jsonfile: ^6.0.1
     universalify: ^2.0.0
-  checksum: ba71ba32e0faa74ab931b7a0031d1523c66a73e225de7426e275e238e312d07313d2da2d33e34a52aa406c8763ade5712eb3ec9ba4d9edce652bcacdc29e6b20
+  checksum: fb883c68245b2d777fbc1f2082c9efb084eaa2bbf9fddaa366130d196c03608eebef7fb490541276429ee1ca99f317e2d73e96f5ca0999eefedf5a624ae1edfd
   languageName: node
   linkType: hard
 
@@ -6164,7 +6156,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"semver@npm:7.3.8, semver@npm:^7.3.8":
+"semver@npm:7.3.8":
   version: 7.3.8
   resolution: "semver@npm:7.3.8"
   dependencies:
@@ -6192,6 +6184,17 @@ __metadata:
   bin:
     semver: ./bin/semver.js
   checksum: 1b26ecf6db9e8292dd90df4e781d91875c0dcc1b1909e70f5d12959a23c7eebb8f01ea581c00783bbee72ceeaad9505797c381756326073850dc36ed284b21b9
+  languageName: node
+  linkType: hard
+
+"semver@npm:^7.5.1":
+  version: 7.5.2
+  resolution: "semver@npm:7.5.2"
+  dependencies:
+    lru-cache: ^6.0.0
+  bin:
+    semver: bin/semver.js
+  checksum: 3fdf5d1e6f170fe8bcc41669e31787649af91af7f54f05c71d0865bb7aa27e8b92f68b3e6b582483e2c1c648008bc84249d2cd86301771fe5cbf7621d1fe5375
   languageName: node
   linkType: hard
 
